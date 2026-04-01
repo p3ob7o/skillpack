@@ -26,7 +26,7 @@ SKILL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}" 2>/dev/null || echo 
 test -f "$SKILL_DIR/voice/SKILL.md" && echo "VOICE_OK" || echo "VOICE_MISSING"
 ```
 
-- If the output is `VOICE_MISSING`: invoke `/writewell:onboard` immediately. Do not proceed.
+- If the output is `VOICE_MISSING`: read the file `onboard/SKILL.md` (relative to this skill's directory) and follow its instructions immediately. Do not proceed with the pipeline.
 - If the output is `VOICE_OK`: continue with the pipeline below.
 
 ---
@@ -166,7 +166,7 @@ structure, tone, vocabulary, openings, closings, formatting preferences, rhetori
 devices, and distinctive touches.
 
 If no voice file exists, the bash check above will have already redirected to
-`/writewell:onboard`. You should not reach this point without a voice file.
+the onboard routine. You should not reach this point without a voice file.
 
 ---
 
