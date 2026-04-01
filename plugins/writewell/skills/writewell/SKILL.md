@@ -1,12 +1,13 @@
 ---
 name: writewell
-version: 1.1.0
+version: 1.2.0
 description: |
   Full writing pipeline: strip AI patterns, enforce language discipline, remove
   clutter, verify quality, and optionally apply a personal voice. Use when editing
   or reviewing any prose that should read like a human wrote it, not a machine.
   Run /writewell:onboard to create your personal voice profile.
 allowed-tools:
+  - Bash
   - Read
   - Write
   - Edit
@@ -14,6 +15,20 @@ allowed-tools:
   - Glob
   - AskUserQuestion
   - WebFetch
+---
+
+## Voice check — run this FIRST, before anything else
+
+Run this bash command before doing anything:
+
+```bash
+SKILL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}" 2>/dev/null || echo "$0")")"
+test -f "$SKILL_DIR/voice/SKILL.md" && echo "VOICE_OK" || echo "VOICE_MISSING"
+```
+
+- If the output is `VOICE_MISSING`: invoke `/writewell:onboard` immediately. Do not proceed.
+- If the output is `VOICE_OK`: continue with the pipeline below.
+
 ---
 
 # Write Well
@@ -150,10 +165,8 @@ rules at this step. The voice file defines the writer's personal style: sentence
 structure, tone, vocabulary, openings, closings, formatting preferences, rhetorical
 devices, and distinctive touches.
 
-If no voice file exists, you MUST stop everything and run `/writewell:onboard` immediately.
-Do NOT ask the user for text. Do NOT proceed with the pipeline. Do NOT offer to skip
-onboarding. The onboard routine will ask the user for writing samples and generate
-the voice profile. Only after onboarding is complete should you continue with rewrites.
+If no voice file exists, the bash check above will have already redirected to
+`/writewell:onboard`. You should not reach this point without a voice file.
 
 ---
 
@@ -305,7 +318,7 @@ what you've gone blind to.
 
 1. Read the input text carefully
 2. Identify and remove all AI patterns from Part 1
-3. **FIRST**: Check if `voice/SKILL.md` exists in this skill's directory. If yes, read it and apply the personal voice rules. If no, STOP. Do not continue. Run `/writewell:onboard` immediately. Resume only after the voice profile has been created.
+3. Read `voice/SKILL.md` and apply the personal voice rules.
 4. Apply language discipline from Part 3 (kill dead metaphors, deflate false limbs, prefer short words, cut jargon)
 5. Run the clutter removal passes from Part 4 (cut filler, clarify, read aloud)
 6. Apply the final quality checks from Part 5 (natural voice, clarity of purpose, brevity)
