@@ -170,7 +170,18 @@ Source material: [list the URLs analyzed]
 
 ## Process
 
-1. Ask the user: "Provide a list of post URLs, or a blog homepage URL and how many posts to analyze."
+1. Ask the user: "Provide a list of post URLs, or a blog homepage URL and how many posts to analyze. You can also type 'skip' to use writewell without a personal voice."
+1a. If the user says "skip" (or similar), write `voice/SKILL.md` with this exact content and stop:
+    ```markdown
+    ---
+    name: writewell:voice
+    version: 1.0.0
+    description: No personal voice — use general writing principles only.
+    ---
+    # No Personal Voice
+    No personal voice profile has been configured. Proceed without applying
+    any personal style rules. To create one later, run `/writewell:onboard`.
+    ```
 2. Fetch the content using the appropriate mode.
 3. If any URL fails to fetch, report it and continue with the ones that worked. Need at least 2 posts to produce a useful profile.
 4. Analyze all posts across the dimensions above.
