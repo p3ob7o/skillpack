@@ -1,6 +1,6 @@
 ---
 name: writewell
-version: 3.0.0
+version: 1.0.0
 description: |
   Full writing pipeline: strip AI patterns, enforce language discipline, remove
   clutter, verify quality, and optionally apply a personal voice. Use when editing

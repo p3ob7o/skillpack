@@ -13,7 +13,7 @@
       "name": "writewell",
       "source": "./plugins/writewell",
       "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
-      "version": "3.0.0",
+      "version": "1.0.0",
       "license": "GPL-2.0",
       "keywords": ["writing", "editing", "voice", "ai-patterns"],
       "category": "writing"
