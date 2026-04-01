@@ -2,3 +2,7 @@
 
 # Personal voice profiles (generated per-user, not shared)
 plugins/writewell/skills/writewell/voice/SKILL.md
+
+# Project-level instructions (personal, not shared)
+CLAUDE.md
+DOCUMENTATION.md
