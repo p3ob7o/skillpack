@@ -170,8 +170,13 @@ Source material: [list the URLs analyzed]
 
 ## Process
 
-1. Ask the user: "Provide a list of post URLs, or a blog homepage URL and how many posts to analyze. You can also type 'skip' to use writewell without a personal voice."
-1a. If the user says "skip" (or similar), write `voice/SKILL.md` with this exact content and stop:
+1. Use AskUserQuestion to present this choice:
+   Question: "How would you like to set up your writing voice?"
+   Options:
+     - "Post URLs — I'll paste links to individual posts"
+     - "Blog homepage — analyze my N most recent posts"
+     - "Skip — use writewell without a personal voice"
+1a. If the user picks "Skip", write `voice/SKILL.md` with this exact content and stop:
     ```markdown
     ---
     name: writewell:voice
