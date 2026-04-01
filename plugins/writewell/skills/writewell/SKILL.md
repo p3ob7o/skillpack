@@ -150,11 +150,9 @@ rules at this step. The voice file defines the writer's personal style: sentence
 structure, tone, vocabulary, openings, closings, formatting preferences, rhetorical
 devices, and distinctive touches.
 
-If no voice file exists, skip this step. The remaining parts (language discipline,
-clutter removal, quality check) still produce clean, human-sounding prose -- just
-without a specific personal style applied.
-
-To create a voice profile, run `/writewell:onboard`.
+If no voice file exists, **stop and run `/writewell:onboard`** before proceeding.
+The onboard routine will ask the user for writing samples and generate the voice
+profile. Once onboarding is complete, continue with the rewrite from Part 1.
 
 ---
 
@@ -306,7 +304,7 @@ what you've gone blind to.
 
 1. Read the input text carefully
 2. Identify and remove all AI patterns from Part 1
-3. Check if `voice/SKILL.md` exists in this skill's directory. If yes, read it and apply the personal voice rules. If no, skip to step 4.
+3. Check if `voice/SKILL.md` exists in this skill's directory. If yes, read it and apply the personal voice rules. If no, stop and run `/writewell:onboard` first, then restart from step 1.
 4. Apply language discipline from Part 3 (kill dead metaphors, deflate false limbs, prefer short words, cut jargon)
 5. Run the clutter removal passes from Part 4 (cut filler, clarify, read aloud)
 6. Apply the final quality checks from Part 5 (natural voice, clarity of purpose, brevity)
