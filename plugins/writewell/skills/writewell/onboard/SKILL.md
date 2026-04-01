@@ -176,7 +176,7 @@ Source material: [list the URLs analyzed]
      - "Post URLs — I'll paste links to individual posts"
      - "Blog homepage — analyze my N most recent posts"
      - "Skip — use writewell without a personal voice"
-1a. If the user picks "Skip", write `voice/SKILL.md` with this exact content and stop:
+1a. If the user picks "Skip", write `voice/SKILL.md` with the content below, then tell the user: "Got it — writewell will use general writing principles only. You can run `/writewell:onboard` any time to create a personal voice profile." Then stop.
     ```markdown
     ---
     name: writewell:voice
