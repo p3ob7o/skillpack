@@ -1,2 +1,4 @@
+.DS_Store
+
 # Personal voice profiles (generated per-user, not shared)
-writewell/voice/SKILL.md
+plugins/writewell/skills/writewell/voice/SKILL.md

@@ -12,8 +12,9 @@ A writing pipeline for Claude Code that strips AI patterns, enforces language di
 
 ## Install
 
-```bash
-claude install p3ob7o/skillpack/writewell
+```
+/plugin marketplace add p3ob7o/skillpack
+/plugin install writewell@skillpack
 ```
 
 ## Usage
@@ -44,11 +45,12 @@ The onboard routine reads your posts, distills your writing style across 11 dime
 ## Structure
 
 ```
-writewell/
-  SKILL.md              # Main skill -- the writing pipeline
-  onboard/SKILL.md      # Onboarding routine -- creates your voice profile
-  voice/SKILL.md        # Your voice profile (generated, not committed)
-  voice/README.md       # Explains the voice directory
+skills/
+  writewell/
+    SKILL.md            # Main skill -- the writing pipeline
+    onboard/SKILL.md    # Onboarding routine -- creates your voice profile
+    voice/SKILL.md      # Your voice profile (generated, not committed)
+    voice/README.md     # Explains the voice directory
 ```
 
 ## Credits

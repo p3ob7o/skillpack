@@ -1,17 +1,25 @@
 # skillpack
 
-A collection of skills for Claude Code.
+A plugin marketplace for Claude Code.
 
-## Skills
+## Plugins
 
-| Skill | Description |
-|-------|-------------|
-| [writewell](writewell/) | Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice |
+| Plugin | Description |
+|--------|-------------|
+| [writewell](plugins/writewell/) | Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice |
 
-## Install a skill
+## Install
 
-```bash
-claude install p3ob7o/skillpack/<skill-name>
+Add the marketplace:
+
+```
+/plugin marketplace add p3ob7o/skillpack
+```
+
+Install a plugin:
+
+```
+/plugin install writewell@skillpack
 ```
 
 ## License
