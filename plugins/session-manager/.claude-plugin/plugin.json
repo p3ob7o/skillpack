@@ -1,0 +1,5 @@
+{
+  "name": "session-manager",
+  "description": "Load project context at the start of a development session and update the docs before ending it",
+  "version": "1.0.0"
+}

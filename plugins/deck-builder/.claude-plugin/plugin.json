@@ -1,0 +1,5 @@
+{
+  "name": "deck-builder",
+  "description": "Build single-file HTML slide decks in a typography-first design, and add a presenter-notes popup with timers and two-way navigation sync",
+  "version": "1.0.0"
+}
