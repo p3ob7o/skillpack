@@ -17,6 +17,33 @@
       "license": "GPL-2.0",
       "keywords": ["writing", "editing", "voice", "ai-patterns"],
       "category": "writing"
+    },
+    {
+      "name": "keynote-writer",
+      "source": "./plugins/keynote-writer",
+      "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
+      "version": "1.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["keynote", "presentation", "speaking", "talks", "writing"],
+      "category": "writing"
+    },
+    {
+      "name": "deck-builder",
+      "source": "./plugins/deck-builder",
+      "description": "Build single-file HTML slide decks in a typography-first design, and add a presenter-notes popup with timers and two-way navigation sync",
+      "version": "1.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["slides", "presentation", "deck", "html", "presenter-notes"],
+      "category": "presentations"
+    },
+    {
+      "name": "session-manager",
+      "source": "./plugins/session-manager",
+      "description": "Load project context at the start of a development session and update the docs before ending it",
+      "version": "1.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["sessions", "context", "documentation", "workflow"],
+      "category": "productivity"
     }
   ]
 }

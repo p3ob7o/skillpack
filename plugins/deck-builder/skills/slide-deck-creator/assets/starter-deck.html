@@ -1,0 +1,2717 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Automattic Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+  <style>deck-stage:not(:defined){visibility:hidden}</style>
+  <style>
+/* =============================================================================
+   Automattic Deck — Foundations
+   Reverse-engineered from the source deck template PDF.
+   ============================================================================= */
+
+/* ---------- Fonts ---------- */
+/* The source deck uses Maison Neue (licensed, Milieu Grotesque) — not on Google Fonts.
+   We substitute Inter as a free near-metric stand-in. Drop Maison Neue webfonts
+   into fonts/ and point --font-sans at them for production fidelity. */
+:root {
+  /* ---------- Colors ---------- */
+  --white:        #FFFFFF;
+  --black:        #000000;
+  --ink:          #111111;   /* body text on white */
+  --ink-soft:     #3A3A3A;
+  --ink-mute:     #8A8A8A;   /* footnotes, page nums, captions */
+  --rule:         #E5E5E5;   /* hairline dividers */
+
+  /* The accent. ONE blue, used everywhere. Sampled directly from cover. */
+  --blue:         #4285F4;
+  --blue-deep:    #2D6FE0;   /* hover/pressed (not used in deck, kept for UI use) */
+  --blue-tint:    #F2F7FE;   /* very pale page tint (used on a couple of pages) */
+
+  /* Decorative pale gray for giant quote-mark ornament */
+  --ornament:     #EFEFEF;
+
+  /* Semantic */
+  --bg:           var(--white);
+  --fg:           var(--ink);
+  --accent:       var(--blue);
+
+  /* ---------- Type families ---------- */
+  --font-sans:    'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---------- Type scale (1920×1080 slides) ---------- */
+  --t-cover:      180px;   /* cover H1: "Automattic / Presentation" */
+  --t-h1:         110px;   /* section divider H1 ("Making the web / a better place") */
+  --t-h2:         64px;    /* page heading ("Text!" "Header") */
+  --t-section:    52px;    /* multi-line section title */
+  --t-h3:         32px;    /* column header */
+  --t-quote:      72px;    /* pull quote */
+  --t-mega:       180px;   /* metric numbers */
+  --t-divnum:     360px;   /* the big "2" on section dividers */
+  --t-toc:        48px;    /* TOC items */
+  --t-lead:       32px;    /* cover subtitle */
+  --t-body:       22px;    /* body */
+  --t-small:      18px;    /* author cards, captions */
+  --t-foot:       14px;    /* footnote, page num */
+  --t-eyebrow:    14px;    /* tiny wordmark / chrome label */
+
+  /* ---------- Spacing (8pt grid) ---------- */
+  --s-1: 8px;  --s-2: 16px; --s-3: 24px; --s-4: 32px;
+  --s-5: 48px; --s-6: 64px; --s-7: 96px; --s-8: 128px;
+
+  /* Slide gutters @ 1920×1080. Source deck is generously padded. */
+  --gutter-x: 96px;
+  --gutter-y: 88px;
+
+  /* Lines */
+  --lh-tight: 1.02;
+  --lh-snug:  1.12;
+  --lh-body:  1.45;
+}
+
+/* ---------- Element defaults ---------- */
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: var(--lh-tight);
+  margin: 0;
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+/* ---------- Type utilities ---------- */
+.t-cover   { font-size: var(--t-cover);   line-height: 0.96; letter-spacing: -0.035em; font-weight: 600; }
+.t-h1      { font-size: var(--t-h1);      line-height: 1.0;  letter-spacing: -0.03em;  font-weight: 600; }
+.t-h2      { font-size: var(--t-h2);      line-height: 1.05; letter-spacing: -0.025em; font-weight: 600; }
+.t-section { font-size: var(--t-section); line-height: 1.08; letter-spacing: -0.02em;  font-weight: 600; }
+.t-h3      { font-size: var(--t-h3);      line-height: 1.15; letter-spacing: -0.01em;  font-weight: 600; }
+.t-quote   { font-size: var(--t-quote);   line-height: 1.1;  letter-spacing: -0.02em;  font-weight: 600; }
+.t-mega    { font-size: var(--t-mega);    line-height: 0.9;  letter-spacing: -0.04em;  font-weight: 600; }
+.t-divnum  { font-size: var(--t-divnum);  line-height: 0.85; letter-spacing: -0.05em;  font-weight: 600; color: var(--blue); }
+.t-lead    { font-size: var(--t-lead);    line-height: 1.3;  font-weight: 400; }
+.t-body    { font-size: var(--t-body);    line-height: var(--lh-body); font-weight: 400; }
+.t-small   { font-size: var(--t-small);   line-height: 1.4;  font-weight: 400; }
+.t-foot    { font-size: var(--t-foot);    line-height: 1.4;  font-weight: 400; color: var(--ink-mute); }
+.t-eyebrow {
+  font-size: var(--t-eyebrow); letter-spacing: 0.22em;
+  text-transform: uppercase; font-weight: 600;
+}
+
+.mono     { font-family: var(--font-mono); }
+.muted    { color: var(--ink-mute); }
+.soft     { color: var(--ink-soft); }
+.tabular  { font-variant-numeric: tabular-nums; }
+
+/* The defining accent color for "look at me" copy in this template */
+.accent   { color: var(--blue); }
+
+/* ---------- Surface variants ---------- */
+.surface-white { background: var(--white); color: var(--ink); }
+.surface-blue  { background: var(--blue);  color: var(--white); }
+.surface-black { background: var(--black); color: var(--white); }
+.surface-tint  { background: var(--blue-tint); color: var(--ink); }
+
+/* On dark surfaces, the "accent" class flips to keep contrast */
+.surface-blue  .accent,
+.surface-black .accent { color: var(--white); }
+.surface-blue  .muted,
+.surface-black .muted  { color: rgba(255,255,255,0.7); }
+.surface-blue  .t-foot,
+.surface-black .t-foot { color: rgba(255,255,255,0.7); }
+
+/* ---------- Slide frame (1920×1080) ---------- */
+.slide {
+  width: 1920px;
+  height: 1080px;
+  padding: var(--gutter-y) var(--gutter-x);
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Slide chrome: O monogram (bottom-left) + page number (bottom-right) ---------- */
+/* The .o-mark and .wordmark images come from assets/automattic-o[-white].svg
+   and assets/automattic-logotype[-white].svg. Pick the variant based on surface. */
+.slide .o-mark {
+  position: absolute;
+  left: var(--gutter-x);
+  bottom: 52px;
+  width: 32px; height: 32px;
+  display: block;
+}
+
+.slide .page-num {
+  position: absolute;
+  right: var(--gutter-x);
+  bottom: 60px;
+  font-size: var(--t-foot);
+  color: var(--ink-mute);
+  font-variant-numeric: tabular-nums;
+}
+.surface-blue  .page-num,
+.surface-black .page-num { color: rgba(255,255,255,0.7); }
+
+/* The full AUTOMATTIC logotype, positioned top-left on cover/emphasis pages. */
+.slide .wordmark {
+  position: absolute;
+  left: var(--gutter-x);
+  top: var(--gutter-y);
+  height: 36px;
+  width: auto;
+  display: block;
+}
+
+/* ---------- Lists ---------- */
+ul.bullets { list-style: none; padding: 0; margin: 0; }
+ul.bullets li {
+  position: relative;
+  padding-left: 28px;
+  margin: 0 0 var(--s-2) 0;
+  line-height: 1.4;
+}
+ul.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.55em;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* Numbered TOC: "1. Introduction" — first item often in blue (current section) */
+ol.toc { list-style: none; padding: 0; margin: 0; }
+ol.toc li {
+  display: flex; gap: 0.45em;
+  font-size: var(--t-toc);
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+ol.toc li .num { color: inherit; min-width: 1.2em; }
+ol.toc li.current { color: var(--blue); }
+
+/* Dash-bullet variant */
+ol.toc.dash li .num { content: "–"; }
+ol.toc.dash li .num::before { content: "–"; }
+
+/* Numbered ordinal pins (1, 2, 3...) above paragraphs */
+.ord-num {
+  font-size: 64px; font-weight: 600; line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--blue);
+}
+
+/* ---------- Tables ---------- */
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--t-body);
+  font-variant-numeric: tabular-nums;
+}
+table.data th, table.data td {
+  text-align: left;
+  padding: 22px 24px;
+  border-bottom: 1px solid var(--rule);
+  font-weight: 400;
+  color: var(--ink);
+  vertical-align: top;
+}
+table.data thead th {
+  font-weight: 600;
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+}
+table.data tbody th { color: var(--ink); font-weight: 500; }
+
+/* ---------- Metric ---------- */
+/* Pattern: <span class="num">100</span><span class="unit">B</span>
+   num = blue, unit = black (same size). */
+.metric { display: flex; flex-direction: column; gap: var(--s-3); }
+.metric .value { font-size: var(--t-mega); line-height: 0.88; letter-spacing: -0.04em; font-weight: 600; }
+.metric .value .num  { color: var(--blue); }
+.metric .value .unit { color: var(--ink); }
+.metric .label {
+  font-size: var(--t-body);
+  color: var(--blue);
+  font-weight: 500;
+}
+.metric .label sup { font-size: 0.6em; vertical-align: super; color: var(--ink-mute); margin-left: 4px; font-weight: 400; }
+
+/* ---------- Pull-quote ornament ---------- */
+/* A massive light-grey curly close-quote behind the quote text. */
+.quote-wrap { position: relative; }
+.quote-wrap .quote-ornament {
+  position: absolute;
+  right: -60px;
+  bottom: 60px;
+  font-size: 720px;
+  line-height: 0.8;
+  color: var(--ornament);
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+}
+.quote-wrap > *:not(.quote-ornament) { position: relative; z-index: 1; }
+
+/* ---------- Image placeholder (solid blue rectangle, sometimes with caption) ---------- */
+.image-slot {
+  background: var(--blue);
+  display: flex; align-items: flex-end; justify-content: flex-end;
+  color: rgba(255,255,255,0.7);
+  font-family: var(--font-mono);
+  font-size: var(--t-foot);
+  padding: var(--s-3);
+}
+.image-slot.gray {
+  background: #DCDCDC;
+  color: #6E6E6E;
+  background-image: repeating-linear-gradient(135deg, transparent 0 16px, rgba(0,0,0,0.04) 16px 17px);
+}
+
+/* ---------- Code block (handoff slides) ---------- */
+pre.code {
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  line-height: 1.55;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+/* ---------- Big right-arrow used on cover ---------- */
+.arrow-right {
+  display: inline-flex;
+  align-items: center;
+  font-size: 96px;
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: 0;
+  color: currentColor;
+}
+
+/* ---------- Header above content ---------- */
+.page-header { font-size: var(--t-h2); color: var(--blue); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; }
+.page-header.two-line { font-size: var(--t-section); }
+
+/* ---------- Footnote stack (top-right) ---------- */
+.footnotes {
+  position: absolute;
+  right: var(--gutter-x);
+  top: var(--gutter-y);
+  font-size: var(--t-foot);
+  color: var(--ink-mute);
+  text-align: left;
+}
+.footnotes ol { padding-left: 20px; margin: 0; }
+.footnotes li { margin-bottom: 4px; }
+
+
+    /* Composition helpers — not tokens. Used by slide layouts. */
+    .row    { display: flex; gap: var(--s-5); }
+    .col    { display: flex; flex-direction: column; gap: var(--s-3); }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s-7); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-6); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s-5); }
+    .grow   { flex: 1; }
+    .fill   { width: 100%; height: 100%; }
+    .space-between { justify-content: space-between; }
+    .end    { align-self: end; }
+    .mt-3 { margin-top: var(--s-3); }
+    .mt-4 { margin-top: var(--s-4); }
+    .mt-5 { margin-top: var(--s-5); }
+    .mt-6 { margin-top: var(--s-6); }
+  </style>
+</head>
+<body>
+
+  <!-- Inline SVG defs: Automattic logo + O monogram. Both use currentColor
+       so they invert automatically on .surface-blue / .surface-black via the
+       surface CSS rules (which set color: var(--white)). -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="automattic-o" viewBox="468 175 90 84" fill="currentColor"><path fill-rule="evenodd" d="m512.16 254.19c-25.18 0-41.5-18.14-41.5-37.02v-2.34c0-19.2 16.32-37.02 41.5-37.02 25.28 0 41.6 17.82 41.6 37.02v2.34c0 18.88-16.32 37.02-41.6 37.02zm28.16-39.15c0-13.76-10.03-26.03-28.16-26.03-18.13 0-28.06 12.27-28.06 26.03v1.71c0 13.76 9.93 26.24 28.06 26.24 18.13 0 28.16-12.48 28.16-26.24z"></path>
+  <path d="m522.48 209.67l-12.22 18.92c-1.54 2.39-4.75 3.08-7.14 1.54-2.39-1.55-3.08-4.76-1.54-7.15l12.22-18.91c1.54-2.39 4.75-3.08 7.14-1.54 2.39 1.54 3.08 4.76 1.54 7.14z"></path></symbol>
+      <symbol id="automattic-logotype" viewBox="0 0 1296 432" fill="currentColor"><path fill-rule="evenodd" d="m512.16 254.19c-25.18 0-41.5-18.14-41.5-37.02v-2.34c0-19.2 16.32-37.02 41.5-37.02 25.28 0 41.6 17.82 41.6 37.02v2.34c0 18.88-16.32 37.02-41.6 37.02zm28.16-39.15c0-13.76-10.03-26.03-28.16-26.03-18.13 0-28.06 12.27-28.06 26.03v1.71c0 13.76 9.93 26.24 28.06 26.24 18.13 0 28.16-12.48 28.16-26.24z"></path>
+      <path fill-rule="evenodd" d="m227.89 251.41l-9.39-17.6h-41.7l-9.07 17.6h-14.08l38.4-71.04h11.09l39.04 71.04zm-30.61-57.17l-15.47 29.87h31.47z"></path>
+      <path d="m302.77 254.19c-25.49 0-37.33-13.87-37.33-32.32v-41.5h13.22v41.71c0 13.12 8.64 20.91 25.07 20.91 16.85 0 23.79-7.79 23.79-20.91v-41.71h13.33v41.5c0 17.6-11.31 32.32-38.08 32.32z"></path>
+      <path d="m415.09 191.47v59.94h-13.33v-59.94h-31.04v-11.1h75.41v11.1z"></path>
+      <path d="m672.59 251.41v-56.21l-3.52 6.19-29.76 50.02h-6.51l-29.44-50.02-3.52-6.19v56.21h-13.01v-71.04h18.45l28.05 48.75 3.31 5.97 3.31-5.97 27.73-48.75h18.24v71.04z"></path>
+      <path fill-rule="evenodd" d="m786.72 251.41l-9.38-17.6h-41.71l-9.07 17.6h-14.08l38.4-71.04h11.1l39.04 71.04zm-30.62-57.17l-15.46 29.87h31.46z"></path>
+      <path d="m854.78 191.47v59.94h-13.34v-59.94h-31.04v-11.1h75.42v11.1z"></path>
+      <path d="m952.59 191.47v59.94h-13.33v-59.94h-31.04v-11.1h75.41v11.1z"></path>
+      <path d="m1016.48 251.41v-64.32c5.34 0 7.47-2.88 7.47-6.72h5.65v71.04z"></path>
+      <path d="m1134.03 200.43c-6.4-5.87-15.79-11.42-28.48-11.42-18.99 0-29.65 13.02-29.65 26.56v1.39c0 13.44 10.77 26.03 30.61 26.03 11.84 0 21.65-5.66 27.84-11.42l8 8.43c-7.79 7.68-21.01 14.19-36.69 14.19-26.88 0-43.2-17.5-43.2-36.7v-2.34c0-19.2 17.81-37.34 43.84-37.34 15.04 0 28.69 6.3 36.05 14.19z"></path>
+      <path d="m522.48 209.67l-12.22 18.92c-1.54 2.39-4.75 3.08-7.14 1.54-2.39-1.55-3.08-4.76-1.54-7.15l12.22-18.91c1.54-2.39 4.75-3.08 7.14-1.54 2.39 1.54 3.08 4.76 1.54 7.14z"></path></symbol>
+    </defs>
+  </svg>
+
+  <deck-stage>
+
+<!-- ============================================================
+         01 — Cover (blue surface)
+         ============================================================ -->
+    <section class="slide surface-blue" data-screen-label="01 Cover">
+      <svg class="wordmark" aria-hidden="true" viewBox="0 0 1296 432"><use href="#automattic-logotype" /></svg>
+      <div style="margin-top: 200px; flex: 1;">
+        <h1 class="t-cover">Automattic<br/>Presentation</h1>
+        <p class="t-lead" style="margin-top: var(--s-6); max-width: 1100px;">
+          Text and images are placeholders,<br/>replace content without altering layout.
+        </p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 300px) 1fr; gap: var(--s-5); align-items: end;">
+        <div style="font-size: 24px; line-height: 1.4;">
+          <div style="font-weight: 700;">Matt Mullenweg</div>
+          <div style="opacity: 0.85; font-weight: 400;">Founder</div>
+          <div style="opacity: 0.85; font-weight: 400;">Houston, TX</div>
+        </div>
+        <div style="font-size: 24px; line-height: 1.4;">
+          <div style="font-weight: 700;">Toni Schneider</div>
+          <div style="opacity: 0.85; font-weight: 400;">Partner</div>
+          <div style="opacity: 0.85; font-weight: 400;">San Francisco</div>
+        </div>
+        <div style="font-size: 24px; line-height: 1.4;">
+          <div style="font-weight: 700;">Beau Lebens</div>
+          <div style="opacity: 0.85; font-weight: 400;">Engineering</div>
+          <div style="opacity: 0.85; font-weight: 400;">Sydney</div>
+        </div>
+        <div style="justify-self: end;" class="arrow-right" aria-hidden="true">→</div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         02 — Intro paragraph with image
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="02 Intro paragraph">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-8); height: 100%; align-items: start;">
+        <div style="padding-top: 40px;">
+          <h2 class="t-section" style="max-width: 760px;">
+            This is a place for a longer paragraph. Lorem ipsum dolor sit amet, adipiscing elit tatua. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </h2>
+          <p class="t-foot mt-5" style="max-width: 600px;">
+            Short descriptive paragraph about the text above to use when needed.
+          </p>
+        </div>
+        <div class="image-slot gray" style="width: 720px; height: 820px; justify-self: end;">image placeholder</div>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">03</div>
+    </section>
+
+    <!-- ============================================================
+         03 — Table of contents
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="03 Table of contents">
+      <div style="margin-top: 120px;">
+        <ol class="toc" style="display: flex; flex-direction: column; gap: 12px;">
+          <li><span class="num">1.</span><span>Introduction</span></li>
+          <li><span class="num">2.</span><span>The problem</span></li>
+          <li><span class="num">3.</span><span>Updates</span></li>
+          <li><span class="num">4.</span><span>The solution</span></li>
+          <li><span class="num">5.</span><span>Overview</span></li>
+        </ol>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">04</div>
+    </section>
+
+    <!-- ============================================================
+         04 — TOC with current section highlighted in blue
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="04 TOC (current section blue)">
+      <div style="margin-top: 120px;">
+        <ol class="toc" style="display: flex; flex-direction: column; gap: 12px;">
+          <li class="current"><span class="num">1.</span><span>Introduction</span></li>
+          <li><span class="num">2.</span><span>The problem</span></li>
+          <li><span class="num">3.</span><span>Updates</span></li>
+          <li><span class="num">4.</span><span>The solution</span></li>
+          <li><span class="num">5.</span><span>Overview</span></li>
+        </ol>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">05</div>
+    </section>
+
+    <!-- ============================================================
+         05 — Section divider on BLACK (big blue numeral bottom-right)
+         ============================================================ -->
+    <section class="slide surface-black" data-screen-label="05 Section divider · black">
+      <h1 class="t-h1" style="color: var(--white); max-width: 1400px;">
+        Making the web<br/>a better place
+      </h1>
+      <div style="position: absolute; right: var(--gutter-x); bottom: 120px;" class="t-divnum">2</div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">06</div>
+    </section>
+
+    <!-- ============================================================
+         06 — Numeric layout (3 metrics, "100B" "200M" "99.9%")
+         number=blue, unit=black; footnotes top-right
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="06 Numeric layout">
+      <h2 class="page-header" style="max-width: 900px;">
+        Here are numbers and the<br/>sources to them
+      </h2>
+      <div class="footnotes">
+        <ol>
+          <li>Data taken from .com</li>
+          <li>Data taken from .com</li>
+          <li>Data taken from .com</li>
+        </ol>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-7); margin-top: auto; padding-bottom: 80px;">
+        <div class="metric">
+          <div class="value"><span class="num">100</span><span class="unit">B</span></div>
+          <div class="label">Pageviews monthly<sup>1</sup></div>
+        </div>
+        <div class="metric">
+          <div class="value"><span class="num">200</span><span class="unit">M</span></div>
+          <div class="label">WordPress.com sites<sup>2</sup></div>
+        </div>
+        <div class="metric">
+          <div class="value"><span class="num">99.9</span><span class="unit">%</span></div>
+          <div class="label">Uptime, ten years running<sup>3</sup></div>
+        </div>
+      </div>
+
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">45</div>
+    </section>
+
+    <!-- ============================================================
+         07 — "Text!" emphasis page (blue word, white bg, AUTOMATTIC wordmark top)
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="07 Emphasis page">
+      <svg class="wordmark" aria-hidden="true" viewBox="0 0 1296 432"><use href="#automattic-logotype" /></svg>
+      <div style="margin-top: 220px; flex: 1;">
+        <h1 class="t-cover" style="color: var(--blue);">Text!</h1>
+        <p class="t-lead mt-6" style="max-width: 900px; color: var(--ink);">
+          Text and images are placeholders,<br/>replace content without altering layout.
+        </p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 300px) 1fr; gap: var(--s-5); align-items: end; color: var(--ink);">
+        <div style="font-size: 24px; line-height: 1.4;">
+          <div style="font-weight: 700;">Matt Mullenweg</div>
+          <div style="color: var(--ink-mute); font-weight: 400;">Founder</div>
+          <div style="color: var(--ink-mute); font-weight: 400;">Houston, TX</div>
+        </div>
+        <div style="font-size: 24px; line-height: 1.4;">
+          <div style="font-weight: 700;">Toni Schneider</div>
+          <div style="color: var(--ink-mute); font-weight: 400;">Partner</div>
+          <div style="color: var(--ink-mute); font-weight: 400;">San Francisco</div>
+        </div>
+        <div style="font-size: 24px; line-height: 1.4;">
+          <div style="font-weight: 700;">Beau Lebens</div>
+          <div style="color: var(--ink-mute); font-weight: 400;">Engineering</div>
+          <div style="color: var(--ink-mute); font-weight: 400;">Sydney</div>
+        </div>
+        <div style="justify-self: end; color: var(--ink);" class="arrow-right" aria-hidden="true">→</div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         08 — Bulleted list
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="08 Bulleted list">
+      <div style="display: grid; grid-template-columns: 380px 1fr; gap: var(--s-7); margin-top: 60px;">
+        <h2 class="page-header">How we work</h2>
+        <ul class="bullets" style="font-size: 28px; line-height: 1.45; max-width: 1100px;">
+          <li>Default to open. Code, decisions, and documents are shared by design.</li>
+          <li>Write things down. P2 is our memory; meetings are not.</li>
+          <li>Trust the team. Hire carefully, then get out of the way.</li>
+          <li>Optimise for makers. Calendars are not a status symbol.</li>
+          <li>Ship in small slices. A weekly release beats a quarterly one.</li>
+          <li>Care about craft. Polish is a feature.</li>
+        </ul>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">08</div>
+    </section>
+
+    <!-- ============================================================
+         09 — Table
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="09 Table">
+      <h2 class="page-header" style="max-width: 1100px;">
+        Multiple rows and columns<br/>to organise your data into
+      </h2>
+      <table class="data" style="margin-top: var(--s-7);">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Subject 4</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><th>Feature A</th><td>Do</td><td>Re</td><td>Mi</td><td>Fa</td></tr>
+          <tr><th>Feature B</th><td>Do</td><td>Re</td><td>Mi</td><td>Fa</td></tr>
+          <tr><th>Feature C</th><td>Do</td><td>Re</td><td>Mi</td><td>Fa</td></tr>
+          <tr><th>Feature D</th><td>Do</td><td>Re</td><td>Mi</td><td>Fa</td></tr>
+        </tbody>
+      </table>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">09</div>
+    </section>
+
+    <!-- ============================================================
+         10 — Pull quote (with giant pale grey '' ornament behind)
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="10 Pull quote">
+      <div class="quote-wrap" style="margin-top: 120px; flex: 1;">
+        <div class="quote-ornament" aria-hidden="true">&rdquo;</div>
+        <h2 class="t-quote" style="max-width: 1500px;">
+          I am a creative. What I do is alchemy. It is a mystery. I do not so much do it, as let it be done through me.
+        </h2>
+        <div class="mt-5 t-body accent">Jeffrey Zeldman</div>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">15</div>
+    </section>
+
+    <!-- ============================================================
+         11 — Three columns (header + three subheads)
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="11 Three columns">
+      <h2 class="page-header" style="max-width: 900px;">
+        Three columns for<br/>comparing functions
+      </h2>
+      <div class="grid-3 mt-6" style="flex: 1; align-content: start;">
+        <div>
+          <h3 style="color: var(--ink);">Header one</h3>
+          <div class="muted t-small mt-3">Subtitle</div>
+          <ul class="bullets mt-4" style="font-size: 20px;">
+            <li>This is lorem ipsum text.</li>
+            <li>And do not forget this bit of lorem ipsum consectetur adipiscing elit.</li>
+            <li>Sed do eiusmod incididunt ut labore.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color: var(--ink);">Header two</h3>
+          <div class="muted t-small mt-3">Subtitle</div>
+          <ul class="bullets mt-4" style="font-size: 20px;">
+            <li>This is lorem ipsum text.</li>
+            <li>This is also lorem ipsum dolor sit amet.</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color: var(--ink);">Header three</h3>
+          <div class="muted t-small mt-3">Subtitle</div>
+          <ul class="bullets mt-4" style="font-size: 20px;">
+            <li>This is also lorem ipsum dolor sit amet.</li>
+            <li>Sed do eiusmod incididunt ut labore.</li>
+          </ul>
+        </div>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">11</div>
+    </section>
+
+    <!-- ============================================================
+         12 — Header + body + image (mixed long-form)
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="12 Long-form with image">
+      <div style="display: grid; grid-template-columns: 1fr 1fr 480px; gap: var(--s-7); margin-top: 30px; flex: 1;">
+        <div>
+          <h2 class="page-header">Header</h2>
+          <p class="t-body mt-4" style="line-height: 1.55;">
+            This is a place for the short but important introduction of further content lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.
+          </p>
+          <ul class="bullets mt-4" style="font-size: 20px;">
+            <li>This is lorem ipsum text.</li>
+            <li>This is also lorem ipsum dolor sit amet.</li>
+            <li>And do not forget this bit of lorem ipsum.</li>
+            <li>Sed do eiusmod incididunt ut labore.</li>
+          </ul>
+        </div>
+        <div class="image-slot gray">screen capture</div>
+        <div class="image-slot">brand photo</div>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">28</div>
+    </section>
+
+    <!-- ============================================================
+         13 — Numbered data (1-3) with header, blue numerals
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="13 Numbered data 1-3">
+      <h2 class="page-header" style="max-width: 900px;">
+        Header about numbered<br/>data below
+      </h2>
+      <div class="grid-3 mt-6" style="flex: 1; align-content: start;">
+        <div>
+          <div class="ord-num">1</div>
+          <p class="t-body mt-4" style="line-height: 1.5;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </p>
+        </div>
+        <div>
+          <div class="ord-num">2</div>
+          <p class="t-body mt-4" style="line-height: 1.5;">
+            Distributed teams reported 1.4× faster decision cycles when defaults moved to written-async.
+          </p>
+        </div>
+        <div>
+          <div class="ord-num">3</div>
+          <p class="t-body mt-4" style="line-height: 1.5;">
+            Plugin marketplace revenue grew most for sub-$10/mo products — the long tail held.
+          </p>
+        </div>
+      </div>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">39</div>
+    </section>
+
+    <!-- ============================================================
+         14 — Section divider on WHITE (giant headline)
+         ============================================================ -->
+    <section class="slide surface-white" data-screen-label="14 Section divider · white">
+      <h1 class="t-h1" style="max-width: 1500px; margin-top: 100px;">
+        Making the web<br/>a better place
+      </h1>
+      <svg class="o-mark" aria-hidden="true"><use href="#automattic-o" /></svg>
+      <div class="page-num">54</div>
+    </section>
+
+    <!-- ============================================================
+         15 — Closing (AUTOMATTIC wordmark centered on blue)
+         ============================================================ -->
+    <section class="slide surface-blue" data-screen-label="15 Closing">
+      <svg aria-hidden="true" viewBox="0 0 1296 432" style="width: 720px; margin: auto;"><use href="#automattic-logotype" /></svg>
+    </section>
+
+  </deck-stage>
+
+  <!-- Speaker notes: one entry per slide, in deck order.
+       deck-stage reads this internally; the presenter-notes popup renders it. -->
+  <script type="application/json" id="speaker-notes">
+[
+  { "title": "Cover", "seconds": 30, "notes": ["Welcome — set the room."] },
+  { "title": "Intro paragraph", "seconds": 45, "notes": ["The reason we're here."] },
+  { "title": "Table of contents", "seconds": 20, "notes": ["What's coming."] },
+  { "title": "TOC — current section", "seconds": 15, "notes": ["Section 1."] },
+  { "title": "Section divider — black", "seconds": 10, "notes": ["Beat."] },
+  { "title": "Numeric layout", "seconds": 60, "notes": ["Numbers — let them land."] },
+  { "title": "Emphasis page", "seconds": 30, "notes": ["The single word."] },
+  { "title": "Bulleted list", "seconds": 90, "notes": ["Walk the list."] },
+  { "title": "Table", "seconds": 60, "notes": ["Read the column heads first."] },
+  { "title": "Pull quote", "seconds": 30, "notes": ["Pause after the quote."] },
+  { "title": "Three columns", "seconds": 75, "notes": ["Left to right."] },
+  { "title": "Long-form with images", "seconds": 60, "notes": ["Body, then images."] },
+  { "title": "Numbered data 1-3", "seconds": 75, "notes": ["1, then 2, then 3."] },
+  { "title": "Section divider — white", "seconds": 10, "notes": ["Quieter beat."] },
+  { "title": "Closing", "seconds": 15, "notes": ["Thanks. Q&A."] }
+]
+  </script>
+
+  <!-- deck-stage web component (verbatim from the design handoff). -->
+  <script>
+/**
+ * <deck-stage> — reusable web component for HTML decks.
+ *
+ * Handles:
+ *  (a) speaker notes — reads <script type="application/json" id="speaker-notes">
+ *      and posts {slideIndexChanged: N} to the parent window on nav.
+ *  (b) keyboard navigation — ←/→, PgUp/PgDn, Space, Home/End, number keys.
+ *      On touch devices, tapping the left/right half of the stage goes
+ *      prev/next — taps on links, buttons and other interactive slide
+ *      content are left alone.
+ *  (c) press R to reset to slide 0 (with a tasteful keyboard hint).
+ *  (d) bottom-center overlay showing slide count + hints, fades out on idle.
+ *  (e) auto-scaling — inner canvas is a fixed design size (default 1920×1080)
+ *      scaled with `transform: scale()` to fit the viewport, letterboxed.
+ *      Set the `noscale` attribute to render at authored size (1:1) — the
+ *      PPTX exporter sets this so its DOM capture sees unscaled geometry.
+ *  (f) print — `@media print` lays every slide out as its own page at the
+ *      design size, so the browser's Print → Save as PDF produces a clean
+ *      one-page-per-slide PDF with no extra setup.
+ *  (g) thumbnail rail — resizable left-hand column of per-slide thumbnails
+ *      (static clones). Click to navigate; ↑/↓ with a thumbnail focused to
+ *      step between slides; drag to reorder; right-click for
+ *      Skip / Move up / Move down / Delete (opens a Cancel/Delete confirm
+ *      dialog). Drag the rail's right edge to resize; width persists to
+ *      localStorage. Skipped slides carry `data-deck-skip`, are dimmed in
+ *      the rail, omitted from prev/next navigation, and hidden at print.
+ *      The rail is suppressed in presenting mode, in the host's Preview
+ *      mode (ViewerMode='none'), on `noscale`, on narrow viewports
+ *      (≤640px), and via the `no-rail` attribute. Rail mutations dispatch
+ *      a `deckchange`
+ *      CustomEvent on the element: detail = {action, from, to, slide}.
+ *
+ * Slides are HIDDEN, not unmounted. Non-active slides stay in the DOM with
+ * `visibility: hidden` + `opacity: 0`, so their state (videos, iframes,
+ * form inputs, React trees) is preserved across navigation.
+ *
+ * Lifecycle event — the component dispatches a `slidechange` CustomEvent on
+ * itself whenever the active slide changes (including the initial mount).
+ * The event bubbles and composes out of shadow DOM, so you can listen on
+ * the <deck-stage> element or on document:
+ *
+ *   document.querySelector('deck-stage').addEventListener('slidechange', (e) => {
+ *     e.detail.index         // new 0-based index
+ *     e.detail.previousIndex // previous index, or -1 on init
+ *     e.detail.total         // total slide count
+ *     e.detail.slide         // the new active slide element
+ *     e.detail.previousSlide // the prior slide element, or null on init
+ *     e.detail.reason        // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+ *   });
+ *
+ * Persistence: none at the deck level. The host app keeps the current slide
+ * in its own URL (?slide=) and re-delivers it via location.hash on load, so a
+ * bare load with no hash always starts at slide 1.
+ *
+ * Usage:
+ *   <style>deck-stage:not(:defined){visibility:hidden}</style>
+ *   <deck-stage width="1920" height="1080">
+ *     <section data-label="Title">...</section>
+ *     <section data-label="Agenda">...</section>
+ *   </deck-stage>
+ *   <script src="deck-stage.js"><\/script>
+ *
+ * The :not(:defined) rule prevents a flash of the first slide at its
+ * authored styles before this script runs and attaches the shadow root.
+ *
+ * Slides are the direct element children of <deck-stage>. Each slide is
+ * automatically tagged with:
+ *   - data-screen-label="NN Label"   (1-indexed, for comment flow)
+ *   - data-om-validate="no_overflowing_text,no_overlapping_text,slide_sized_text"
+ */
+
+(() => {
+  const DESIGN_W_DEFAULT = 1920;
+  const DESIGN_H_DEFAULT = 1080;
+  const OVERLAY_HIDE_MS = 1800;
+  const VALIDATE_ATTR = 'no_overflowing_text,no_overlapping_text,slide_sized_text';
+  const FINE_POINTER_MQ = matchMedia('(hover: hover) and (pointer: fine)');
+  const NARROW_MQ = matchMedia('(max-width: 640px)');
+  // Slide-authored controls that should keep a tap instead of it navigating.
+  const INTERACTIVE_SEL = 'a[href], button, input, select, textarea, summary, label, video[controls], audio[controls], [role="button"], [onclick], [tabindex]:not([tabindex^="-"]), [contenteditable]:not([contenteditable="false" i])';
+
+  const pad2 = (n) => String(n).padStart(2, '0');
+
+  // Label precedence: data-label → data-screen-label (number stripped) → first heading → "Slide".
+  const getSlideLabel = (el) => {
+    const explicit = el.getAttribute('data-label');
+    if (explicit) return explicit;
+
+    const existing = el.getAttribute('data-screen-label');
+    if (existing) return existing.replace(/^\s*\d+\s*/, '').trim() || existing;
+
+    const h = el.querySelector('h1, h2, h3, [data-title]');
+    const t = h && (h.textContent || '').trim().slice(0, 40);
+    if (t) return t;
+
+    return 'Slide';
+  };
+
+  const stylesheet = `
+    :host {
+      position: fixed;
+      inset: 0;
+      display: block;
+      background: #000;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* connectedCallback holds this until document.fonts.ready (capped 2s) so
+     * the first visible paint has the deck's real typography + final rail
+     * layout. opacity (not visibility) so the active slide can't un-hide
+     * itself via the ::slotted([data-deck-active]) visibility:visible rule.
+     * Only the stage/rail hide — the black :host background stays, so the
+     * iframe doesn't flash the page's default white. */
+    :host([data-fonts-pending]) .stage,
+    :host([data-fonts-pending]) .rail { opacity: 0; pointer-events: none; }
+
+    .stage {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .canvas {
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
+      background: #fff;
+      will-change: transform;
+    }
+
+    /* Slides live in light DOM (via <slot>) so authored CSS still applies.
+       We absolutely position each slotted child to stack them. */
+    ::slotted(*) {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      box-sizing: border-box !important;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    ::slotted([data-deck-active]) {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .overlay {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 6px) scale(0.92);
+      filter: blur(6px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      background: #000;
+      color: #fff;
+      border-radius: 999px;
+      font-size: 12px;
+      font-feature-settings: "tnum" 1;
+      letter-spacing: 0.01em;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1), filter 260ms ease;
+      transform-origin: center bottom;
+      z-index: 2147483000;
+      user-select: none;
+    }
+    .overlay[data-visible] {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, 0) scale(1);
+      filter: blur(0);
+    }
+
+    .btn {
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: 0;
+      margin: 0;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+      cursor: default;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      min-width: 28px;
+      border-radius: 999px;
+      color: rgba(255,255,255,0.72);
+      transition: background 140ms ease, color 140ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .btn:active { background: rgba(255,255,255,0.18); }
+    .btn:focus { outline: none; }
+    .btn:focus-visible { outline: none; }
+    .btn::-moz-focus-inner { border: 0; }
+    .btn svg { width: 14px; height: 14px; display: block; }
+    .btn.reset {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      padding: 0 10px 0 12px;
+      gap: 6px;
+      color: rgba(255,255,255,0.72);
+    }
+    .btn.reset .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 10px;
+      line-height: 1;
+      color: rgba(255,255,255,0.88);
+      background: rgba(255,255,255,0.12);
+      border-radius: 4px;
+    }
+
+    .count {
+      font-variant-numeric: tabular-nums;
+      color: #fff;
+      font-weight: 500;
+      padding: 0 8px;
+      min-width: 42px;
+      text-align: center;
+      font-size: 12px;
+    }
+    .count .sep { color: rgba(255,255,255,0.45); margin: 0 3px; font-weight: 400; }
+    .count .total { color: rgba(255,255,255,0.55); }
+
+    .divider {
+      width: 1px;
+      height: 14px;
+      background: rgba(255,255,255,0.18);
+      margin: 0 2px;
+    }
+
+    /* ── Thumbnail rail ──────────────────────────────────────────────────
+       Fixed column on the left; each thumbnail is a static deep-clone of
+       the light-DOM slide scaled into a 16:9 (or design-aspect) frame. The
+       stage re-fits around it (see _fit); hidden during present / noscale
+       / print so capture geometry and fullscreen output are unchanged. */
+    .rail {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: var(--deck-rail-w, 188px);
+      background: #141414;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 12px 10px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      z-index: 2147482500;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.18) transparent;
+    }
+    .rail::-webkit-scrollbar { width: 8px; }
+    .rail::-webkit-scrollbar-track { background: transparent; margin: 2px; }
+    .rail::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.18);
+      border-radius: 4px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    .rail::-webkit-scrollbar-thumb:hover {
+      background: rgba(255,255,255,0.28);
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    :host([no-rail]) .rail,
+    :host([noscale]) .rail { display: none; }
+    .rail[data-presenting] { display: none; }
+    @media (max-width: 640px) {
+      .rail, .rail-resize { display: none; }
+    }
+    /* User-driven show/hide (the TweaksPanel toggle) slides instead of
+       popping. Transitions are gated on :host([data-rail-anim]) — set only
+       for the 200ms around the toggle — so window-resize and rail-width
+       drag (which also call _fit) don't lag behind the cursor. */
+    .rail[data-user-hidden] { transform: translateX(-100%); }
+    :host([data-rail-anim]) .rail { transition: transform 200ms cubic-bezier(.3,.7,.4,1); }
+    :host([data-rail-anim]) .stage { transition: left 200ms cubic-bezier(.3,.7,.4,1); }
+    :host([data-rail-anim]) .canvas { transition: transform 200ms cubic-bezier(.3,.7,.4,1); }
+    /* transition shorthand replaces rather than merges — repeat the base
+       .overlay opacity/transform/filter transitions so visibility changes
+       during the 200ms toggle window still fade instead of popping. */
+    :host([data-rail-anim]) .overlay {
+      transition: margin-left 200ms cubic-bezier(.3,.7,.4,1),
+                  opacity 260ms ease,
+                  transform 260ms cubic-bezier(.2,.8,.2,1),
+                  filter 260ms ease;
+    }
+
+    .thumb {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .thumb .num {
+      width: 16px;
+      flex-shrink: 0;
+      font-size: 11px;
+      font-weight: 500;
+      text-align: right;
+      color: rgba(255,255,255,0.55);
+      padding-top: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+    .thumb .frame {
+      position: relative;
+      flex: 1;
+      min-width: 0;
+      aspect-ratio: var(--deck-aspect);
+      background: #fff;
+      border-radius: 4px;
+      outline: 2px solid transparent;
+      outline-offset: 0;
+      overflow: hidden;
+      transition: outline-color 120ms ease;
+    }
+    .thumb:hover .frame { outline-color: rgba(255,255,255,0.25); }
+    .thumb { outline: none; }
+    .thumb:focus-visible .frame { outline-color: rgba(255,255,255,0.5); }
+    .thumb[data-current] .num { color: #fff; }
+    .thumb[data-current] .frame { outline-color: #D97757; }
+    .thumb[data-dragging] { opacity: 0.35; }
+    .thumb::before {
+      content: '';
+      position: absolute;
+      left: 24px;
+      right: 0;
+      height: 3px;
+      border-radius: 2px;
+      background: #D97757;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .thumb[data-drop="before"]::before { top: -8px; opacity: 1; }
+    .thumb[data-drop="after"]::before { bottom: -8px; opacity: 1; }
+    .thumb[data-skip] .frame { opacity: 0.35; }
+    .thumb[data-skip] .frame::after {
+      content: 'Skipped';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.45);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .ctxmenu {
+      position: fixed;
+      min-width: 150px;
+      padding: 4px;
+      background: #242424;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 7px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.45);
+      z-index: 2147483100;
+      display: none;
+      font-size: 12px;
+    }
+    .ctxmenu[data-open] { display: block; }
+    .ctxmenu button {
+      display: block;
+      width: 100%;
+      appearance: none;
+      border: 0;
+      background: transparent;
+      color: #e8e8e8;
+      font: inherit;
+      text-align: left;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .ctxmenu button:hover:not(:disabled) { background: rgba(255,255,255,0.08); }
+    .ctxmenu button:disabled { opacity: 0.35; cursor: default; }
+    .ctxmenu hr {
+      border: 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      margin: 4px 2px;
+    }
+
+    .rail-resize {
+      position: fixed;
+      left: calc(var(--deck-rail-w, 188px) - 3px);
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      cursor: col-resize;
+      z-index: 2147482600;
+      touch-action: none;
+    }
+    .rail-resize:hover,
+    .rail-resize[data-dragging] { background: rgba(255,255,255,0.12); }
+    :host([no-rail]) .rail-resize,
+    :host([noscale]) .rail-resize,
+    .rail[data-presenting] + .rail-resize,
+    .rail[data-user-hidden] + .rail-resize { display: none; }
+
+    /* Delete-confirm popup — matches the SPA's ConfirmDialog layout
+       (title + message body, depressed footer with Cancel / Delete). */
+    .confirm-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 2147483200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .confirm-backdrop[data-open] { display: flex; }
+    .confirm {
+      width: 320px;
+      max-width: calc(100vw - 32px);
+      background: #2a2a2a;
+      color: #e8e8e8;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+      overflow: hidden;
+      font-family: inherit;
+      animation: deck-confirm-in 0.18s ease;
+    }
+    @keyframes deck-confirm-in {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .confirm .body { padding: 20px 20px 16px; }
+    .confirm .title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+    .confirm .msg { font-size: 13px; line-height: 1.5; color: rgba(255,255,255,0.65); }
+    .confirm .footer {
+      padding: 14px 20px;
+      background: #1f1f1f;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+    .confirm button {
+      appearance: none;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .confirm .cancel {
+      background: transparent;
+      border: 0;
+      color: rgba(255,255,255,0.8);
+    }
+    .confirm .cancel:hover { background: rgba(255,255,255,0.08); }
+    .confirm .danger {
+      background: #c96442;
+      border: 1px solid rgba(0,0,0,0.15);
+      color: #fff;
+      box-shadow: 0 1px 3px rgba(166,50,68,0.3), 0 2px 6px rgba(166,50,68,0.18);
+    }
+    .confirm .danger:hover { background: #b5563a; }
+
+    /* ── Print: one page per slide, no chrome ────────────────────────────
+       The screen layout stacks every slide at inset:0 inside a scaled
+       canvas; for print we want them in document flow at the authored
+       design size so the browser paginates one slide per sheet. The
+       @page size is set from the width/height attributes via the inline
+       <style id="deck-stage-print-page"> that connectedCallback injects
+       into <head> (the @page at-rule has no effect inside shadow DOM). */
+    @media print {
+      :host {
+        position: static;
+        inset: auto;
+        background: none;
+        overflow: visible;
+        color: inherit;
+      }
+      .stage { position: static; display: block; }
+      .canvas {
+        transform: none !important;
+        width: auto !important;
+        height: auto !important;
+        background: none;
+        will-change: auto;
+      }
+      ::slotted(*) {
+        position: relative !important;
+        inset: auto !important;
+        width: var(--deck-design-w) !important;
+        height: var(--deck-design-h) !important;
+        box-sizing: border-box !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        pointer-events: auto;
+        break-after: page;
+        page-break-after: always;
+        break-inside: avoid;
+        overflow: hidden;
+      }
+      /* :last-child alone isn't enough once data-deck-skip hides the
+         trailing slide(s) — the last *visible* slide still carries
+         break-after:page and prints a blank sheet. _markLastVisible()
+         maintains data-deck-last-visible on the last non-skipped slide. */
+      ::slotted(*:last-child),
+      ::slotted([data-deck-last-visible]) {
+        break-after: auto;
+        page-break-after: auto;
+      }
+      ::slotted([data-deck-skip]) { display: none !important; }
+      .overlay, .rail, .rail-resize, .ctxmenu, .confirm-backdrop { display: none !important; }
+    }
+  `;
+
+  class DeckStage extends HTMLElement {
+    static get observedAttributes() { return ['width', 'height', 'noscale', 'no-rail']; }
+
+    constructor() {
+      super();
+      this._root = this.attachShadow({ mode: 'open' });
+      this._index = 0;
+      this._slides = [];
+      this._notes = [];
+      this._hideTimer = null;
+      this._mouseIdleTimer = null;
+      this._menuIndex = -1;
+
+      this._onKey = this._onKey.bind(this);
+      this._onResize = this._onResize.bind(this);
+      this._onSlotChange = this._onSlotChange.bind(this);
+      this._onMouseMove = this._onMouseMove.bind(this);
+      this._onTap = this._onTap.bind(this);
+      this._onMessage = this._onMessage.bind(this);
+      // Capture-phase close so a click anywhere dismisses the menu, but
+      // ignore clicks that land inside the menu itself — otherwise the
+      // capture handler runs before the menu's own (bubble) handler and
+      // clears _menuIndex out from under it.
+      this._onDocClick = (e) => {
+        if (this._menu && e.composedPath && e.composedPath().includes(this._menu)) return;
+        this._closeMenu();
+      };
+    }
+
+    get designWidth() {
+      return parseInt(this.getAttribute('width'), 10) || DESIGN_W_DEFAULT;
+    }
+    get designHeight() {
+      return parseInt(this.getAttribute('height'), 10) || DESIGN_H_DEFAULT;
+    }
+
+    connectedCallback() {
+      // Presenter-view popup loads deckUrl?_snthumb=...#N for its prev/cur/
+      // next thumbnails — the rail has no business rendering inside those
+      // (wrong scale, and it offsets the stage so the thumb shows a gutter).
+      if (/[?&]_snthumb=/.test(location.search)) this.setAttribute('no-rail', '');
+      this._render();
+      this._loadNotes();
+      this._syncPrintPageRule();
+      window.addEventListener('keydown', this._onKey);
+      window.addEventListener('resize', this._onResize);
+      window.addEventListener('mousemove', this._onMouseMove, { passive: true });
+      window.addEventListener('message', this._onMessage);
+      window.addEventListener('click', this._onDocClick, true);
+      this.addEventListener('click', this._onTap);
+      // Initial collection + layout happens via slotchange, which fires on mount.
+      this._enableRail();
+      // Hold the stage hidden until webfonts are ready so the first visible
+      // paint has the deck's real typography — the :not(:defined) guard in
+      // the page HTML only covers custom-element upgrade, not font load.
+      // Capped so a 404'd font URL can't blank the deck indefinitely.
+      this.setAttribute('data-fonts-pending', '');
+      const reveal = () => this.removeAttribute('data-fonts-pending');
+      // rAF first: fonts.ready is a pre-resolved promise until layout has
+      // resolved the slotted text's font-family and pushed a FontFace into
+      // 'loading'. Reading it here in connectedCallback (parse-time) would
+      // settle the race in a microtask before any font fetch starts.
+      requestAnimationFrame(() => {
+        Promise.race([
+          document.fonts ? document.fonts.ready : Promise.resolve(),
+          new Promise((r) => setTimeout(r, 2000)),
+        ]).then(reveal, reveal);
+      });
+    }
+
+    _enableRail() {
+      // Idempotent — older host builds still post __omelette_rail_enabled.
+      // no-rail guard keeps the observers/stylesheet walk off the cheap path
+      // for presenter-popup thumbnail iframes (up to 9 per view).
+      if (this._railEnabled || this.hasAttribute('no-rail')) return;
+      this._railEnabled = true;
+      // Per-viewer preference — restored alongside rail width. Default on;
+      // only a stored '0' (from the TweaksPanel toggle) hides it.
+      this._railVisible = true;
+      try {
+        if (localStorage.getItem('deck-stage.railVisible') === '0') this._railVisible = false;
+      } catch (e) {}
+      // Live thumbnail updates: watch the light-DOM slides for content
+      // edits and re-clone just the affected thumb(s), debounced. Ignore
+      // the data-deck-* / data-screen-label / data-om-validate attributes
+      // this component itself writes so nav and skip don't trigger
+      // spurious refreshes.
+      const OWN_ATTRS = /^data-(deck-|screen-label$|om-validate$)/;
+      this._liveDirty = new Set();
+      this._liveObserver = new MutationObserver((records) => {
+        for (const r of records) {
+          if (r.type === 'attributes' && OWN_ATTRS.test(r.attributeName || '')) continue;
+          let n = r.target;
+          while (n && n.parentElement !== this) n = n.parentElement;
+          if (n && this._slideSet && this._slideSet.has(n)) this._liveDirty.add(n);
+        }
+        if (this._liveDirty.size && !this._liveTimer) {
+          this._liveTimer = setTimeout(() => {
+            this._liveTimer = null;
+            this._liveDirty.forEach((s) => this._refreshThumb(s));
+            this._liveDirty.clear();
+          }, 200);
+        }
+      });
+      this._liveObserver.observe(this, {
+        subtree: true, childList: true, characterData: true, attributes: true,
+      });
+      // Lazy thumbnail materialization — clone the slide only when its
+      // frame scrolls into (or near) the rail viewport. rootMargin gives
+      // ~4 thumbs of pre-load so fast scrolling doesn't flash blanks.
+      this._railObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && e.target.__deckThumb) {
+            this._materialize(e.target.__deckThumb);
+          }
+        });
+      }, { root: this._rail, rootMargin: '400px 0px' });
+      // Tweaks typically change CSS vars / attrs OUTSIDE <deck-stage>
+      // (on <html>, <body>, a wrapper div, or a <style> tag), which
+      // _liveObserver can't see. Re-snapshot author CSS (constructable
+      // sheet is shared by reference, so one replaceSync updates every
+      // thumb shadow root) and re-sync each thumb host's attrs + custom
+      // properties. In-slide DOM mutations are _liveObserver's job.
+      // Debounced so slider drags don't thrash.
+      this._onTweakChange = () => {
+        clearTimeout(this._tweakTimer);
+        this._tweakTimer = setTimeout(() => {
+          this._snapshotAuthorCss();
+          // One getComputedStyle for the whole batch — each
+          // getPropertyValue read below reuses the same computed style
+          // as long as nothing invalidates layout between thumbs.
+          const cs = getComputedStyle(this);
+          (this._thumbs || []).forEach((t) => {
+            if (t.host) this._syncThumbHostAttrs(t.host, cs);
+          });
+        }, 120);
+      };
+      window.addEventListener('tweakchange', this._onTweakChange);
+      this._snapshotAuthorCss();
+      // Build the rail now that it's enabled — slotchange already fired,
+      // so _renderRail's early-return skipped the initial build.
+      this._syncRailHidden();
+      this._renderRail();
+      this._fit();
+    }
+
+    /** Snapshot document stylesheets into a constructable sheet that each
+     *  thumbnail's nested shadow root adopts — so author CSS styles the
+     *  cloned slide content without touching this component's chrome.
+     *  Cross-origin sheets throw on .cssRules — skip them. Re-callable:
+     *  the existing constructable sheet is reused via replaceSync so every
+     *  already-adopted shadow root picks up the fresh CSS without re-adopt. */
+    _snapshotAuthorCss() {
+      // :root in an adopted sheet inside a shadow root matches nothing
+      // (only the document root qualifies), so author rules like
+      // `:root[data-voice="modern"] .serif` never reach the clones.
+      // Rewrite :root → :host and mirror <html>'s data-*/class/lang onto
+      // each thumb host (see _syncThumbHostAttrs) so the same selectors
+      // match inside the thumbnail's shadow tree.
+      const authorCss = Array.from(document.styleSheets).map((sh) => {
+        try {
+          return Array.from(sh.cssRules).map((r) => r.cssText).join('\n');
+        } catch (e) { return ''; }
+      }).join('\n')
+        // The shadow host is featureless outside the functional :host(...)
+        // form, so any compound on :root — [attr], .class, #id, :pseudo —
+        // must become :host(<compound>) not :host<compound>. Same for the
+        // html type selector (Tailwind class-strategy dark mode emits
+        // html.dark; Pico uses html[data-theme]), which has nothing to
+        // match inside the thumb's shadow tree.
+        .replace(/:root((?:\[[^\]]*\]|[.#][-\w]+|:[-\w]+(?:\([^)]*\))?)+)/g, ':host($1)')
+        .replace(/:root\b/g, ':host')
+        .replace(/(^|[\s,>~+(}])html((?:\[[^\]]*\]|[.#][-\w]+|:[-\w]+(?:\([^)]*\))?)+)(?![-\w])/g, '$1:host($2)')
+        .replace(/(^|[\s,>~+(}])html(?![-\w])/g, '$1:host');
+      // Every custom property the author references. _syncThumbHostAttrs
+      // mirrors each one's *computed* value at <deck-stage> onto the
+      // thumb host so the live value wins over the :host default above
+      // regardless of which ancestor the tweak wrote to (<html>, <body>,
+      // a wrapper div, or the deck-stage element itself all inherit
+      // down to getComputedStyle(this)).
+      this._authorVars = new Set(authorCss.match(/--[\w-]+/g) || []);
+      try {
+        if (!this._adoptedSheet) this._adoptedSheet = new CSSStyleSheet();
+        this._adoptedSheet.replaceSync(authorCss);
+      } catch (e) {
+        this._adoptedSheet = null;
+        this._authorCss = authorCss;
+      }
+    }
+
+    _syncThumbHostAttrs(host, cs) {
+      const de = document.documentElement;
+      // setAttribute overwrites but can't delete — an attr removed from
+      // <html> (toggleAttribute off, classList emptied) would linger on
+      // the host and :host([data-*]) / :host(.foo) rules would keep
+      // matching. Remove stale mirrored attrs first; iterate backward
+      // because removeAttribute mutates the live NamedNodeMap.
+      for (let i = host.attributes.length - 1; i >= 0; i--) {
+        const n = host.attributes[i].name;
+        if ((n.startsWith('data-') || n === 'class' || n === 'lang')
+            && !de.hasAttribute(n)) {
+          host.removeAttribute(n);
+        }
+      }
+      for (const a of de.attributes) {
+        if (a.name.startsWith('data-') || a.name === 'class' || a.name === 'lang') {
+          host.setAttribute(a.name, a.value);
+        }
+      }
+      // The :root→:host rewrite in _snapshotAuthorCss pins each custom
+      // property to its stylesheet default on the thumb host, shadowing
+      // the live value that would otherwise inherit. Tweaks can write the
+      // live value on any ancestor — <html>, <body>, a wrapper div, the
+      // deck-stage element — so read it as the *computed* value at
+      // <deck-stage> (which sees the whole inheritance chain) rather than
+      // trying to guess which element the author wrote to. Inline on the
+      // host beats the :host{} rule. remove-stale covers vars dropped
+      // from the stylesheet between snapshots.
+      const vars = this._authorVars || new Set();
+      for (let i = host.style.length - 1; i >= 0; i--) {
+        const p = host.style[i];
+        if (p.startsWith('--') && !vars.has(p)) host.style.removeProperty(p);
+      }
+      const live = cs || getComputedStyle(this);
+      vars.forEach((p) => {
+        const v = live.getPropertyValue(p);
+        if (v) host.style.setProperty(p, v.trim());
+        else host.style.removeProperty(p);
+      });
+    }
+
+    disconnectedCallback() {
+      window.removeEventListener('keydown', this._onKey);
+      window.removeEventListener('resize', this._onResize);
+      window.removeEventListener('mousemove', this._onMouseMove);
+      window.removeEventListener('message', this._onMessage);
+      window.removeEventListener('click', this._onDocClick, true);
+      this.removeEventListener('click', this._onTap);
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      if (this._mouseIdleTimer) clearTimeout(this._mouseIdleTimer);
+      if (this._liveTimer) clearTimeout(this._liveTimer);
+      if (this._tweakTimer) clearTimeout(this._tweakTimer);
+      if (this._railAnimTimer) clearTimeout(this._railAnimTimer);
+      if (this._scaleRaf) cancelAnimationFrame(this._scaleRaf);
+      if (this._liveObserver) this._liveObserver.disconnect();
+      if (this._railObserver) this._railObserver.disconnect();
+      if (this._onTweakChange) window.removeEventListener('tweakchange', this._onTweakChange);
+    }
+
+    attributeChangedCallback() {
+      if (this._canvas) {
+        this._canvas.style.width = this.designWidth + 'px';
+        this._canvas.style.height = this.designHeight + 'px';
+        this._canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+        this._canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+        if (this._rail) {
+          this._rail.style.setProperty('--deck-aspect', this.designWidth + '/' + this.designHeight);
+        }
+        this._fit();
+        this._scaleThumbs();
+        this._syncPrintPageRule();
+      }
+    }
+
+    _render() {
+      const style = document.createElement('style');
+      style.textContent = stylesheet;
+
+      const stage = document.createElement('div');
+      stage.className = 'stage';
+
+      const canvas = document.createElement('div');
+      canvas.className = 'canvas';
+      canvas.style.width = this.designWidth + 'px';
+      canvas.style.height = this.designHeight + 'px';
+      canvas.style.setProperty('--deck-design-w', this.designWidth + 'px');
+      canvas.style.setProperty('--deck-design-h', this.designHeight + 'px');
+
+      const slot = document.createElement('slot');
+      slot.addEventListener('slotchange', this._onSlotChange);
+      canvas.appendChild(slot);
+      stage.appendChild(canvas);
+
+      // Overlay: compact, solid black, with clickable controls.
+      const overlay = document.createElement('div');
+      overlay.className = 'overlay export-hidden';
+      overlay.setAttribute('role', 'toolbar');
+      overlay.setAttribute('aria-label', 'Deck controls');
+      overlay.setAttribute('data-omelette-chrome', '');
+      overlay.innerHTML = `
+        <button class="btn prev" type="button" aria-label="Previous slide" title="Previous (←)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+        </button>
+        <span class="count" aria-live="polite"><span class="current">1</span><span class="sep">/</span><span class="total">1</span></span>
+        <button class="btn next" type="button" aria-label="Next slide" title="Next (→)">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+        </button>
+        <span class="divider"></span>
+        <button class="btn reset" type="button" aria-label="Reset to first slide" title="Reset (R)">Reset<span class="kbd">R</span></button>
+      `;
+
+      overlay.querySelector('.prev').addEventListener('click', () => this._advance(-1, 'click'));
+      overlay.querySelector('.next').addEventListener('click', () => this._advance(1, 'click'));
+      overlay.querySelector('.reset').addEventListener('click', () => this._go(0, 'click'));
+
+      // Thumbnail rail + context menu. Thumbnails are populated in
+      // _renderRail() after _collectSlides().
+      const rail = document.createElement('div');
+      rail.className = 'rail export-hidden';
+      rail.setAttribute('data-omelette-chrome', '');
+      rail.style.setProperty('--deck-aspect', this.designWidth + '/' + this.designHeight);
+      // Edge auto-scroll while dragging a thumb near the rail's top/bottom
+      // so off-screen drop targets are reachable. Native dragover fires
+      // continuously while the pointer is stationary, so a per-event nudge
+      // (ramped by edge proximity) is enough — no rAF loop needed.
+      rail.addEventListener('dragover', (e) => {
+        if (this._dragFrom == null) return;
+        const r = rail.getBoundingClientRect();
+        const EDGE = 40;
+        const dt = e.clientY - r.top;
+        const db = r.bottom - e.clientY;
+        if (dt < EDGE) rail.scrollTop -= Math.ceil((EDGE - dt) / 3);
+        else if (db < EDGE) rail.scrollTop += Math.ceil((EDGE - db) / 3);
+      });
+
+      const menu = document.createElement('div');
+      menu.className = 'ctxmenu export-hidden';
+      menu.setAttribute('data-omelette-chrome', '');
+      menu.innerHTML = `
+        <button type="button" data-act="skip">Skip slide</button>
+        <button type="button" data-act="up">Move up</button>
+        <button type="button" data-act="down">Move down</button>
+        <hr>
+        <button type="button" data-act="delete">Delete slide</button>
+      `;
+      menu.addEventListener('click', (e) => {
+        const act = e.target && e.target.getAttribute && e.target.getAttribute('data-act');
+        if (!act) return;
+        const i = this._menuIndex;
+        this._closeMenu();
+        if (act === 'skip') this._toggleSkip(i);
+        else if (act === 'up') this._moveSlide(i, i - 1);
+        else if (act === 'down') this._moveSlide(i, i + 1);
+        else if (act === 'delete') this._openConfirm(i);
+      });
+      menu.addEventListener('contextmenu', (e) => e.preventDefault());
+
+      // Rail resize handle — drag to set --deck-rail-w, persisted to
+      // localStorage so the width survives reloads.
+      const resize = document.createElement('div');
+      resize.className = 'rail-resize export-hidden';
+      resize.setAttribute('data-omelette-chrome', '');
+      resize.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        resize.setPointerCapture(e.pointerId);
+        resize.setAttribute('data-dragging', '');
+        const move = (ev) => this._setRailWidth(ev.clientX);
+        const up = () => {
+          resize.removeEventListener('pointermove', move);
+          resize.removeEventListener('pointerup', up);
+          resize.removeEventListener('pointercancel', up);
+          resize.removeAttribute('data-dragging');
+          try { localStorage.setItem('deck-stage.railWidth', String(this._railPx)); } catch (err) {}
+        };
+        resize.addEventListener('pointermove', move);
+        resize.addEventListener('pointerup', up);
+        resize.addEventListener('pointercancel', up);
+      });
+
+      // Delete-confirm dialog — mirrors the SPA's ConfirmDialog layout.
+      const confirm = document.createElement('div');
+      confirm.className = 'confirm-backdrop export-hidden';
+      confirm.setAttribute('data-omelette-chrome', '');
+      confirm.innerHTML = `
+        <div class="confirm" role="dialog" aria-modal="true">
+          <div class="body">
+            <div class="title">Delete slide?</div>
+            <div class="msg">This slide will be removed from the deck.</div>
+          </div>
+          <div class="footer">
+            <button type="button" class="cancel">Cancel</button>
+            <button type="button" class="danger">Delete</button>
+          </div>
+        </div>
+      `;
+      confirm.addEventListener('click', (e) => {
+        if (e.target === confirm) this._closeConfirm();
+      });
+      confirm.querySelector('.cancel').addEventListener('click', () => this._closeConfirm());
+      confirm.querySelector('.danger').addEventListener('click', () => {
+        const i = this._confirmIndex;
+        this._closeConfirm();
+        this._deleteSlide(i);
+      });
+
+      this._root.append(style, rail, resize, stage, overlay, menu, confirm);
+      this._canvas = canvas;
+      this._stage = stage;
+      this._slot = slot;
+      this._overlay = overlay;
+      this._rail = rail;
+      this._resize = resize;
+      this._menu = menu;
+      this._confirm = confirm;
+      this._countEl = overlay.querySelector('.current');
+      this._totalEl = overlay.querySelector('.total');
+
+      // Restore persisted rail width.
+      let rw = 188;
+      try {
+        const s = localStorage.getItem('deck-stage.railWidth');
+        if (s) rw = parseInt(s, 10) || rw;
+      } catch (err) {}
+      this._setRailWidth(rw);
+      this._syncRailHidden();
+    }
+
+    _setRailWidth(px) {
+      const w = Math.max(120, Math.min(360, Math.round(px)));
+      this._railPx = w;
+      this.style.setProperty('--deck-rail-w', w + 'px');
+      this._fit();
+      // _scaleThumbs forces a sync layout (frame.offsetWidth) then writes
+      // N transforms. During a resize drag this runs per-pointermove;
+      // coalesce to one per frame.
+      if (!this._scaleRaf) {
+        this._scaleRaf = requestAnimationFrame(() => {
+          this._scaleRaf = null;
+          this._scaleThumbs();
+        });
+      }
+    }
+
+    /** @page must live in the document stylesheet — it's a no-op inside
+     *  shadow DOM. Inject/update a single <head> style tag so the print
+     *  sheet matches the design size and Save-as-PDF yields one slide per
+     *  page with no margins. */
+    _syncPrintPageRule() {
+      const id = 'deck-stage-print-page';
+      let tag = document.getElementById(id);
+      if (!tag) {
+        tag = document.createElement('style');
+        tag.id = id;
+        document.head.appendChild(tag);
+      }
+      tag.textContent =
+        '@page { size: ' + this.designWidth + 'px ' + this.designHeight + 'px; margin: 0; } ' +
+        '@media print { html, body { margin: 0 !important; padding: 0 !important; background: none !important; overflow: visible !important; height: auto !important; } ' +
+        '* { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }';
+    }
+
+    _onSlotChange() {
+      // Rail mutations (delete/move) already reconcile synchronously and
+      // emit slidechange with reason 'api'; skip the async slotchange that
+      // would otherwise re-broadcast with reason 'init'.
+      if (this._squelchSlotChange) { this._squelchSlotChange = false; return; }
+      this._collectSlides();
+      this._restoreIndex();
+      this._applyIndex({ showOverlay: false, broadcast: true, reason: 'init' });
+      this._fit();
+    }
+
+    _collectSlides() {
+      const assigned = this._slot.assignedElements({ flatten: true });
+      this._slides = assigned.filter((el) => {
+        // Skip template/style/script nodes even if someone slots them.
+        const tag = el.tagName;
+        return tag !== 'TEMPLATE' && tag !== 'SCRIPT' && tag !== 'STYLE';
+      });
+      this._slideSet = new Set(this._slides);
+
+      this._slides.forEach((slide, i) => {
+        const n = i + 1;
+        slide.setAttribute('data-screen-label', `${pad2(n)} ${getSlideLabel(slide)}`);
+
+        // Validation attribute for comment flow / auto-checks.
+        if (!slide.hasAttribute('data-om-validate')) {
+          slide.setAttribute('data-om-validate', VALIDATE_ATTR);
+        }
+
+        slide.setAttribute('data-deck-slide', String(i));
+      });
+
+      if (this._totalEl) this._totalEl.textContent = String(this._slides.length || 1);
+      if (this._index >= this._slides.length) this._index = Math.max(0, this._slides.length - 1);
+      this._markLastVisible();
+      this._renderRail();
+    }
+
+    /** Tag the last non-skipped slide so print CSS can drop its
+     *  break-after (see the @media print comment above — :last-child
+     *  alone matches a hidden skipped slide). */
+    _markLastVisible() {
+      let last = null;
+      this._slides.forEach((s) => {
+        s.removeAttribute('data-deck-last-visible');
+        if (!s.hasAttribute('data-deck-skip')) last = s;
+      });
+      if (last) last.setAttribute('data-deck-last-visible', '');
+    }
+
+    _loadNotes() {
+      const tag = document.getElementById('speaker-notes');
+      if (!tag) { this._notes = []; return; }
+      try {
+        const parsed = JSON.parse(tag.textContent || '[]');
+        if (Array.isArray(parsed)) this._notes = parsed;
+      } catch (e) {
+        console.warn('[deck-stage] Failed to parse #speaker-notes JSON:', e);
+        this._notes = [];
+      }
+    }
+
+    _restoreIndex() {
+      // The host's ?slide= param is delivered as a #<int> hash (1-indexed) on
+      // the iframe src. No hash → slide 1; the deck itself keeps no position
+      // state across loads.
+      const h = (location.hash || '').match(/^#(\d+)$/);
+      if (h) {
+        const n = parseInt(h[1], 10) - 1;
+        if (n >= 0 && n < this._slides.length) this._index = n;
+      }
+    }
+
+    _applyIndex({ showOverlay = true, broadcast = true, reason = 'init' } = {}) {
+      if (!this._slides.length) return;
+      const prev = this._prevIndex == null ? -1 : this._prevIndex;
+      const curr = this._index;
+      // Keep the iframe's own hash in sync so an in-iframe location.reload()
+      // (reload banner path in viewer-handle.ts) lands on the current slide,
+      // not the stale deep-link hash from initial load.
+      try { history.replaceState(null, '', '#' + (curr + 1)); } catch (e) {}
+      this._slides.forEach((s, i) => {
+        if (i === curr) s.setAttribute('data-deck-active', '');
+        else s.removeAttribute('data-deck-active');
+      });
+      if (this._countEl) this._countEl.textContent = String(curr + 1);
+      // Follow-scroll on every navigation (init deep-link, keyboard, click,
+      // tap, external goTo) — the only time we *don't* want the rail to
+      // track current is after a rail-internal mutation, where _renderRail
+      // has already restored the user's scroll position and yanking back to
+      // current would undo it.
+      this._syncRail(reason !== 'mutation');
+
+      if (broadcast) {
+        // (1) Legacy: host-window postMessage for speaker-notes renderers.
+        try { window.postMessage({ slideIndexChanged: curr, deckTotal: this._slides.length, deckSkipped: this._skippedIndices() }, '*'); } catch (e) {}
+
+        // (2) In-page CustomEvent on the <deck-stage> element itself.
+        //     Bubbles and composes out of shadow DOM so slide code can listen:
+        //       document.querySelector('deck-stage').addEventListener('slidechange', e => {
+        //         e.detail.index, e.detail.previousIndex, e.detail.total, e.detail.slide, e.detail.reason
+        //       });
+        const detail = {
+          index: curr,
+          previousIndex: prev,
+          total: this._slides.length,
+          slide: this._slides[curr] || null,
+          previousSlide: prev >= 0 ? (this._slides[prev] || null) : null,
+          reason: reason, // 'init' | 'keyboard' | 'click' | 'tap' | 'api'
+        };
+        this.dispatchEvent(new CustomEvent('slidechange', {
+          detail,
+          bubbles: true,
+          composed: true,
+        }));
+      }
+
+      this._prevIndex = curr;
+      if (showOverlay) this._flashOverlay();
+    }
+
+    _flashOverlay() {
+      // Host posts __omelette_presenting while in fullscreen/tab presentation
+      // mode — suppress the nav footer entirely (both hover and slide-change
+      // flash) so the audience sees clean slides.
+      if (!this._overlay || this._presenting) return;
+      this._overlay.setAttribute('data-visible', '');
+      if (this._hideTimer) clearTimeout(this._hideTimer);
+      this._hideTimer = setTimeout(() => {
+        this._overlay.removeAttribute('data-visible');
+      }, OVERLAY_HIDE_MS);
+    }
+
+    _railWidth() {
+      // State-based, no offsetWidth: the first _fit() can run before the
+      // rail has had layout on some load paths, and a 0 there paints the
+      // slide full-width for one frame before the post-slotchange _fit()
+      // corrects it.
+      if (!this._railEnabled || !this._railVisible || this.hasAttribute('no-rail')
+          || this.hasAttribute('noscale') || this._presenting || this._previewMode
+          || NARROW_MQ.matches) return 0;
+      return this._railPx || 0;
+    }
+
+    _fit() {
+      if (!this._canvas) return;
+      const stage = this._canvas.parentElement;
+      // PPTX export sets noscale so the DOM capture sees authored-size
+      // geometry — the scaled canvas is in shadow DOM, so the exporter's
+      // resetTransformSelector can't reach .canvas.style.transform directly.
+      if (this.hasAttribute('noscale')) {
+        this._canvas.style.transform = 'none';
+        if (stage) stage.style.left = '0';
+        if (this._overlay) this._overlay.style.marginLeft = '0';
+        return;
+      }
+      const rw = this._railWidth();
+      if (stage) stage.style.left = rw + 'px';
+      // Overlay is centred on the viewport via left:50% + translate(-50%);
+      // marginLeft shifts the centre by rw/2 so it lands in the middle of
+      // the [rw, innerWidth] stage region.
+      if (this._overlay) this._overlay.style.marginLeft = (rw / 2) + 'px';
+      const vw = window.innerWidth - rw;
+      const vh = window.innerHeight;
+      const s = Math.min(vw / this.designWidth, vh / this.designHeight);
+      this._canvas.style.transform = `scale(${s})`;
+    }
+
+    _onResize() {
+      this._fit();
+      // Crossing the narrow-viewport breakpoint reveals the rail — rerun the
+      // thumbnail scale the same way _setRailWidth does.
+      if (!this._scaleRaf) {
+        this._scaleRaf = requestAnimationFrame(() => {
+          this._scaleRaf = null;
+          this._scaleThumbs();
+        });
+      }
+    }
+
+    _onMouseMove() {
+      // Keep overlay visible while mouse moves; hide after idle.
+      this._flashOverlay();
+    }
+
+    _onMessage(e) {
+      const d = e.data;
+      if (d && typeof d.__omelette_presenting === 'boolean') {
+        this._presenting = d.__omelette_presenting;
+        if (this._presenting && this._overlay) {
+          this._overlay.removeAttribute('data-visible');
+          if (this._hideTimer) clearTimeout(this._hideTimer);
+        }
+        this._syncRailHidden();
+        this._closeMenu();
+        this._closeConfirm();
+        this._fit();
+        this._scaleThumbs();
+      }
+      // Host's Preview segment (ViewerMode='none'): the rail's drag-reorder /
+      // right-click skip-delete affordances are editing chrome, so hide it
+      // while the user is just looking at the deck. Same hard-hide path as
+      // presenting; independent of the user's _railVisible preference so
+      // returning to Edit restores whatever they had.
+      if (d && typeof d.__omelette_preview_mode === 'boolean') {
+        if (d.__omelette_preview_mode === this._previewMode) return;
+        this._previewMode = d.__omelette_preview_mode;
+        this._syncRailHidden();
+        this._closeMenu();
+        this._closeConfirm();
+        this._fit();
+        this._scaleThumbs();
+      }
+      // Per-viewer show/hide, driven by the TweaksPanel's auto-injected
+      // "Thumbnail rail" toggle (or any author script). Independent of
+      // whether the Tweaks panel itself is open — closing the panel
+      // doesn't change rail visibility. Persists alongside rail width.
+      if (d && d.type === '__deck_rail_visible' && typeof d.on === 'boolean') {
+        if (d.on === this._railVisible) return;
+        this._railVisible = d.on;
+        try { localStorage.setItem('deck-stage.railVisible', d.on ? '1' : '0'); } catch (e) {}
+        // Arm the transition, commit it, then flip state — otherwise the
+        // browser coalesces both writes and nothing animates on show.
+        this.setAttribute('data-rail-anim', '');
+        void (this._rail && this._rail.offsetHeight);
+        this._syncRailHidden();
+        this._fit();
+        this._scaleThumbs();
+        clearTimeout(this._railAnimTimer);
+        this._railAnimTimer = setTimeout(() => this.removeAttribute('data-rail-anim'), 220);
+      }
+      if (d && d.type === '__omelette_rail_enabled') this._enableRail();
+    }
+
+    _syncRailHidden() {
+      if (!this._rail) return;
+      // data-presenting is the hard hide (display:none) for flag-off,
+      // presentation mode, and the host's Preview segment — instant, no
+      // transition. data-user-hidden is the soft hide (translateX(-100%))
+      // for the viewer's rail toggle, so show/hide slides under
+      // :host([data-rail-anim]).
+      const hard = !this._railEnabled || this._presenting || this._previewMode;
+      if (hard) this._rail.setAttribute('data-presenting', '');
+      else this._rail.removeAttribute('data-presenting');
+      if (!this._railVisible) this._rail.setAttribute('data-user-hidden', '');
+      else this._rail.removeAttribute('data-user-hidden');
+      // translateX hide leaves thumbs (tabIndex=0) in the tab order —
+      // inert keeps them unfocusable while the rail is off-screen.
+      this._rail.inert = hard || !this._railVisible;
+    }
+
+    _onTap(e) {
+      // Touch-only — keyboard + the overlay toolbar cover nav on desktop.
+      if (FINE_POINTER_MQ.matches) return;
+      // Only taps that land on the stage (slide content or letterbox); the
+      // overlay / rail / menus are siblings with their own click handlers.
+      const path = e.composedPath();
+      if (!this._stage || !path.includes(this._stage)) return;
+      // Let interactive slide content keep the tap. composedPath (not
+      // e.target.closest) so we see through open shadow roots — a <button>
+      // inside a slide-authored custom element retargets e.target to the
+      // host but still appears in the composed path.
+      if (e.defaultPrevented) return;
+      for (const n of path) {
+        if (n === this._stage) break;
+        if (n.matches && n.matches(INTERACTIVE_SEL)) return;
+      }
+      e.preventDefault();
+      const rw = this._railWidth();
+      const mid = rw + (window.innerWidth - rw) / 2;
+      this._advance(e.clientX < mid ? -1 : 1, 'tap');
+    }
+
+    _onKey(e) {
+      // Ignore when the user is typing.
+      const t = e.target;
+      if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+      // Confirm dialog swallows nav keys while open; Escape cancels. Enter
+      // is left to the focused button's native activation so Tab→Cancel
+      // →Enter activates Cancel, not the window-level confirm path.
+      if (this._confirm && this._confirm.hasAttribute('data-open')) {
+        if (e.key === 'Escape') { this._closeConfirm(); e.preventDefault(); }
+        return;
+      }
+      if (e.key === 'Escape' && this._menu && this._menu.hasAttribute('data-open')) {
+        this._closeMenu();
+        e.preventDefault();
+        return;
+      }
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+      const key = e.key;
+      let handled = true;
+
+      if (key === 'ArrowRight' || key === 'PageDown' || key === ' ' || key === 'Spacebar') {
+        this._advance(1, 'keyboard');
+      } else if (key === 'ArrowLeft' || key === 'PageUp') {
+        this._advance(-1, 'keyboard');
+      } else if (key === 'Home') {
+        this._go(0, 'keyboard');
+      } else if (key === 'End') {
+        this._go(this._slides.length - 1, 'keyboard');
+      } else if (key === 'r' || key === 'R') {
+        this._go(0, 'keyboard');
+      } else if (/^[0-9]$/.test(key)) {
+        // 1..9 jump to that slide; 0 jumps to 10.
+        const n = key === '0' ? 9 : parseInt(key, 10) - 1;
+        if (n < this._slides.length) this._go(n, 'keyboard');
+      } else {
+        handled = false;
+      }
+
+      if (handled) {
+        e.preventDefault();
+        this._flashOverlay();
+      }
+    }
+
+    _go(i, reason = 'api') {
+      if (!this._slides.length) return;
+      const clamped = Math.max(0, Math.min(this._slides.length - 1, i));
+      if (clamped === this._index) {
+        this._flashOverlay();
+        return;
+      }
+      this._index = clamped;
+      this._applyIndex({ showOverlay: true, broadcast: true, reason });
+    }
+
+    /** Step forward/back skipping any slide marked data-deck-skip. Falls
+     *  back to _go's clamp-at-ends behaviour (flash overlay) when there's
+     *  nothing further in that direction. */
+    _advance(dir, reason) {
+      if (!this._slides.length) return;
+      let i = this._index + dir;
+      while (i >= 0 && i < this._slides.length && this._slides[i].hasAttribute('data-deck-skip')) {
+        i += dir;
+      }
+      if (i < 0 || i >= this._slides.length) { this._flashOverlay(); return; }
+      this._go(i, reason);
+    }
+
+    // ── Thumbnail rail ────────────────────────────────────────────────────
+    //
+    // Thumbs are keyed by slide element and reused across _renderRail()
+    // calls, so a reorder/delete is an O(changed) DOM shuffle instead of an
+    // O(N) teardown-and-re-clone. Each thumb starts as a lightweight shell
+    // (num + empty frame); the clone is materialized lazily by an
+    // IntersectionObserver when the frame scrolls into (or near) view, so
+    // only visible-ish slides pay the clone + image-decode cost.
+
+    _renderRail() {
+      if (!this._rail || !this._railEnabled) { this._thumbs = []; return; }
+      // FLIP: record each *materialized* thumb's top before the reconcile.
+      // Off-screen (non-materialized) thumbs don't need the animation and
+      // skipping their getBoundingClientRect saves a forced layout per
+      // off-screen thumb on large decks.
+      const prevTops = new Map();
+      (this._thumbs || []).forEach(({ thumb, slide, host }) => {
+        if (host) prevTops.set(slide, thumb.getBoundingClientRect().top);
+      });
+      const st = this._rail.scrollTop;
+
+      // Reconcile: reuse thumbs that already exist for a slide, create
+      // shells for new slides, drop thumbs for removed slides.
+      const bySlide = new Map();
+      (this._thumbs || []).forEach((t) => bySlide.set(t.slide, t));
+      const next = [];
+      this._slides.forEach((slide) => {
+        let t = bySlide.get(slide);
+        if (t) bySlide.delete(slide);
+        else t = this._makeThumb(slide);
+        next.push(t);
+      });
+      // Orphans — slides removed since last render.
+      bySlide.forEach((t) => {
+        if (this._railObserver) this._railObserver.unobserve(t.frame);
+        t.thumb.remove();
+      });
+      // Put thumbs into document order to match _slides. insertBefore on
+      // an already-correctly-placed node is a no-op, so this is cheap
+      // when nothing moved.
+      next.forEach((t, i) => {
+        const want = t.thumb;
+        const at = this._rail.children[i];
+        if (at !== want) this._rail.insertBefore(want, at || null);
+        t.i = i;
+        t.num.textContent = String(i + 1);
+        if (t.slide.hasAttribute('data-deck-skip')) t.thumb.setAttribute('data-skip', '');
+        else t.thumb.removeAttribute('data-skip');
+      });
+      this._thumbs = next;
+
+      this._rail.scrollTop = st;
+      if (prevTops.size) {
+        const moved = [];
+        this._thumbs.forEach(({ thumb, slide }) => {
+          const old = prevTops.get(slide);
+          if (old == null) return;
+          const dy = old - thumb.getBoundingClientRect().top;
+          if (Math.abs(dy) < 1) return;
+          thumb.style.transition = 'none';
+          thumb.style.transform = `translateY(${dy}px)`;
+          moved.push(thumb);
+        });
+        if (moved.length) {
+          // Commit the inverted positions before flipping the transition
+          // on — otherwise the browser coalesces both style writes and
+          // nothing animates.
+          void this._rail.offsetHeight;
+          moved.forEach((t) => {
+            t.style.transition = 'transform 180ms cubic-bezier(.2,.7,.3,1)';
+            t.style.transform = '';
+          });
+          setTimeout(() => moved.forEach((t) => { t.style.transition = ''; }), 220);
+        }
+      }
+      requestAnimationFrame(() => this._scaleThumbs());
+      this._syncRail(false);
+    }
+
+    /** Create a lightweight thumb shell for one slide. The clone is
+     *  materialized later by the IntersectionObserver. Event handlers
+     *  look up the thumb's *current* index (via _thumbs.indexOf) so the
+     *  same element can be reused across reorders. */
+    _makeThumb(slide) {
+      const thumb = document.createElement('div');
+      thumb.className = 'thumb';
+      thumb.tabIndex = 0;
+      const num = document.createElement('div');
+      num.className = 'num';
+      const frame = document.createElement('div');
+      frame.className = 'frame';
+      thumb.append(num, frame);
+
+      const entry = { thumb, num, frame, slide, clone: null, host: null, i: -1 };
+      // entry.i is refreshed on every _renderRail reconcile pass, so
+      // handlers read the thumb's current position without an O(N) scan.
+      const idx = () => entry.i;
+
+      thumb.addEventListener('click', () => this._go(idx(), 'click'));
+      // ↑/↓ step through the rail when a thumb has focus. _go clamps at the
+      // ends and _applyIndex→_syncRail scrolls the new current thumb into
+      // view; we move focus to it (preventScroll — _syncRail already
+      // scrolled) so a held key walks the whole list. stopPropagation keeps
+      // this out of the window-level _onKey nav handler.
+      thumb.addEventListener('keydown', (e) => {
+        if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        e.preventDefault();
+        e.stopPropagation();
+        this._go(idx() + (e.key === 'ArrowDown' ? 1 : -1), 'keyboard');
+        const cur = this._thumbs && this._thumbs[this._index];
+        if (cur) cur.thumb.focus({ preventScroll: true });
+      });
+      thumb.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        this._openMenu(idx(), e.clientX, e.clientY);
+      });
+      thumb.draggable = true;
+      thumb.addEventListener('dragstart', (e) => {
+        this._dragFrom = idx();
+        thumb.setAttribute('data-dragging', '');
+        e.dataTransfer.effectAllowed = 'move';
+        try { e.dataTransfer.setData('text/plain', String(this._dragFrom)); } catch (err) {}
+      });
+      thumb.addEventListener('dragend', () => {
+        thumb.removeAttribute('data-dragging');
+        this._clearDrop();
+        this._dragFrom = null;
+      });
+      thumb.addEventListener('dragover', (e) => {
+        if (this._dragFrom == null) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        const r = thumb.getBoundingClientRect();
+        this._setDrop(idx(), e.clientY < r.top + r.height / 2 ? 'before' : 'after');
+      });
+      thumb.addEventListener('drop', (e) => {
+        if (this._dragFrom == null) return;
+        e.preventDefault();
+        const i = idx();
+        const r = thumb.getBoundingClientRect();
+        let to = e.clientY >= r.top + r.height / 2 ? i + 1 : i;
+        if (this._dragFrom < to) to--;
+        const from = this._dragFrom;
+        this._clearDrop();
+        this._dragFrom = null;
+        if (to !== from) this._moveSlide(from, to);
+      });
+
+      if (this._railObserver) this._railObserver.observe(frame);
+      frame.__deckThumb = entry;
+      return entry;
+    }
+
+    /** Lazily build the clone for a thumb that has scrolled into view. */
+    _materialize(entry) {
+      if (entry.host) return;
+      const dw = this.designWidth, dh = this.designHeight;
+      let clone = entry.slide.cloneNode(true);
+      clone.removeAttribute('id');
+      clone.removeAttribute('data-deck-active');
+      clone.querySelectorAll('[id]').forEach((el) => el.removeAttribute('id'));
+      // Neuter heavy media; replace <video> with its poster so the box
+      // keeps a visual. <iframe>/<audio> become empty placeholders.
+      clone.querySelectorAll('iframe, audio, object, embed').forEach((el) => {
+        el.removeAttribute('src');
+        el.removeAttribute('srcdoc');
+        el.removeAttribute('data');
+        el.innerHTML = '';
+      });
+      clone.querySelectorAll('video').forEach((el) => {
+        if (!el.poster) { el.removeAttribute('src'); el.innerHTML = ''; return; }
+        const img = document.createElement('img');
+        img.src = el.poster;
+        img.alt = '';
+        img.style.cssText = el.style.cssText + ';object-fit:cover;width:100%;height:100%;';
+        img.className = el.className;
+        el.replaceWith(img);
+      });
+      // Images: defer decode and let the browser pick the smallest
+      // srcset candidate for the ~140px thumb. Same-URL clones reuse the
+      // slide's decoded bitmap (URL-keyed cache), so the remaining cost
+      // is paint/composite — lazy+async keeps that off the main thread.
+      clone.querySelectorAll('img').forEach((el) => {
+        el.loading = 'lazy';
+        el.decoding = 'async';
+        if (el.srcset) el.sizes = (this._railPx || 188) + 'px';
+      });
+      // Custom elements inside the slide would have their
+      // connectedCallback fire when the clone is appended. Replace them
+      // with inert boxes so a component-heavy deck doesn't run N copies
+      // of each component's mount logic in the rail. Children are
+      // preserved so layout-wrapper elements (<my-column><h2>…</h2>)
+      // still show their authored content; the querySelectorAll NodeList
+      // is static, so nested custom elements in the moved subtree are
+      // still visited on later iterations.
+      const neuter = (el) => {
+        const box = document.createElement('div');
+        box.style.cssText = (el.getAttribute('style') || '') +
+          ';background:rgba(0,0,0,0.06);border:1px dashed rgba(0,0,0,0.15);';
+        box.className = el.className;
+        // Preserve theming/i18n hooks so [data-*] / :lang() / [dir]
+        // descendant selectors still match the neutered root.
+        for (const a of el.attributes) {
+          const n = a.name;
+          if (n.startsWith('data-') || n.startsWith('aria-') ||
+              n === 'lang' || n === 'dir' || n === 'role' || n === 'title') {
+            box.setAttribute(n, a.value);
+          }
+        }
+        while (el.firstChild) box.appendChild(el.firstChild);
+        return box;
+      };
+      // querySelectorAll('*') returns descendants only — a custom-element
+      // slide root (<my-slide>…</my-slide>) would slip through and upgrade
+      // on append. Swap the root first.
+      if (clone.tagName.includes('-')) clone = neuter(clone);
+      clone.querySelectorAll('*').forEach((el) => {
+        if (el.tagName.includes('-')) el.replaceWith(neuter(el));
+      });
+      clone.style.cssText += ';position:absolute;top:0;left:0;transform-origin:0 0;' +
+        'pointer-events:none;width:' + dw + 'px;height:' + dh + 'px;' +
+        'box-sizing:border-box;overflow:hidden;visibility:visible;opacity:1;';
+      const host = document.createElement('div');
+      host.style.cssText = 'position:absolute;inset:0;';
+      this._syncThumbHostAttrs(host);
+      const sr = host.attachShadow({ mode: 'open' });
+      if (this._adoptedSheet) sr.adoptedStyleSheets = [this._adoptedSheet];
+      else {
+        const st = document.createElement('style');
+        st.textContent = this._authorCss || '';
+        sr.appendChild(st);
+      }
+      sr.appendChild(clone);
+      entry.frame.appendChild(host);
+      entry.host = host;
+      entry.clone = clone;
+      if (this._thumbScale) clone.style.transform = 'scale(' + this._thumbScale + ')';
+      // Once materialized the IO callback is a no-op early-return —
+      // unobserve so scroll doesn't keep firing it.
+      if (this._railObserver) this._railObserver.unobserve(entry.frame);
+    }
+
+    /** Re-clone a single thumb (live-update path). No-op if the thumb
+     *  hasn't been materialized yet — it'll pick up current content when
+     *  it scrolls into view. */
+    _refreshThumb(slide) {
+      const entry = (this._thumbs || []).find((t) => t.slide === slide);
+      if (!entry || !entry.host) return;
+      entry.host.remove();
+      entry.host = entry.clone = null;
+      this._materialize(entry);
+    }
+
+    _scaleThumbs() {
+      if (!this._thumbs || !this._thumbs.length) return;
+      // Every frame is the same width; if it reads 0 the rail is
+      // display:none (noscale / no-rail / presenting / print) — leave the
+      // clones as-is and re-run when the rail is revealed.
+      const fw = this._thumbs[0].frame.offsetWidth;
+      if (!fw) return;
+      this._thumbScale = fw / this.designWidth;
+      this._thumbs.forEach(({ clone }) => {
+        if (clone) clone.style.transform = 'scale(' + this._thumbScale + ')';
+      });
+    }
+
+    _setDrop(i, where) {
+      // dragover fires at pointer-event rate; touch only the previous
+      // and new target rather than sweeping all N thumbs.
+      const t = this._thumbs && this._thumbs[i];
+      if (this._dropOn && this._dropOn !== t) {
+        this._dropOn.thumb.removeAttribute('data-drop');
+      }
+      if (t) t.thumb.setAttribute('data-drop', where);
+      this._dropOn = t || null;
+    }
+
+    _clearDrop() {
+      if (this._dropOn) this._dropOn.thumb.removeAttribute('data-drop');
+      this._dropOn = null;
+    }
+
+    _syncRail(follow) {
+      if (!this._thumbs) return;
+      this._thumbs.forEach(({ thumb }, i) => {
+        if (i === this._index) {
+          thumb.setAttribute('data-current', '');
+          if (follow && typeof thumb.scrollIntoView === 'function') {
+            thumb.scrollIntoView({ block: 'nearest' });
+          }
+        } else {
+          thumb.removeAttribute('data-current');
+        }
+      });
+    }
+
+    _openMenu(i, x, y) {
+      if (!this._menu) return;
+      this._menuIndex = i;
+      const slide = this._slides[i];
+      const skip = slide && slide.hasAttribute('data-deck-skip');
+      this._menu.querySelector('[data-act="skip"]').textContent = skip ? 'Unskip slide' : 'Skip slide';
+      this._menu.querySelector('[data-act="up"]').disabled = i <= 0;
+      this._menu.querySelector('[data-act="down"]').disabled = i >= this._slides.length - 1;
+      this._menu.querySelector('[data-act="delete"]').disabled = this._slides.length <= 1;
+      // Place, then clamp to viewport after it's measurable.
+      this._menu.style.left = x + 'px';
+      this._menu.style.top = y + 'px';
+      this._menu.setAttribute('data-open', '');
+      const r = this._menu.getBoundingClientRect();
+      const nx = Math.min(x, window.innerWidth - r.width - 4);
+      const ny = Math.min(y, window.innerHeight - r.height - 4);
+      this._menu.style.left = Math.max(4, nx) + 'px';
+      this._menu.style.top = Math.max(4, ny) + 'px';
+    }
+
+    _closeMenu() {
+      if (this._menu) this._menu.removeAttribute('data-open');
+      this._menuIndex = -1;
+    }
+
+    _openConfirm(i) {
+      if (!this._confirm) return;
+      this._confirmIndex = i;
+      this._confirm.querySelector('.title').textContent = 'Delete slide ' + (i + 1) + '?';
+      this._confirm.setAttribute('data-open', '');
+      const btn = this._confirm.querySelector('.danger');
+      if (btn && btn.focus) btn.focus();
+    }
+
+    _closeConfirm() {
+      if (this._confirm) this._confirm.removeAttribute('data-open');
+      this._confirmIndex = -1;
+    }
+
+    _emitDeckChange(detail) {
+      this.dispatchEvent(new CustomEvent('deckchange', {
+        detail, bubbles: true, composed: true,
+      }));
+    }
+
+    _deleteSlide(i) {
+      const slide = this._slides[i];
+      if (!slide || this._slides.length <= 1) return;
+      const wasCurrent = i === this._index;
+      if (i < this._index || (wasCurrent && i === this._slides.length - 1)) this._index--;
+      this._squelchSlotChange = true;
+      slide.remove();
+      this._emitDeckChange({ action: 'delete', from: i, slide });
+      this._collectSlides();
+      this._applyIndex({ showOverlay: true, broadcast: true, reason: 'mutation' });
+    }
+
+    _toggleSkip(i) {
+      const slide = this._slides[i];
+      if (!slide) return;
+      const on = !slide.hasAttribute('data-deck-skip');
+      if (on) slide.setAttribute('data-deck-skip', '');
+      else slide.removeAttribute('data-deck-skip');
+      if (this._thumbs && this._thumbs[i]) {
+        if (on) this._thumbs[i].thumb.setAttribute('data-skip', '');
+        else this._thumbs[i].thumb.removeAttribute('data-skip');
+      }
+      this._markLastVisible();
+      this._emitDeckChange({ action: on ? 'skip' : 'unskip', from: i, slide });
+      // Re-broadcast so the presenter popup's prev/next thumbnails re-pick
+      // the nearest non-skipped slide without waiting for a nav event.
+      try { window.postMessage({ slideIndexChanged: this._index, deckTotal: this._slides.length, deckSkipped: this._skippedIndices() }, '*'); } catch (e) {}
+    }
+
+    _skippedIndices() {
+      const out = [];
+      for (let i = 0; i < this._slides.length; i++) {
+        if (this._slides[i].hasAttribute('data-deck-skip')) out.push(i);
+      }
+      return out;
+    }
+
+    _moveSlide(i, j) {
+      if (j < 0 || j >= this._slides.length || j === i) return;
+      const slide = this._slides[i];
+      const ref = j < i ? this._slides[j] : this._slides[j].nextSibling;
+      // Track the active slide across the reorder so the same content
+      // stays on screen.
+      const cur = this._index;
+      if (cur === i) this._index = j;
+      else if (i < cur && j >= cur) this._index = cur - 1;
+      else if (i > cur && j <= cur) this._index = cur + 1;
+      this._squelchSlotChange = true;
+      this.insertBefore(slide, ref);
+      this._emitDeckChange({ action: 'move', from: i, to: j, slide });
+      this._collectSlides();
+      this._applyIndex({ showOverlay: false, broadcast: true, reason: 'mutation' });
+    }
+
+    // Public API ------------------------------------------------------------
+
+    /** Current slide index (0-based). */
+    get index() { return this._index; }
+    /** Total slide count. */
+    get length() { return this._slides.length; }
+    /** Programmatically navigate. */
+    goTo(i) { this._go(i, 'api'); }
+    next() { this._advance(1, 'api'); }
+    prev() { this._advance(-1, 'api'); }
+    reset() { this._go(0, 'api'); }
+  }
+
+  if (!customElements.get('deck-stage')) {
+    customElements.define('deck-stage', DeckStage);
+  }
+})();
+
+  </script>
+
+  <!-- Presenter notes popup. Press P to open. -->
+  <script>
+(function () {
+  // Read PRESENTER_NOTES from the speaker-notes JSON tag (deck-stage already
+  // parses this, but we read it independently so we don't depend on internals).
+  var notesTag = document.getElementById('speaker-notes');
+  var PRESENTER_NOTES = [];
+  try { PRESENTER_NOTES = JSON.parse((notesTag && notesTag.textContent) || '[]'); }
+  catch (e) { console.warn('[presenter-notes] Failed to parse speaker-notes JSON:', e); }
+
+  var deck = document.querySelector('deck-stage');
+  if (!deck) return;
+  var presenterWindow = null;
+  var channel = new BroadcastChannel('slide-sync');
+
+  // Strip hash + query so iframe URLs can append their own ?_snthumb=&#N.
+  var deckUrl = window.location.href.split('#')[0].split('?')[0];
+
+  // deck → popup: every slide change forwards to the popup.
+  deck.addEventListener('slidechange', function (e) {
+    channel.postMessage({ type: 'slideChanged', index: e.detail.index });
+  });
+  // popup → deck: nav commands from the popup.
+  channel.onmessage = function (e) {
+    if (e.data && e.data.type === 'goToSlide' && deck.goTo) deck.goTo(e.data.index);
+  };
+
+  function openPresenterNotes() {
+    if (presenterWindow && !presenterWindow.closed) { presenterWindow.focus(); return; }
+    presenterWindow = window.open('', 'presenter-notes', 'width=860,height=900');
+    if (!presenterWindow) {
+      console.warn('[presenter-notes] Popup blocked — allow popups and press P again.');
+      return;
+    }
+    var doc = presenterWindow.document;
+    var total = deck.length || 1;
+    var current = deck.index || 0;
+    doc.write(POPUP_HTML(PRESENTER_NOTES, total, current, deckUrl));
+    doc.close();
+  }
+
+  function POPUP_HTML(notes, total, current, deckUrl) {
+    return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Presenter Notes</title>'
+      + '<link rel="preconnect" href="https://fonts.googleapis.com">'
+      + '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+      + '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">'
+      + '<style>'
+      + '*{margin:0;padding:0;box-sizing:border-box}'
+      + 'body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:#1a1a1a;color:#e0e0e0;padding:2rem;height:100vh;display:flex;flex-direction:column}'
+      + '.timers{display:flex;gap:1.5rem;padding-bottom:1rem;border-bottom:1px solid #333;margin-bottom:1.5rem;flex-shrink:0}'
+      + '.timer-block{flex:1;text-align:center}'
+      + '.timer-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#666;margin-bottom:.25rem}'
+      + '.timer-row{display:flex;align-items:baseline;justify-content:center;gap:.15em}'
+      + '.timer-value{font-size:2.5rem;font-weight:700;font-variant-numeric:tabular-nums;color:#999;transition:color .3s}'
+      + '.timer-target{font-size:1.1rem;font-weight:400;font-variant-numeric:tabular-nums;color:#555}'
+      + '.timer-value.running{color:#e0e0e0}.timer-value.warning{color:#9FD5CA}.timer-value.over{color:#EE6221}'
+      + '.header{display:flex;justify-content:space-between;align-items:center;padding-bottom:1rem;margin-bottom:1.5rem;flex-shrink:0}'
+      + '.slide-info{display:flex;align-items:baseline;gap:.75rem}'
+      + '.slide-num{font-size:1.5rem;font-weight:700;color:#fff}'
+      + '.slide-title{font-size:1rem;color:#999;font-weight:400}'
+      + '.timing-badge{background:#333;color:#9FD5CA;padding:.3em .8em;border-radius:999px;font-size:.8rem;font-weight:600;border:1px solid transparent;width:4em;text-align:center;font-family:inherit;cursor:pointer;outline:none}'
+      + '.timing-badge:hover{border-color:#555}.timing-badge:focus{border-color:#9FD5CA}'
+      + '.thumbs{display:flex;gap:.75rem;margin-bottom:1.25rem;flex-shrink:0;align-items:flex-start}'
+      + '.thumb-block{min-width:0;display:flex;flex-direction:column;gap:.35rem}'
+      + '.thumb-block.current{flex:1.55}'
+      + '.thumb-block.next{flex:1}'
+      + '.thumb-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:#666;display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}'
+      + '.thumb-label .name{color:#999;text-transform:none;letter-spacing:0;font-size:.85rem;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}'
+      + '.thumb-frame{position:relative;width:100%;aspect-ratio:16/9;background:#fff;border:1px solid #2a2a2a;overflow:hidden}'
+      + '.thumb-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block;pointer-events:none}'
+      + '.thumb-frame.empty{background:#1a1a1a;display:flex;align-items:center;justify-content:center;color:#555;font-size:.85rem;border-style:dashed}'
+      + '.notes{flex:1;overflow-y:auto;padding-right:.5rem;border-top:1px solid #333;padding-top:1rem}'
+      + '.notes ul{list-style:none;display:flex;flex-direction:column;gap:1rem}'
+      + '.notes li{font-size:1.2rem;line-height:1.6;color:#ddd;padding-left:1.25rem;position:relative}'
+      + '.notes li::before{content:"";position:absolute;left:0;top:.65em;width:6px;height:6px;border-radius:50%;background:#4285F4}'
+      + '.controls{flex-shrink:0;display:flex;gap:.75rem;margin-top:1rem;padding-top:1rem;border-top:1px solid #333}'
+      + 'button{background:#333;color:#ddd;border:none;border-radius:8px;padding:.5em 1.25em;font-size:.9rem;font-family:inherit;cursor:pointer;transition:background .15s}'
+      + 'button:hover{background:#444}button.primary{background:#4285F4;color:#fff}button.primary:hover{background:#2D6FE0}'
+      + '.spacer{flex:1}'
+      + '.hint{margin-top:.75rem;font-size:.7rem;color:#555;text-align:center}'
+      + 'kbd{background:#333;padding:.15em .4em;border-radius:3px;font-family:inherit;font-size:.85em}'
+      + '</style></head><body>'
+      + '<div class="timers">'
+      + '<div class="timer-block"><div class="timer-label">Total</div><div class="timer-row"><div class="timer-value" id="pn-global">00:00</div><div class="timer-target" id="pn-global-target"></div></div></div>'
+      + '<div class="timer-block"><div class="timer-label">This slide</div><div class="timer-row"><div class="timer-value" id="pn-slide">00:00</div><div class="timer-target" id="pn-slide-target"></div></div></div>'
+      + '</div>'
+      + '<div class="header"><div class="slide-info">'
+      + '<span class="slide-num" id="pn-num">' + (current + 1) + ' / ' + total + '</span>'
+      + '<span class="slide-title" id="pn-title"></span>'
+      + '<input class="timing-badge" id="pn-timing" value="30s" />'
+      + '</div></div>'
+      + '<div class="thumbs">'
+      +   '<div class="thumb-block current">'
+      +     '<div class="thumb-label"><span>Current</span><span class="name" id="pn-thumb-cur-name"></span></div>'
+      +     '<div class="thumb-frame" id="pn-thumb-cur-wrap"><iframe id="pn-thumb-cur" src="about:blank"></iframe></div>'
+      +   '</div>'
+      +   '<div class="thumb-block next">'
+      +     '<div class="thumb-label"><span>Next</span><span class="name" id="pn-thumb-next-name"></span></div>'
+      +     '<div class="thumb-frame" id="pn-thumb-next-wrap"><iframe id="pn-thumb-next" src="about:blank"></iframe></div>'
+      +   '</div>'
+      + '</div>'
+      + '<div class="notes" id="pn-notes"><ul id="pn-list"></ul></div>'
+      + '<div class="controls">'
+      + '<button onclick="prev()">&larr; Prev</button>'
+      + '<button onclick="next()">Next &rarr;</button>'
+      + '<div class="spacer"></div>'
+      + '<button class="primary" id="pn-timer-btn" onclick="toggleTimer()">Start</button>'
+      + '<button onclick="resetTimers()">Reset</button>'
+      + '</div>'
+      + '<div class="hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> navigate &middot; <kbd>Space</kbd> start/pause &middot; <kbd>R</kbd> reset &middot; in deck: <kbd>P</kbd> popup &middot; <kbd>T</kbd> toggle rail</div>'
+      + '<' + 'script>'
+      + 'var notes = ' + JSON.stringify(notes) + ';'
+      + 'var total = ' + total + ';'
+      + 'var current = ' + current + ';'
+      + 'var deckUrl = ' + JSON.stringify(deckUrl) + ';'
+      // var (not let) — let scoping breaks inline onclick handlers in document.write popups.
+      + 'var globalRunning=false,globalStart=null,globalElapsed=0,slideStart=null,slideElapsed=0,tickInterval=null;'
+      + 'function fmt(sec){var m=Math.floor(sec/60),s=sec%60;return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")}'
+      + 'function fmtMs(ms){return fmt(Math.floor(ms/1000))}'
+      + 'function updateTargets(){'
+      + '  var globalTotal=notes.reduce(function(a,n){return a+(n&&n.seconds||0)},0);'
+      + '  document.getElementById("pn-global-target").textContent= globalTotal? "/ "+fmt(globalTotal): "";'
+      + '  var alloc=(notes[current]&&notes[current].seconds)||30;'
+      + '  document.getElementById("pn-slide-target").textContent="/ "+fmt(alloc);'
+      + '}'
+      + 'function tick(){'
+      + '  var now=Date.now();'
+      + '  var g=document.getElementById("pn-global"),s=document.getElementById("pn-slide");'
+      + '  var gMs=globalElapsed+(globalRunning?now-globalStart:0);'
+      + '  g.textContent=fmtMs(gMs);'
+      + '  g.className="timer-value"+(globalRunning?" running":"");'
+      + '  var sMs=slideElapsed+(globalRunning?now-slideStart:0);'
+      + '  var sSec=sMs/1000;'
+      + '  var alloc=(notes[current]&&notes[current].seconds)||30;'
+      + '  s.textContent=fmtMs(sMs);'
+      + '  if(sSec>=alloc){s.className="timer-value over"}'
+      + '  else if(sSec>=alloc-5){s.className="timer-value warning"}'
+      + '  else{s.className="timer-value"+(globalRunning?" running":"")}'
+      + '}'
+      + 'function toggleTimer(){'
+      + '  var b=document.getElementById("pn-timer-btn");'
+      + '  if(globalRunning){globalRunning=false;var n=Date.now();globalElapsed+=n-globalStart;slideElapsed+=n-slideStart;clearInterval(tickInterval);b.textContent="Resume"}'
+      + '  else{globalRunning=true;var n=Date.now();globalStart=n;slideStart=n;b.textContent="Pause";tickInterval=setInterval(tick,200)}'
+      + '  tick();'
+      + '}'
+      + 'function resetTimers(){'
+      + '  clearInterval(tickInterval);tickInterval=null;globalRunning=false;globalElapsed=0;globalStart=null;slideElapsed=0;slideStart=null;'
+      + '  document.getElementById("pn-timer-btn").textContent="Start";'
+      + '  document.getElementById("pn-global").textContent="00:00";document.getElementById("pn-global").className="timer-value";'
+      + '  document.getElementById("pn-slide").textContent="00:00";document.getElementById("pn-slide").className="timer-value";'
+      + '}'
+      + 'function resetSlideTimer(){'
+      + '  if(globalRunning){slideStart=Date.now();slideElapsed=0}else{slideElapsed=0}'
+      + '  var s=document.getElementById("pn-slide");s.className="timer-value"+(globalRunning?" running":"");tick();'
+      + '}'
+      + 'function setThumb(iframeId,wrapId,nameId,slideIdx){'
+      + '  var ifr=document.getElementById(iframeId);'
+      + '  var wrap=document.getElementById(wrapId);'
+      + '  var nm=document.getElementById(nameId);'
+      + '  if(slideIdx<0||slideIdx>=total){'
+      + '    ifr.src="about:blank";wrap.classList.add("empty");'
+      + '    if(wrap.querySelector(".empty-label"))wrap.querySelector(".empty-label").remove();'
+      + '    var lbl=document.createElement("div");lbl.className="empty-label";lbl.textContent=slideIdx>=total?"End of deck":"—";'
+      + '    wrap.appendChild(lbl);ifr.style.display="none";'
+      + '    if(nm)nm.textContent="";'
+      + '    return;'
+      + '  }'
+      + '  wrap.classList.remove("empty");ifr.style.display="";'
+      + '  var stale=wrap.querySelector(".empty-label");if(stale)stale.remove();'
+      + '  ifr.src=deckUrl+"?_snthumb=1#"+(slideIdx+1);'
+      + '  var n=notes[slideIdx]||{};'
+      + '  if(nm)nm.textContent=n.title||"";'
+      + '}'
+      + 'function render(idx){'
+      + '  var changed=idx!==current;current=idx;'
+      + '  var n=notes[idx]||{title:"",seconds:30,notes:[]};'
+      + '  document.getElementById("pn-num").textContent=(idx+1)+" / "+total;'
+      + '  document.getElementById("pn-title").textContent=n.title||"";'
+      + '  document.getElementById("pn-timing").value=(n.seconds||30)+"s";'
+      + '  var list=document.getElementById("pn-list");'
+      + '  list.innerHTML=(n.notes||[]).map(function(t){return "<li>"+t+"</li>"}).join("");'
+      + '  if(changed||!document.getElementById("pn-thumb-cur").src||document.getElementById("pn-thumb-cur").src==="about:blank"){'
+      + '    setThumb("pn-thumb-cur","pn-thumb-cur-wrap","pn-thumb-cur-name",idx);'
+      + '    setThumb("pn-thumb-next","pn-thumb-next-wrap","pn-thumb-next-name",idx+1);'
+      + '  }'
+      + '  updateTargets();if(changed)resetSlideTimer();'
+      + '}'
+      + 'var channel=new BroadcastChannel("slide-sync");'
+      + 'function goTo(i){if(i<0||i>=total)return;render(i);channel.postMessage({type:"goToSlide",index:i})}'
+      + 'function next(){goTo(current+1)}function prev(){goTo(current-1)}'
+      + 'channel.onmessage=function(e){if(e.data&&e.data.type==="slideChanged")render(e.data.index)};'
+      + 'document.addEventListener("keydown",function(e){'
+      + '  switch(e.key){'
+      + '    case "ArrowRight":case "ArrowDown":e.preventDefault();next();break;'
+      + '    case "ArrowLeft":case "ArrowUp":e.preventDefault();prev();break;'
+      + '    case " ":e.preventDefault();toggleTimer();break;'
+      + '    case "r":case "R":e.preventDefault();resetTimers();break;'
+      + '  }'
+      + '});'
+      + 'var ti=document.getElementById("pn-timing");'
+      + 'ti.addEventListener("change",function(){'
+      + '  var v=parseInt(this.value,10);if(isNaN(v)||v<1)v=(notes[current]&&notes[current].seconds)||30;'
+      + '  if(notes[current])notes[current].seconds=v;this.value=v+"s";updateTargets();'
+      + '});'
+      + 'ti.addEventListener("focus",function(){this.select()});'
+      + 'render(current);'
+      + '<' + '/script></body></html>';
+  }
+
+  // Keyboard:
+  //   P — open presenter notes popup
+  //   T — toggle the deck's thumbnail rail (uses deck-stage's own
+  //       __deck_rail_visible postMessage, which persists to localStorage
+  //       under 'deck-stage.railVisible' = '0' / '1').
+  // Mirrors deck-stage's keyboard-nav style: ignore when typing, ignore
+  // with modifier keys.
+  window.addEventListener('keydown', function (e) {
+    var t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === 'p' || e.key === 'P') {
+      e.preventDefault();
+      openPresenterNotes();
+    } else if (e.key === 't' || e.key === 'T') {
+      e.preventDefault();
+      var currentlyHidden = false;
+      try { currentlyHidden = localStorage.getItem('deck-stage.railVisible') === '0'; } catch (_) {}
+      window.postMessage({ type: '__deck_rail_visible', on: currentlyHidden }, '*');
+    }
+  });
+
+  // Expose for programmatic use / debugging.
+  window.openPresenterNotes = openPresenterNotes;
+})();
+  </script>
+</body>
+</html>
