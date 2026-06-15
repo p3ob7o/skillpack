@@ -1318,6 +1318,18 @@ pre.code {
       window.addEventListener('mousemove', this._onMouseMove, { passive: true });
       window.addEventListener('message', this._onMessage);
       window.addEventListener('click', this._onDocClick, true);
+      // hashchange — fires when the iframe's src hash is updated without a
+      // document reload (presenter-notes popup case). _restoreIndex only runs
+      // on initial load, so without this the iframe stays on its first slide.
+      window.addEventListener('hashchange', () => {
+        const h = (location.hash || '').match(/^#(\d+)$/);
+        if (!h) return;
+        const n = parseInt(h[1], 10) - 1;
+        if (n >= 0 && n < this._slides.length && n !== this._index) {
+          this._index = n;
+          this._applyIndex({ showOverlay: false, broadcast: false, reason: 'hashchange' });
+        }
+      });
       this.addEventListener('click', this._onTap);
       // Initial collection + layout happens via slotchange, which fires on mount.
       this._enableRail();
@@ -2497,11 +2509,20 @@ pre.code {
   var deckUrl = window.location.href.split('#')[0].split('?')[0];
 
   // deck → popup: every slide change forwards to the popup.
+  // Skip when this deck is loaded inside a popup-thumb iframe (_snthumb=1) —
+  // otherwise the iframe's own hashchange-driven navigation echoes back through
+  // the channel and creates a feedback loop.
+  var isThumbIframe = /[?&]_snthumb=/.test(location.search);
   deck.addEventListener('slidechange', function (e) {
+    if (isThumbIframe) return;
     channel.postMessage({ type: 'slideChanged', index: e.detail.index });
   });
   // popup → deck: nav commands from the popup.
+  // Also skipped in thumb iframes — otherwise each iframe would obediently
+  // navigate to whatever slide the popup last asked for (collapsing cur+next
+  // into the same slide). Iframes are driven purely by their src/hash changes.
   channel.onmessage = function (e) {
+    if (isThumbIframe) return;
     if (e.data && e.data.type === 'goToSlide' && deck.goTo) deck.goTo(e.data.index);
   };
 
