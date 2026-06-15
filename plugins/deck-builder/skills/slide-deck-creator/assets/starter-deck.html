@@ -867,9 +867,13 @@ pre.code {
        We absolutely position each slotted child to stack them. */
     ::slotted(*) {
       position: absolute !important;
-      inset: 0 !important;
-      width: 100% !important;
-      height: 100% !important;
+      /* Bleed 1px past the canvas (clipped by :host overflow:hidden) so the
+         slide's own surface always covers the sub-pixel seam the scaled white
+         canvas would otherwise show at its bottom/right edge on fractional
+         device-pixel scales (e.g. HiDPI / dpr 2). */
+      inset: -1px !important;
+      width: calc(100% + 2px) !important;
+      height: calc(100% + 2px) !important;
       box-sizing: border-box !important;
       overflow: hidden;
       opacity: 0;
