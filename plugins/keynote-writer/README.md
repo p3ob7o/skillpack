@@ -14,18 +14,30 @@ The final speaker notes are passed through [writewell](../writewell/) so they so
 
 ## Install
 
+See the [skillpack install steps](../../README.md#install).
+
+Claude Code:
+
 ```
 /plugin marketplace add p3ob7o/skillpack
 /plugin install keynote-writer@skillpack
 ```
+
+The Claude Code command is `/keynote-writer:keynote-writer`.
+
+Codex, after `codex plugin marketplace add p3ob7o/skillpack`:
+
+```
+codex plugin add keynote-writer@skillpack
+```
+
+Cursor and Grok Bot: import `https://github.com/p3ob7o/skillpack` and install keynote-writer, then invoke the `keynote-writer` skill.
 
 ## Usage
 
 Give it raw material — notes, a braindump, or a transcript:
 
 ```
-/keynote-writer
-
 [paste your braindump or transcript here]
 ```
 

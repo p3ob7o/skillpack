@@ -1,0 +1,72 @@
+{
+  "name": "skillpack",
+  "interface": {
+    "displayName": "skillpack"
+  },
+  "plugins": [
+    {
+      "name": "writewell",
+      "source": {
+        "source": "local",
+        "path": "./plugins/writewell"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "writing",
+      "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+      "version": "1.5.0",
+      "license": "GPL-2.0",
+      "keywords": ["writing", "editing", "voice", "ai-patterns"]
+    },
+    {
+      "name": "keynote-writer",
+      "source": {
+        "source": "local",
+        "path": "./plugins/keynote-writer"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "writing",
+      "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
+      "version": "1.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["keynote", "presentation", "speaking", "talks", "writing"]
+    },
+    {
+      "name": "deck-builder",
+      "source": {
+        "source": "local",
+        "path": "./plugins/deck-builder"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "presentations",
+      "description": "Build single-file HTML slide decks in a typography-first design, and add a presenter-notes popup with timers and two-way navigation sync",
+      "version": "1.0.1",
+      "license": "GPL-2.0",
+      "keywords": ["slides", "presentation", "deck", "html", "presenter-notes"]
+    },
+    {
+      "name": "session-manager",
+      "source": {
+        "source": "local",
+        "path": "./plugins/session-manager"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "productivity",
+      "description": "Load project context at the start of a development session and update the docs before ending it",
+      "version": "1.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["sessions", "context", "documentation", "workflow"]
+    }
+  ]
+}

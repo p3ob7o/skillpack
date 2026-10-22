@@ -1,5 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "session-manager",
   "description": "Load project context at the start of a development session and update the docs before ending it",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "author": {
+    "name": "p3ob7o"
+  },
+  "keywords": ["sessions", "context", "documentation", "workflow"]
 }

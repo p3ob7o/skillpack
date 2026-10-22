@@ -1,6 +1,7 @@
 ---
 name: wrap-up-session
 description: Update CLAUDE.md and DOCUMENTATION.md with changes made during the session before ending.
+license: GPL-2.0
 ---
 
 # Wrap Up Session

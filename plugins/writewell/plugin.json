@@ -1,0 +1,25 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "writewell",
+  "version": "1.5.0",
+  "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+  "license": "GPL-2.0",
+  "keywords": [
+    "writing",
+    "editing",
+    "voice",
+    "ai-patterns"
+  ],
+  "repository": "https://github.com/p3ob7o/skillpack",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "writewell",
+        "shortDescription": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+        "longDescription": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+        "developerName": "p3ob7o",
+        "category": "writing"
+      }
+    }
+  }
+}

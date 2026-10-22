@@ -1,0 +1,18 @@
+{
+  "name": "deck-builder",
+  "version": "1.0.1",
+  "description": "Build single-file HTML slide decks in a typography-first design, and add a presenter-notes popup with timers and two-way navigation sync",
+  "license": "GPL-2.0",
+  "keywords": [
+    "slides",
+    "presentation",
+    "deck",
+    "html",
+    "presenter-notes"
+  ],
+  "repository": "https://github.com/p3ob7o/skillpack",
+  "author": {
+    "name": "p3ob7o"
+  },
+  "category": "presentations"
+}
