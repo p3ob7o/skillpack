@@ -4,19 +4,19 @@ description: >-
   Full writing pipeline: strip AI patterns, enforce language discipline, remove
   clutter, verify quality, and optionally apply a personal voice. Use when editing
   or reviewing any prose that should read like a person wrote it. When
-  voice/SKILL.md is missing, follow onboard/SKILL.md in this skill directory
-  before rewriting.
+  voice/SKILL.md is missing from this skill directory, follow
+  ../onboard/SKILL.md before rewriting.
 license: GPL-2.0
 metadata:
-  version: "1.4.0"
+  version: "1.5.0"
 allowed-tools: Bash Read Write Edit Grep Glob AskUserQuestion WebFetch
 ---
 
 ## Voice check — run this FIRST, before anything else
 
-Before any rewrite, check whether `voice/SKILL.md` exists in this skill's directory (the directory that contains this file).
+Before any rewrite, check whether `voice/SKILL.md` exists in this skill's directory (the directory that contains this file). A profile created before the onboard skill moved still lives in that same `voice/` folder; use it as-is. Do not look for a voice profile next to the onboard skill.
 
-- If `voice/SKILL.md` is missing: read `onboard/SKILL.md` in this skill's directory and follow it immediately. Do not proceed with the pipeline.
+- If `voice/SKILL.md` is missing: read `../onboard/SKILL.md` and follow it immediately. Do not proceed with the pipeline.
 - If `voice/SKILL.md` exists: continue with the pipeline below.
 
 ---
@@ -156,7 +156,7 @@ structure, tone, vocabulary, openings, closings, formatting preferences, rhetori
 devices, and distinctive touches.
 
 If no voice file exists, the check above will have already sent you to
-`onboard/SKILL.md`. You should not reach this point without a voice file.
+`../onboard/SKILL.md`. You should not reach this point without a voice file.
 
 ---
 

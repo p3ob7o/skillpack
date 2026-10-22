@@ -3,9 +3,10 @@ name: onboard
 description: >-
   Create a personal voice profile for the writewell skill by analyzing writing
   samples. Provide individual post URLs or a blog homepage URL with a post count.
-  Fetches the content, distills the writing style, and writes ../voice/SKILL.md
-  beside this directory. Use when setting up or refreshing a personal voice, or
-  when the writewell skill finds that voice file missing.
+  Fetches the content, distills the writing style, and writes
+  ../writewell/voice/SKILL.md. Use when setting up or refreshing a personal
+  voice, or when the writewell skill finds that voice file missing. An existing
+  profile at that path is the one to update.
 license: GPL-2.0
 metadata:
   version: "1.0.0"
@@ -110,7 +111,7 @@ Then analyze across all posts for these dimensions:
 
 ## Output
 
-Generate `../voice/SKILL.md` (the `voice` directory next to this `onboard` directory) using this template. The main writewell skill reads that same file as `voice/SKILL.md`.
+Generate `../writewell/voice/SKILL.md` using this template. The main writewell skill reads that same file as `voice/SKILL.md` in its own directory. A profile already at that path was written before this skill moved; update that file in place. Do not write `../voice/SKILL.md` from here. That path would sit beside onboard instead of beside writewell.
 
 ```markdown
 ---
@@ -175,7 +176,7 @@ Source material: [list the URLs analyzed]
      - "Post URLs — I'll paste links to individual posts"
      - "Blog homepage — analyze my N most recent posts"
      - "Skip — use writewell without a personal voice"
-1a. If the user picks "Skip", write `../voice/SKILL.md` with the content below, then tell the user: "Got it — writewell will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
+1a. If the user picks "Skip", write `../writewell/voice/SKILL.md` with the content below, then tell the user: "Got it — writewell will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
     ```markdown
     ---
     name: voice
@@ -191,7 +192,7 @@ Source material: [list the URLs analyzed]
 2. Fetch the content using the appropriate mode.
 3. If any URL fails to fetch, report it and continue with the ones that worked. Need at least 2 posts to produce a useful profile.
 4. Analyze all posts across the dimensions above.
-5. Write the voice profile to `../voice/SKILL.md` (beside this onboard directory).
+5. Write the voice profile to `../writewell/voice/SKILL.md`. If that file already exists, update it in place.
 6. Show the user a summary of the voice profile -- the key traits that define this writing style, in 5-8 bullet points.
 7. Ask if they want to adjust anything before finalizing.
 

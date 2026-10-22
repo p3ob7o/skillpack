@@ -26,13 +26,13 @@ The catalog is `.claude-plugin/marketplace.json`. In a Claude Code session:
 
 Replace `writewell` with `keynote-writer`, `deck-builder`, or `session-manager`.
 
-Plugin skills run as `/<plugin>:<skill>`, for example `/writewell:writewell` and `/deck-builder:slide-deck-creator`.
+Plugin skills run as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell:onboard`, and `/deck-builder:slide-deck-creator`.
 
-Claude Code only auto-discovers `skills/<skill>/SKILL.md`, one directory deep. writewell's voice setup is the nested file `skills/writewell/onboard/SKILL.md`. The plugin manifest adds that directory so Claude can register it as `/writewell:onboard`. A generated voice profile is written to `skills/writewell/voice/SKILL.md` (gitignored) and read by the writewell skill. It is not a separate catalog entry.
+Each host discovers `skills/<skill>/SKILL.md` one directory deep. writewell's onboard skill is `skills/onboard/SKILL.md`, so it loads next to `skills/writewell/SKILL.md` with no extra path in the plugin manifest. A generated voice profile stays at `skills/writewell/voice/SKILL.md` (gitignored). That file is not a catalog skill. Profiles already at that path keep working.
 
 ### Codex
 
-Codex reads `.agents/plugins/marketplace.json` for the catalog and `.codex-plugin/plugin.json` inside each plugin. Plugins whose skills all sit one directory under `skills/` also have a root `plugin.json` using the Agent Plugins schema. writewell does not: Codex prefers that root file when `$schema` is set, then ignores the skill list in `.codex-plugin/plugin.json`, and the nested onboard skill would not load.
+Codex reads `.agents/plugins/marketplace.json` for the catalog and `.codex-plugin/plugin.json` inside each plugin. Every plugin also has a root `plugin.json` using the Agent Plugins schema. Skills sit one directory under `skills/`, and each Codex manifest points at `./skills/`.
 
 Add the GitHub repository. Do not sparse-checkout only `.agents/plugins`: the plugins themselves live under `plugins/`, and the catalog points at those local paths.
 
@@ -48,7 +48,7 @@ codex plugin add writewell@skillpack
 
 In an interactive Codex session, `/plugins` opens the same browser. Start a new session after installing so the bundled skills load.
 
-Codex discovers `skills/<skill>/SKILL.md` one directory deep. writewell's Codex manifest lists `./skills/writewell` and `./skills/writewell/onboard`, so the nested file loads as its own skill named `onboard`. The `name` matches that folder, which is what the Agent Skills spec requires.
+Codex discovers `skills/<skill>/SKILL.md` one directory deep, including `onboard` and `writewell`. The skill `name` matches its folder.
 
 ### Cursor and Grok Bot
 
@@ -64,7 +64,7 @@ Install a plugin at user or project scope. Invoke a skill by typing `/` and its 
 
 Grok Bot uses the same Cursor plugin packages. Import and install them the same way. A listing on the public Grok Bot marketplace is a separate review at <https://x.ai/bot/marketplace/submit-a-plugin>. Importing this repository does not require that submission.
 
-Cursor's default plugin discovery is `skills/<name>/SKILL.md`. writewell also lists `./skills/writewell` and `./skills/writewell/onboard` in its Cursor manifest, because an explicit `skills` list replaces folder discovery and the onboard file is nested.
+Cursor's default plugin discovery is `skills/<name>/SKILL.md`. None of these plugins set a `skills` override, so both `writewell` and `onboard` load from that scan.
 
 ## Check the manifests
 

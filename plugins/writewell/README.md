@@ -39,24 +39,25 @@ Give it text to rewrite. In Claude Code the command is `/writewell:writewell`. I
 
 ## Personalize
 
-The skill works out of the box with general good-writing principles. To make it write in *your* voice, run the onboard skill (`skills/writewell/onboard/SKILL.md`).
+The skill works out of the box with general good-writing principles. To make it write in *your* voice, run the onboard skill (`skills/onboard/SKILL.md`).
 
-In Claude Code that extra directory is registered as `/writewell:onboard`. Codex and Cursor / Grok Bot register the same file as the `onboard` skill because each host's writewell manifest lists `skills/writewell/onboard` explicitly. The skill `name` matches the folder (`onboard`). writewell has no root `plugin.json`: Codex would prefer that file and then skip the nested skill.
+In Claude Code that skill is `/writewell:onboard`. Codex and Cursor / Grok Bot discover the same folder as the `onboard` skill. No host needs an extra skills path.
 
 This fetches your writing samples from the web and generates a personal voice profile. You can provide:
 
 - **Individual post URLs** -- a list of links to specific articles or blog posts
 - **A blog homepage + count** -- the URL of your blog and how many recent posts to analyze
 
-The onboard routine reads your posts, distills your writing style across 11 dimensions (sentence structure, tone, vocabulary, openings, closings, formatting, rhetorical devices, etc.), and writes a `voice/SKILL.md` file that the main skill uses automatically from then on.
+The onboard routine reads your posts, distills your writing style across 11 dimensions (sentence structure, tone, vocabulary, openings, closings, formatting, rhetorical devices, etc.), and writes `skills/writewell/voice/SKILL.md`. The main skill reads that same file. A profile already at that path keeps working; onboard updates it in place.
 
 ## Structure
 
 ```
 skills/
+  onboard/
+    SKILL.md            # Onboarding routine -- creates your voice profile
   writewell/
     SKILL.md            # Main skill -- the writing pipeline
-    onboard/SKILL.md    # Onboarding routine -- creates your voice profile
     voice/SKILL.md      # Your voice profile (generated, not committed)
     voice/README.md     # Explains the voice directory
 ```

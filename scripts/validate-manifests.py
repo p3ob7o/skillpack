@@ -315,11 +315,14 @@ def check_manifest_sync(claude_market: dict, codex_market: dict, cursor_market: 
         compare_manifest("Claude plugin.json", name, claude_plugin, expected, include_category=False)
         if (claude_plugin.get("author") or {}).get("name") != owner:
             fail(f"{name}: Claude author.name must match the marketplace owner")
-        declared = as_list(claude_plugin.get("skills"))
         nested = [rel_skill(plugin_root, path) for path in skill_dirs(plugin_root) if not is_top_level_skill(plugin_root, path)]
-        for skill_path in nested:
-            if skill_path not in declared:
-                fail(f"{name}: Claude plugin.json must list nested skill {skill_path}")
+        if nested:
+            declared = as_list(claude_plugin.get("skills"))
+            for skill_path in nested:
+                if skill_path not in declared:
+                    fail(f"{name}: Claude plugin.json must list nested skill {skill_path}")
+        elif "skills" in claude_plugin:
+            fail(f"{name}: omit Claude skills so one-level discovery finds every skill")
 
         codex_plugin = load_json(plugin_root / ".codex-plugin" / "plugin.json")
         compare_manifest("Codex plugin.json", name, codex_plugin, expected, include_category=False)
@@ -371,11 +374,14 @@ def check_manifest_sync(claude_market: dict, codex_market: dict, cursor_market: 
         compare_manifest("Cursor plugin.json", name, cursor_plugin, expected, include_category=True)
         if (cursor_plugin.get("author") or {}).get("name") != owner:
             fail(f"{name}: Cursor author.name must match the marketplace owner")
-        listed = as_list(cursor_plugin.get("skills")) if "skills" in cursor_plugin else None
-        if nested and listed is None:
-            fail(f"{name}: Cursor plugin.json must list nested skills explicitly")
-        if listed is not None and sorted(listed) != sorted(all_skills):
-            fail(f"{name}: Cursor skills list must be exactly {all_skills}")
+        if nested:
+            listed = as_list(cursor_plugin.get("skills")) if "skills" in cursor_plugin else None
+            if listed is None:
+                fail(f"{name}: Cursor plugin.json must list nested skills explicitly")
+            elif sorted(listed) != sorted(all_skills):
+                fail(f"{name}: Cursor skills list must be exactly {all_skills}")
+        elif "skills" in cursor_plugin:
+            fail(f"{name}: omit Cursor skills so one-level discovery finds every skill")
 
 
 def compare_entry(label: str, name: str, entry: dict, expected: dict) -> None:
