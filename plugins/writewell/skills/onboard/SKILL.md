@@ -3,9 +3,10 @@ name: onboard
 description: >-
   Create a personal voice profile for the writewell skill by analyzing writing
   samples. Provide individual post URLs or a blog homepage URL with a post count.
-  Fetches the content, distills the writing style, and writes ../voice/SKILL.md
-  beside this directory. Use when setting up or refreshing a personal voice, or
-  when the writewell skill finds that voice file missing.
+  Fetches the content, distills the writing style, and writes the profile
+  outside the plugin: WRITEWELL_VOICE_PATH if set, otherwise
+  ~/.config/writewell/voice.md. Use when setting up or refreshing a personal
+  voice, or when writewell finds no profile.
 license: GPL-2.0
 metadata:
   version: "1.0.0"
@@ -110,20 +111,17 @@ Then analyze across all posts for these dimensions:
 
 ## Output
 
-Generate `../voice/SKILL.md` (the `voice` directory next to this `onboard` directory) using this template. The main writewell skill reads that same file as `voice/SKILL.md`.
+Write the profile outside this plugin. Resolve the destination the same way on every host:
+
+1. Read `WRITEWELL_VOICE_PATH` and `XDG_CONFIG_HOME`. If they are not already visible, run `printenv WRITEWELL_VOICE_PATH` and `printenv XDG_CONFIG_HOME`. Missing or empty means unset. Expand a leading `~` to the home directory.
+2. If `WRITEWELL_VOICE_PATH` is set, that path is the file to write. This is how one profile can live in a synced folder, or be copied onto each computer, instead of re-onboarding.
+3. If it is unset, write `$XDG_CONFIG_HOME/writewell/voice.md` when `XDG_CONFIG_HOME` is set, otherwise `~/.config/writewell/voice.md`. Same path on macOS and Linux. Do not use `~/Library`.
+
+Create parent directories. The file must not be named `SKILL.md` and must not sit inside a skill directory. Do not write it into this plugin. An update can replace the plugin folder, and a local-path install can copy a profile that was left there.
+
+Use this template. It is ordinary markdown, not a skill.
 
 ```markdown
----
-name: voice
-description: >-
-  Personal writing voice for [name or description]. Defines sentence structure,
-  tone, vocabulary, openings, closings, formatting, rhetorical devices, and
-  distinctive touches. Read by the writewell skill at Part 2.
-license: GPL-2.0
-metadata:
-  version: "1.0.0"
----
-
 # Personal Voice: [Name]
 
 This file defines the writer's personal style. The writewell skill reads it
@@ -175,15 +173,8 @@ Source material: [list the URLs analyzed]
      - "Post URLs — I'll paste links to individual posts"
      - "Blog homepage — analyze my N most recent posts"
      - "Skip — use writewell without a personal voice"
-1a. If the user picks "Skip", write `../voice/SKILL.md` with the content below, then tell the user: "Got it — writewell will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
+1a. If the user picks "Skip", write the destination file with the content below, then tell the user: "Got it — writewell will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
     ```markdown
-    ---
-    name: voice
-    description: No personal voice. Use general writing principles only.
-    license: GPL-2.0
-    metadata:
-      version: "1.0.0"
-    ---
     # No Personal Voice
     No personal voice profile has been configured. Proceed without applying
     any personal style rules. To create one later, run the onboard skill again.
@@ -191,7 +182,7 @@ Source material: [list the URLs analyzed]
 2. Fetch the content using the appropriate mode.
 3. If any URL fails to fetch, report it and continue with the ones that worked. Need at least 2 posts to produce a useful profile.
 4. Analyze all posts across the dimensions above.
-5. Write the voice profile to `../voice/SKILL.md` (beside this onboard directory).
+5. Write the voice profile to the destination from Output. If that file already exists, warn the user before overwriting it.
 6. Show the user a summary of the voice profile -- the key traits that define this writing style, in 5-8 bullet points.
 7. Ask if they want to adjust anything before finalizing.
 

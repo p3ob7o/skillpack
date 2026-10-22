@@ -1,6 +1,6 @@
 {
   "name": "writewell",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
   "license": "GPL-2.0",
   "keywords": [
@@ -13,9 +13,5 @@
   "author": {
     "name": "p3ob7o"
   },
-  "category": "writing",
-  "skills": [
-    "./skills/writewell",
-    "./skills/writewell/onboard"
-  ]
+  "category": "writing"
 }

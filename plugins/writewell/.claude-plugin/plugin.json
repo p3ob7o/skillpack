@@ -2,11 +2,10 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "writewell",
   "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "license": "GPL-2.0",
   "author": {
     "name": "p3ob7o"
   },
-  "keywords": ["writing", "editing", "voice", "ai-patterns"],
-  "skills": "./skills/writewell/onboard"
+  "keywords": ["writing", "editing", "voice", "ai-patterns"]
 }
