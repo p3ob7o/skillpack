@@ -1,6 +1,7 @@
 ---
 name: presenter-notes
-description: Add a presenter notes popup window to an existing HTML slide presentation. Use when the user has an HTML slide deck (built with the frontend-slides skill or similar) and wants to add presenter notes with timers, navigation sync, and rehearsal tools. Triggers on requests like "add presenter notes", "add speaker notes", "presenter mode", or "/presenter-notes".
+description: Add a presenter notes popup window to an existing HTML slide presentation. Use when the user has an HTML slide deck (built with slide-deck-creator or a similar HTML deck) and wants presenter notes with timers, navigation sync, and rehearsal tools. Triggers on requests like "add presenter notes", "add speaker notes", or "presenter mode".
+license: GPL-2.0
 ---
 
 # Presenter Notes

@@ -1,6 +1,7 @@
 ---
 name: start-session
 description: Load project context from CLAUDE.md and DOCUMENTATION.md at the start of a development session.
+license: GPL-2.0
 ---
 
 # Start Session

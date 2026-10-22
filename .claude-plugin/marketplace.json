@@ -1,10 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "skillpack",
   "owner": {
     "name": "p3ob7o"
   },
   "metadata": {
-    "description": "A collection of writing and productivity skills for Claude Code",
+    "description": "A collection of writing and productivity skills",
     "version": "1.0.0",
     "pluginRoot": "./plugins"
   },

@@ -1,0 +1,27 @@
+{
+  "name": "writewell",
+  "version": "1.4.0",
+  "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+  "license": "GPL-2.0",
+  "keywords": [
+    "writing",
+    "editing",
+    "voice",
+    "ai-patterns"
+  ],
+  "repository": "https://github.com/p3ob7o/skillpack",
+  "skills": [
+    "./skills/writewell",
+    "./skills/writewell/onboard"
+  ],
+  "author": {
+    "name": "p3ob7o"
+  },
+  "interface": {
+    "displayName": "writewell",
+    "shortDescription": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+    "longDescription": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+    "developerName": "p3ob7o",
+    "category": "writing"
+  }
+}
