@@ -1,5 +1,11 @@
 {
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "keynote-writer",
   "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "author": {
+    "name": "p3ob7o"
+  },
+  "keywords": ["keynote", "presentation", "speaking", "talks", "writing"]
 }

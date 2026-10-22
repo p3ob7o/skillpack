@@ -1,18 +1,15 @@
 ---
-name: writewell:onboard
-version: 1.0.0
-description: |
-  Create a personal voice profile for /writewell by analyzing writing samples.
-  Provide individual post URLs or a blog homepage URL with a post count.
-  Fetches the content, distills the writing style, and generates voice/SKILL.md.
-allowed-tools:
-  - Read
-  - Write
-  - Edit
-  - WebFetch
-  - WebSearch
-  - AskUserQuestion
-  - Glob
+name: onboard
+description: >-
+  Create a personal voice profile for the writewell skill by analyzing writing
+  samples. Provide individual post URLs or a blog homepage URL with a post count.
+  Fetches the content, distills the writing style, and writes ../voice/SKILL.md
+  beside this directory. Use when setting up or refreshing a personal voice, or
+  when the writewell skill finds that voice file missing.
+license: GPL-2.0
+metadata:
+  version: "1.0.0"
+allowed-tools: Read Write Edit WebFetch WebSearch AskUserQuestion Glob
 ---
 
 # Write Well: Onboard
@@ -113,22 +110,24 @@ Then analyze across all posts for these dimensions:
 
 ## Output
 
-Generate `voice/SKILL.md` in the writewell skill directory using this template:
+Generate `../voice/SKILL.md` (the `voice` directory next to this `onboard` directory) using this template. The main writewell skill reads that same file as `voice/SKILL.md`.
 
 ```markdown
 ---
-name: writewell:voice
-version: 1.0.0
-description: |
+name: voice
+description: >-
   Personal writing voice for [name or description]. Defines sentence structure,
   tone, vocabulary, openings, closings, formatting, rhetorical devices, and
-  distinctive touches. Referenced by the main /writewell skill at Part 2.
+  distinctive touches. Read by the writewell skill at Part 2.
+license: GPL-2.0
+metadata:
+  version: "1.0.0"
 ---
 
 # Personal Voice: [Name]
 
-This file defines the writer's personal style. It is read and applied by the main
-`/writewell` skill during Part 2 (Apply personal voice).
+This file defines the writer's personal style. The writewell skill reads it
+during Part 2 (Apply personal voice).
 
 Source material: [list the URLs analyzed]
 
@@ -170,27 +169,29 @@ Source material: [list the URLs analyzed]
 
 ## Process
 
-1. Use AskUserQuestion to present this choice:
+1. Ask the user which setup they want:
    Question: "How would you like to set up your writing voice?"
    Options:
      - "Post URLs — I'll paste links to individual posts"
      - "Blog homepage — analyze my N most recent posts"
      - "Skip — use writewell without a personal voice"
-1a. If the user picks "Skip", write `voice/SKILL.md` with the content below, then tell the user: "Got it — writewell will use general writing principles only. You can run `/writewell:onboard` any time to create a personal voice profile." Then stop.
+1a. If the user picks "Skip", write `../voice/SKILL.md` with the content below, then tell the user: "Got it — writewell will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
     ```markdown
     ---
-    name: writewell:voice
-    version: 1.0.0
-    description: No personal voice — use general writing principles only.
+    name: voice
+    description: No personal voice. Use general writing principles only.
+    license: GPL-2.0
+    metadata:
+      version: "1.0.0"
     ---
     # No Personal Voice
     No personal voice profile has been configured. Proceed without applying
-    any personal style rules. To create one later, run `/writewell:onboard`.
+    any personal style rules. To create one later, run the onboard skill again.
     ```
 2. Fetch the content using the appropriate mode.
 3. If any URL fails to fetch, report it and continue with the ones that worked. Need at least 2 posts to produce a useful profile.
 4. Analyze all posts across the dimensions above.
-5. Write the voice profile to `voice/SKILL.md` in the writewell skill directory.
+5. Write the voice profile to `../voice/SKILL.md` (beside this onboard directory).
 6. Show the user a summary of the voice profile -- the key traits that define this writing style, in 5-8 bullet points.
 7. Ask if they want to adjust anything before finalizing.
 

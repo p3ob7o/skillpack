@@ -1,0 +1,32 @@
+{
+  "name": "skillpack",
+  "owner": {
+    "name": "p3ob7o"
+  },
+  "metadata": {
+    "description": "A collection of writing and productivity skills",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "writewell",
+      "source": "plugins/writewell",
+      "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice"
+    },
+    {
+      "name": "keynote-writer",
+      "source": "plugins/keynote-writer",
+      "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes"
+    },
+    {
+      "name": "deck-builder",
+      "source": "plugins/deck-builder",
+      "description": "Build single-file HTML slide decks in a typography-first design, and add a presenter-notes popup with timers and two-way navigation sync"
+    },
+    {
+      "name": "session-manager",
+      "source": "plugins/session-manager",
+      "description": "Load project context at the start of a development session and update the docs before ending it"
+    }
+  ]
+}

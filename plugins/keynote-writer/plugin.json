@@ -1,0 +1,26 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "keynote-writer",
+  "version": "1.0.0",
+  "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
+  "license": "GPL-2.0",
+  "keywords": [
+    "keynote",
+    "presentation",
+    "speaking",
+    "talks",
+    "writing"
+  ],
+  "repository": "https://github.com/p3ob7o/skillpack",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "keynote-writer",
+        "shortDescription": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
+        "longDescription": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
+        "developerName": "p3ob7o",
+        "category": "writing"
+      }
+    }
+  }
+}

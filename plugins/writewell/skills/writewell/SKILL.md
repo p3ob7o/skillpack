@@ -1,33 +1,23 @@
 ---
 name: writewell
-version: 1.4.0
-description: |
+description: >-
   Full writing pipeline: strip AI patterns, enforce language discipline, remove
   clutter, verify quality, and optionally apply a personal voice. Use when editing
-  or reviewing any prose that should read like a human wrote it, not a machine.
-  Run /writewell:onboard to create your personal voice profile.
-allowed-tools:
-  - Bash
-  - Read
-  - Write
-  - Edit
-  - Grep
-  - Glob
-  - AskUserQuestion
-  - WebFetch
+  or reviewing any prose that should read like a person wrote it. When
+  voice/SKILL.md is missing, follow onboard/SKILL.md in this skill directory
+  before rewriting.
+license: GPL-2.0
+metadata:
+  version: "1.4.0"
+allowed-tools: Bash Read Write Edit Grep Glob AskUserQuestion WebFetch
 ---
 
 ## Voice check — run this FIRST, before anything else
 
-Run this bash command before doing anything:
+Before any rewrite, check whether `voice/SKILL.md` exists in this skill's directory (the directory that contains this file).
 
-```bash
-SKILL_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]:-$0}" 2>/dev/null || echo "$0")")"
-test -f "$SKILL_DIR/voice/SKILL.md" && echo "VOICE_OK" || echo "VOICE_MISSING"
-```
-
-- If the output is `VOICE_MISSING`: read the file `onboard/SKILL.md` (relative to this skill's directory) and follow its instructions immediately. Do not proceed with the pipeline.
-- If the output is `VOICE_OK`: continue with the pipeline below.
+- If `voice/SKILL.md` is missing: read `onboard/SKILL.md` in this skill's directory and follow it immediately. Do not proceed with the pipeline.
+- If `voice/SKILL.md` exists: continue with the pipeline below.
 
 ---
 
@@ -165,8 +155,8 @@ rules at this step. The voice file defines the writer's personal style: sentence
 structure, tone, vocabulary, openings, closings, formatting preferences, rhetorical
 devices, and distinctive touches.
 
-If no voice file exists, the bash check above will have already redirected to
-the onboard routine. You should not reach this point without a voice file.
+If no voice file exists, the check above will have already sent you to
+`onboard/SKILL.md`. You should not reach this point without a voice file.
 
 ---
 

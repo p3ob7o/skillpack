@@ -1,6 +1,6 @@
 # writewell
 
-A writing pipeline for Claude Code that strips AI patterns, enforces language discipline, removes clutter, and optionally applies your personal voice.
+A writing pipeline that strips AI patterns, enforces language discipline, removes clutter, and optionally applies your personal voice. It installs from the skillpack marketplace in Claude Code, Codex, and Cursor / Grok Bot.
 
 ## What it does
 
@@ -12,28 +12,36 @@ A writing pipeline for Claude Code that strips AI patterns, enforces language di
 
 ## Install
 
+See the [skillpack install steps](../../README.md#install).
+
+Claude Code:
+
 ```
 /plugin marketplace add p3ob7o/skillpack
 /plugin install writewell@skillpack
 ```
 
-## Usage
-
-Give it text to rewrite:
+Codex, after `codex plugin marketplace add p3ob7o/skillpack`:
 
 ```
-/writewell
+codex plugin add writewell@skillpack
+```
 
+Cursor and Grok Bot: import `https://github.com/p3ob7o/skillpack` and install writewell.
+
+## Usage
+
+Give it text to rewrite. In Claude Code the command is `/writewell:writewell`. In Codex and Cursor / Grok Bot, invoke the `writewell` skill.
+
+```
 [paste your draft here]
 ```
 
 ## Personalize
 
-The skill works out of the box with general good-writing principles. To make it write in *your* voice:
+The skill works out of the box with general good-writing principles. To make it write in *your* voice, run the onboard skill (`skills/writewell/onboard/SKILL.md`).
 
-```
-/writewell:onboard
-```
+In Claude Code that extra directory is registered as `/writewell:onboard`. Codex and Cursor / Grok Bot register the same file as the `onboard` skill because each host's writewell manifest lists `skills/writewell/onboard` explicitly. The skill `name` matches the folder (`onboard`). writewell has no root `plugin.json`: Codex would prefer that file and then skip the nested skill.
 
 This fetches your writing samples from the web and generates a personal voice profile. You can provide:
 

@@ -1,0 +1,17 @@
+{
+  "name": "session-manager",
+  "version": "1.0.0",
+  "description": "Load project context at the start of a development session and update the docs before ending it",
+  "license": "GPL-2.0",
+  "keywords": [
+    "sessions",
+    "context",
+    "documentation",
+    "workflow"
+  ],
+  "repository": "https://github.com/p3ob7o/skillpack",
+  "author": {
+    "name": "p3ob7o"
+  },
+  "category": "productivity"
+}
