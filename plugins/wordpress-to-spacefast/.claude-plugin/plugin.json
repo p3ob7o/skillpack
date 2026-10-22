@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "wordpress-to-spacefast",
+  "description": "Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover",
+  "version": "1.0.0",
+  "license": "GPL-2.0",
+  "author": {
+    "name": "p3ob7o"
+  },
+  "keywords": ["wordpress", "spacefast", "astro", "migration", "dns"]
+}

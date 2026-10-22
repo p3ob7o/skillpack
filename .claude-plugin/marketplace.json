@@ -45,6 +45,15 @@
       "license": "GPL-2.0",
       "keywords": ["sessions", "context", "documentation", "workflow"],
       "category": "productivity"
+    },
+    {
+      "name": "wordpress-to-spacefast",
+      "source": "./plugins/wordpress-to-spacefast",
+      "description": "Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover",
+      "version": "1.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["wordpress", "spacefast", "astro", "migration", "dns"],
+      "category": "development"
     }
   ]
 }

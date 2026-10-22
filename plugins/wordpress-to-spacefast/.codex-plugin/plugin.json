@@ -1,0 +1,25 @@
+{
+  "name": "wordpress-to-spacefast",
+  "version": "1.0.0",
+  "description": "Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover",
+  "license": "GPL-2.0",
+  "keywords": [
+    "wordpress",
+    "spacefast",
+    "astro",
+    "migration",
+    "dns"
+  ],
+  "repository": "https://github.com/p3ob7o/skillpack",
+  "skills": "./skills/",
+  "author": {
+    "name": "p3ob7o"
+  },
+  "interface": {
+    "displayName": "wordpress-to-spacefast",
+    "shortDescription": "Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover",
+    "longDescription": "Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover",
+    "developerName": "p3ob7o",
+    "category": "development"
+  }
+}
