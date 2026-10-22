@@ -27,6 +27,11 @@
       "name": "session-manager",
       "source": "plugins/session-manager",
       "description": "Load project context at the start of a development session and update the docs before ending it"
+    },
+    {
+      "name": "wordpress-to-spacefast",
+      "source": "plugins/wordpress-to-spacefast",
+      "description": "Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover"
     }
   ]
 }

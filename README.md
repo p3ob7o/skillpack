@@ -10,6 +10,7 @@ A plugin marketplace of writing and productivity skills. The same skill files in
 | [keynote-writer](plugins/keynote-writer/) | Turn a braindump or transcript into a TED-quality keynote outline with flow, takeaway, and slide-by-slide speaker notes |
 | [deck-builder](plugins/deck-builder/) | Build single-file HTML slide decks and add a presenter-notes popup with timers and nav sync |
 | [session-manager](plugins/session-manager/) | Load project context at the start of a session and update the docs before ending it |
+| [wordpress-to-spacefast](plugins/wordpress-to-spacefast/) | Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover |
 
 ## Install
 
@@ -24,7 +25,7 @@ The catalog is `.claude-plugin/marketplace.json`. In a Claude Code session:
 /plugin install writewell@skillpack
 ```
 
-Replace `writewell` with `keynote-writer`, `deck-builder`, or `session-manager`.
+Replace `writewell` with `keynote-writer`, `deck-builder`, `session-manager`, or `wordpress-to-spacefast`.
 
 Plugin skills run as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell:onboard`, and `/deck-builder:slide-deck-creator`.
 
