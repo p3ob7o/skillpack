@@ -1,7 +1,7 @@
 .DS_Store
 
-# Personal voice profiles (generated per-user, not shared).
-# This path is unchanged: onboard writes it, and writewell reads it.
+# Legacy in-plugin voice profiles. New profiles live outside the plugin.
+# Keep ignoring this path so a leftover profile is never committed.
 plugins/writewell/skills/writewell/voice/SKILL.md
 
 # Project-level instructions (personal, not shared)

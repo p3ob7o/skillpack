@@ -28,7 +28,7 @@ Replace `writewell` with `keynote-writer`, `deck-builder`, or `session-manager`.
 
 Plugin skills run as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell:onboard`, and `/deck-builder:slide-deck-creator`.
 
-Each host discovers `skills/<skill>/SKILL.md` one directory deep. writewell's onboard skill is `skills/onboard/SKILL.md`, so it loads next to `skills/writewell/SKILL.md` with no extra path in the plugin manifest. A generated voice profile stays at `skills/writewell/voice/SKILL.md` (gitignored). That file is not a catalog skill. Profiles already at that path keep working.
+Each host discovers `skills/<skill>/SKILL.md` one directory deep. writewell's onboard skill is `skills/onboard/SKILL.md`, so it loads next to `skills/writewell/SKILL.md` with no extra path in the plugin manifest. A generated voice profile is not a skill. It is written outside the plugin, at `WRITEWELL_VOICE_PATH` when that variable is set, otherwise `~/.config/writewell/voice.md`. See the [writewell README](plugins/writewell/README.md#personalize).
 
 ### Codex
 

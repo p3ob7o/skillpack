@@ -3,9 +3,8 @@ name: writewell
 description: >-
   Full writing pipeline: strip AI patterns, enforce language discipline, remove
   clutter, verify quality, and optionally apply a personal voice. Use when editing
-  or reviewing any prose that should read like a person wrote it. When
-  voice/SKILL.md is missing from this skill directory, follow
-  ../onboard/SKILL.md before rewriting.
+  or reviewing any prose that should read like a person wrote it. When no
+  voice profile is found, follow ../onboard/SKILL.md before rewriting.
 license: GPL-2.0
 metadata:
   version: "1.5.0"
@@ -14,10 +13,17 @@ allowed-tools: Bash Read Write Edit Grep Glob AskUserQuestion WebFetch
 
 ## Voice check — run this FIRST, before anything else
 
-Before any rewrite, check whether `voice/SKILL.md` exists in this skill's directory (the directory that contains this file). A profile created before the onboard skill moved still lives in that same `voice/` folder; use it as-is. Do not look for a voice profile next to the onboard skill.
+Resolve the profile, then read it. The same rules apply in Claude Code, Codex, and Cursor / Grok Bot, on macOS and Linux.
 
-- If `voice/SKILL.md` is missing: read `../onboard/SKILL.md` and follow it immediately. Do not proceed with the pipeline.
-- If `voice/SKILL.md` exists: continue with the pipeline below.
+1. Read `WRITEWELL_VOICE_PATH` and `XDG_CONFIG_HOME` from the environment. If they are not already visible, run `printenv WRITEWELL_VOICE_PATH` and `printenv XDG_CONFIG_HOME`. Missing or empty means unset. Expand a leading `~` to the home directory.
+2. The per-user default is `$XDG_CONFIG_HOME/writewell/voice.md` when `XDG_CONFIG_HOME` is set, otherwise `~/.config/writewell/voice.md`. Do not use `~/Library`. The file is `voice.md`, never `SKILL.md`, and it lives outside this plugin so an update cannot wipe it and a local install cannot ship it.
+3. Lookup, in order:
+   - If `WRITEWELL_VOICE_PATH` is set and that file exists, read it. Do not also read the default or the old plugin file.
+   - If `WRITEWELL_VOICE_PATH` is unset and the per-user default exists, read it.
+   - Otherwise look for the old file `voice/SKILL.md` in this skill's directory (the directory that contains this file). If it exists, tell the user a profile is still inside the installed plugin, where an update can replace it and a local-path install can copy it along. Offer to copy it to the destination: `WRITEWELL_VOICE_PATH` when that variable is set, otherwise the per-user default. Create the destination directory, copy the file, then read the destination. Do not delete the old file unless the user asks. If they decline the copy, read the old file for this run only and say it can disappear on the next plugin update.
+   - If none of those files exist, read `../onboard/SKILL.md` and follow it. Do not proceed with the pipeline.
+
+A profile copied forward may still start with YAML frontmatter from when it was `SKILL.md`. Apply the prose rules. Ignore that frontmatter.
 
 ---
 
@@ -31,7 +37,7 @@ clutter, checks quality, and optionally applies a personal voice.
 When given text to rewrite:
 
 1. **Strip AI patterns** (Part 1) - Scan for and remove AI writing patterns
-2. **Apply personal voice** (Part 2) - If `voice/SKILL.md` exists, read it and apply the voice rules. If not, skip this step and rely on the general principles in Parts 3-5.
+2. **Apply personal voice** (Part 2) - Read the profile resolved above and apply its rules.
 3. **Apply language discipline** (Part 3) - Kill dead metaphors, deflate padded verbs, prefer short words
 4. **Remove clutter** (Part 4) - Cut filler, clarify, test readability
 5. **Final quality check** (Part 5) - Ensure natural voice, clear purpose, brevity
@@ -150,10 +156,9 @@ Replace with specific next steps or concrete plans.
 
 # PART 2: PERSONAL VOICE
 
-If the file `voice/SKILL.md` exists in this skill's directory, read it and apply its
-rules at this step. The voice file defines the writer's personal style: sentence
-structure, tone, vocabulary, openings, closings, formatting preferences, rhetorical
-devices, and distinctive touches.
+Read the profile resolved in the voice check and apply its rules. The file defines
+the writer's personal style: sentence structure, tone, vocabulary, openings,
+closings, formatting preferences, rhetorical devices, and distinctive touches.
 
 If no voice file exists, the check above will have already sent you to
 `../onboard/SKILL.md`. You should not reach this point without a voice file.
@@ -308,7 +313,7 @@ what you've gone blind to.
 
 1. Read the input text carefully
 2. Identify and remove all AI patterns from Part 1
-3. Read `voice/SKILL.md` and apply the personal voice rules.
+3. Read the resolved voice profile and apply the personal voice rules.
 4. Apply language discipline from Part 3 (kill dead metaphors, deflate false limbs, prefer short words, cut jargon)
 5. Run the clutter removal passes from Part 4 (cut filler, clarify, read aloud)
 6. Apply the final quality checks from Part 5 (natural voice, clarity of purpose, brevity)

@@ -208,6 +208,41 @@ def check_skill(skill_md: Path) -> None:
             fail(f"{rel}: slash command {command} is still in the skill body")
 
     check_relative_paths(skill_md, body)
+    check_voice_contract(skill_md, text)
+
+
+def check_voice_contract(skill_md: Path, text: str) -> None:
+    """writewell's profile must stay outside the plugin, with one lookup order."""
+    rel = skill_md.relative_to(ROOT).as_posix()
+    writewell = "plugins/writewell/skills/writewell/SKILL.md"
+    onboard = "plugins/writewell/skills/onboard/SKILL.md"
+    if rel == writewell:
+        for needle in (
+            "WRITEWELL_VOICE_PATH",
+            "XDG_CONFIG_HOME",
+            "~/.config/writewell/voice.md",
+            "voice/SKILL.md",
+            "../onboard/SKILL.md",
+            "Offer to copy",
+        ):
+            if needle not in text:
+                fail(f"{rel}: voice lookup must mention {needle}")
+        custom = text.find("WRITEWELL_VOICE_PATH")
+        default = text.find("~/.config/writewell/voice.md")
+        legacy = text.find("voice/SKILL.md")
+        if not (0 <= custom < default < legacy):
+            fail(f"{rel}: voice lookup must name the custom path, then the per-user default, then the old plugin file")
+    elif rel == onboard:
+        for needle in (
+            "WRITEWELL_VOICE_PATH",
+            "XDG_CONFIG_HOME",
+            "~/.config/writewell/voice.md",
+            "must not be named `SKILL.md`",
+        ):
+            if needle not in text:
+                fail(f"{rel}: voice destination must mention {needle}")
+        if "voice/SKILL.md" in text or "../writewell/voice" in text:
+            fail(f"{rel}: onboard must not write the profile inside the plugin")
 
 
 def check_relative_paths(skill_md: Path, body: str) -> None:
