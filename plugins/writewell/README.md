@@ -1,37 +1,46 @@
 # writewell
 
-A writing pipeline that strips AI patterns, enforces language discipline, removes clutter, and optionally applies your personal voice. It installs from the skillpack marketplace in Claude Code, Codex, and Cursor / Grok Bot.
+Version **1.5.0**. Writing pipeline that strips AI patterns, enforces language discipline, removes clutter, runs a quality check, and optionally applies a personal voice.
 
 ## What it does
 
-1. **Strips AI patterns** -- removes the telltale signs of LLM-generated text (significance inflation, promotional language, filler, hedging, chatbot artifacts)
-2. **Applies your voice** -- if you've created a personal voice profile, it rewrites in your style
-3. **Enforces language discipline** -- kills dead metaphors, deflates padded verbs, prefers short words, uses active voice
-4. **Removes clutter** -- cuts filler, clarifies, tests readability across three revision passes
-5. **Checks quality** -- ensures natural voice, clear purpose, and brevity
+1. **Strips AI patterns** — significance inflation, promotional language, filler, hedging, chatbot artifacts
+2. **Applies your voice** — when a personal voice profile is present, rewrites in that style
+3. **Enforces language discipline** — dead metaphors, padded verbs, prefer short words, active voice
+4. **Removes clutter** — filler cuts and readability across three revision passes
+5. **Checks quality** — natural voice, clear purpose, brevity
+
+Works without a profile using general principles. Onboard builds a personal voice profile from your posts.
+
+## Skills
+
+| Skill | Role | Claude Code | Codex / Cursor / Grok Bot |
+|-------|------|-------------|---------------------------|
+| `writewell` | Main pipeline | `/writewell:writewell` | `/writewell` (skill name) |
+| `onboard` | Build a personal voice profile | `/writewell:onboard` | `/onboard` (skill name) |
+
+Onboard lives at `skills/onboard/SKILL.md` next to `skills/writewell/SKILL.md`. No host needs an extra skills path.
 
 ## Install
 
-See the [skillpack install steps](../../README.md#install).
+Shared marketplace steps for Claude Code, Codex, and Cursor / Grok Bot: [skillpack install](../../README.md#install).
 
-Claude Code:
+Then install this plugin only:
 
 ```
-/plugin marketplace add p3ob7o/skillpack
+# Claude Code
 /plugin install writewell@skillpack
-```
 
-Codex, after `codex plugin marketplace add p3ob7o/skillpack`:
-
-```
+# Codex (after marketplace add)
 codex plugin add writewell@skillpack
-```
 
-Cursor and Grok Bot: import `https://github.com/p3ob7o/skillpack` and install writewell.
+# Cursor / Grok Bot
+# Import https://github.com/p3ob7o/skillpack, then install writewell
+```
 
 ## Usage
 
-Give it text to rewrite. In Claude Code the command is `/writewell:writewell`. In Codex and Cursor / Grok Bot, invoke the `writewell` skill.
+Give it text to rewrite:
 
 ```
 [paste your draft here]
@@ -39,32 +48,28 @@ Give it text to rewrite. In Claude Code the command is `/writewell:writewell`. I
 
 ## Personalize
 
-The skill works out of the box with general good-writing principles. To make it write in *your* voice, run the onboard skill (`skills/onboard/SKILL.md`).
+Run onboard with either:
 
-In Claude Code that skill is `/writewell:onboard`. Codex and Cursor / Grok Bot discover the same folder as the `onboard` skill. No host needs an extra skills path.
+- **Individual post URLs** — links to specific articles or posts
+- **A blog homepage + count** — homepage URL and how many recent posts to analyze
 
-This fetches your writing samples from the web and generates a personal voice profile. You can provide:
+Onboard reads the samples, distills style across dimensions (sentence structure, tone, vocabulary, openings, closings, formatting, rhetorical devices), and writes a profile **outside** the plugin. The voice profile is not distributed with the skill.
 
-- **Individual post URLs** -- a list of links to specific articles or blog posts
-- **A blog homepage + count** -- the URL of your blog and how many recent posts to analyze
+### Profile lookup order
 
-The onboard routine reads your posts, distills your writing style across 11 dimensions (sentence structure, tone, vocabulary, openings, closings, formatting, rhetorical devices, etc.), and writes the profile outside the plugin.
-
-Lookup order, on every host:
-
-1. `WRITEWELL_VOICE_PATH`, when that variable is set
+1. `WRITEWELL_VOICE_PATH` if set (use an absolute path; some hosts do not expand `~`)
 2. `$XDG_CONFIG_HOME/writewell/voice.md`, or `~/.config/writewell/voice.md` when `XDG_CONFIG_HOME` is unset
-3. The old in-plugin file `skills/writewell/voice/SKILL.md`, only as a migration fallback
+3. Legacy `skills/writewell/voice/SKILL.md` — migration fallback only
 
-The new file is `voice.md`, not `SKILL.md`, and it is not inside a skill folder, so no host registers it as a skill. The default path is the same on macOS and Linux.
+The new file is `voice.md`, not `SKILL.md`, and it is not inside a skill folder, so hosts do not register it as a skill. If only the legacy file exists, the skill offers to copy it to the destination (custom path when set, otherwise the per-user default).
 
-If writewell finds a profile only at the old path, it tells you and offers to copy it to the destination (the custom path when set, otherwise the per-user default). `.gitignore` still ignores the old path. The `voice/` folder, its README, and `.gitkeep` are unused for new profiles and can be removed later; they are still in the tree so an existing checkout keeps the fallback path.
+The `voice/` folder, its README, and `.gitkeep` remain in the tree for that fallback path but are unused for new profiles.
 
-## Use one profile on more than one computer
+### One profile on more than one computer
 
-Set `WRITEWELL_VOICE_PATH` to an absolute path of a file you sync or copy onto each machine (your Mac and the Grok Bot computer, for example). onboard writes that file when the variable is set. Use an absolute path. Some hosts store the value literally and do not expand `~`.
+Set `WRITEWELL_VOICE_PATH` to an absolute synced path. Onboard writes that file when the variable is set.
 
-Claude Code. Add it to the `env` block of `~/.claude/settings.json`. Claude Code copies the value into its environment as written ([environment variables](https://code.claude.com/docs/en/env-vars)):
+**Claude Code** — `env` in `~/.claude/settings.json`:
 
 ```json
 {
@@ -74,41 +79,41 @@ Claude Code. Add it to the `env` block of `~/.claude/settings.json`. Claude Code
 }
 ```
 
-Codex. Add it to `~/.codex/config.toml`. `set` injects the variable into the shell Codex runs. A shell `export` is not enough while `shell_environment_policy.inherit` stays at its usual `core` baseline ([shell environment policy](https://learn.chatgpt.com/docs/config-file/config-advanced)):
+**Codex** — `shell_environment_policy.set` in `~/.codex/config.toml`. A shell `export` alone is not enough while `inherit` is the usual `core` baseline:
 
 ```toml
 [shell_environment_policy]
 set = { WRITEWELL_VOICE_PATH = "/Users/you/Sync/writewell/voice.md" }
 ```
 
-Cursor on your computer. The agent reads the environment of the Cursor process. A macOS app does not load `~/.zshrc`. Set the variable for GUI apps and restart Cursor:
+**Cursor (macOS)** — GUI apps do not load `~/.zshrc`. Set for GUI apps, then restart Cursor:
 
 ```
 launchctl setenv WRITEWELL_VOICE_PATH /Users/you/Sync/writewell/voice.md
 ```
 
-On Linux, export `WRITEWELL_VOICE_PATH` in the environment that starts Cursor. If the sandbox refuses a read outside the project, allow that path.
+**Cursor (Linux)** — export `WRITEWELL_VOICE_PATH` in the environment that starts Cursor. If the sandbox refuses a read outside the project, allow that path.
 
-Grok Bot. Do not put the path in Bot Secrets. Those values are hidden from the Bot, including in Shell. Copy the profile to `~/.config/writewell/voice.md` on the Grok Bot computer, or export `WRITEWELL_VOICE_PATH` in a shell profile that computer's agent actually reads. Update, Recover, and Reset can wipe files and shell profiles on that computer; keep the synced copy and restore the path there.
+**Grok Bot** — do not use Bot Secrets (those values are hidden from the bot, including in Shell). Copy the profile to `~/.config/writewell/voice.md` on the Grok Bot computer, or export `WRITEWELL_VOICE_PATH` in a profile that computer's agent actually reads. Update, Recover, and Reset can wipe files and shell profiles; keep a synced copy and restore the path there.
 
 ## Structure
 
 ```
 skills/
   onboard/
-    SKILL.md            # Onboarding routine -- writes the profile outside the plugin
+    SKILL.md            # Writes the profile outside the plugin
   writewell/
-    SKILL.md            # Main skill -- the writing pipeline
-    voice/              # Legacy folder only. Not where new profiles are written.
+    SKILL.md            # Main writing pipeline
+    voice/              # Legacy only; not where new profiles are written
       README.md
       .gitkeep
 ```
 
 ## Credits
 
-The writing principles draw from:
+Writing principles draw from:
 
-- **George Orwell** -- "Politics and the English Language" (language discipline, dead metaphors, verbal false limbs)
-- **William Zinsser** -- "On Writing Well" (clutter removal, revision passes, clarity)
-- **David Ogilvy** -- "Ogilvy on Advertising" (writing as action, short words, clear purpose)
-- **Wikipedia** -- "Signs of AI writing" (AI pattern detection)
+- **George Orwell** — "Politics and the English Language"
+- **William Zinsser** — "On Writing Well"
+- **David Ogilvy** — "Ogilvy on Advertising"
+- **Wikipedia** — "Signs of AI writing"

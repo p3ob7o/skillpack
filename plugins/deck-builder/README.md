@@ -1,47 +1,47 @@
 # deck-builder
 
-Two skills for building and presenting HTML slide decks.
+Version **1.0.1**. Two skills for building and presenting single-file HTML slide decks.
+
+## What it does
+
+- **slide-deck-creator** — builds a typography-first deck (white-and-blue, sentence case, one accent color, no animations) as one self-contained HTML file with CSS, JS, and SVG inlined. Fonts and remote images may still load from the network. The starter deck ships **15 layouts**: Cover; Intro paragraph + image; Table of contents; TOC with current section in blue; Section divider (black); Numeric layout; "Text!" emphasis page; Bulleted list; Table; Pull quote; Three columns; Long-form body + images; Numbered data (1–3); Section divider (white/quiet); Closing. Presenter-notes mode (press `P`) adds dual timers and two-way nav sync. Can convert a `.pptx` to web.
+- **presenter-notes** — adds a presenter-notes popup (timers, nav sync, rehearsal tools) to an existing HTML deck, whether built by slide-deck-creator or not.
 
 ## Skills
 
-### slide-deck-creator
+| Skill | Claude Code | Codex / Cursor / Grok Bot |
+|-------|-------------|---------------------------|
+| `slide-deck-creator` | `/deck-builder:slide-deck-creator` | `/slide-deck-creator` |
+| `presenter-notes` | `/deck-builder:presenter-notes` | `/presenter-notes` |
 
-Creates a single-file HTML slide deck in a typography-first design (white-and-blue, sentence case, one accent color, no animations). The output is one self-contained HTML file with all CSS, JS, and SVG inlined — only fonts and remote images load from the internet. Bundles 15 layout patterns (cover, TOC, section dividers, metrics, bulleted list, table, pull quote, columns, numbered data, closing) plus a presenter-notes mode (press `P`) with dual timers and two-way nav sync. Can also convert a PowerPoint (`.pptx`) to web.
+## Install
+
+Shared marketplace steps: [skillpack install](../../README.md#install).
+
+```
+# Claude Code
+/plugin install deck-builder@skillpack
+
+# Codex (after marketplace add)
+codex plugin add deck-builder@skillpack
+
+# Cursor / Grok Bot
+# Import https://github.com/p3ob7o/skillpack, then install deck-builder
+```
+
+## Usage
+
+### slide-deck-creator
 
 ```
 [describe the deck you want, or point at a .pptx]
 ```
 
-In Claude Code the command is `/deck-builder:slide-deck-creator`. Elsewhere, invoke the `slide-deck-creator` skill.
-
 ### presenter-notes
-
-Adds a presenter-notes popup window to an *existing* HTML slide presentation — timers, navigation sync, and rehearsal tools. Use it on a deck built by `slide-deck-creator` or any other HTML deck.
 
 ```
 [point at your existing HTML deck]
 ```
-
-In Claude Code the command is `/deck-builder:presenter-notes`. Elsewhere, invoke the `presenter-notes` skill.
-
-## Install
-
-See the [skillpack install steps](../../README.md#install).
-
-Claude Code:
-
-```
-/plugin marketplace add p3ob7o/skillpack
-/plugin install deck-builder@skillpack
-```
-
-Codex, after `codex plugin marketplace add p3ob7o/skillpack`:
-
-```
-codex plugin add deck-builder@skillpack
-```
-
-Cursor and Grok Bot: import `https://github.com/p3ob7o/skillpack` and install deck-builder.
 
 ## Structure
 
