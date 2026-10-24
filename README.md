@@ -1,75 +1,74 @@
 # skillpack
 
-A plugin marketplace of writing and productivity skills. The same skill files install in Claude Code, Codex, and Cursor / Grok Bot.
+A multi-host plugin marketplace. The same skill files install in Claude Code, Codex, and Cursor / Grok Bot.
+
+Marketplace version: **1.0.0**. Repo: [github.com/p3ob7o/skillpack](https://github.com/p3ob7o/skillpack).
+
+Plugins live under `plugins/<name>/`. Each skill keeps one copy of its instructions at `skills/<skill>/SKILL.md`. Host manifests point at those directories — they don't duplicate the skill text.
+
+## Hosts at a glance
+
+| Host | Catalog | Per-plugin manifest | Add marketplace | Install plugin |
+|------|---------|---------------------|-----------------|----------------|
+| Claude Code | `.claude-plugin/marketplace.json` | `.claude-plugin/plugin.json` | `/plugin marketplace add p3ob7o/skillpack` | `/plugin install <plugin>@skillpack` |
+| Codex | `.agents/plugins/marketplace.json` | `.codex-plugin/plugin.json` + root `plugin.json` (Agent Plugins 1.0.0) | `codex plugin marketplace add p3ob7o/skillpack` | `codex plugin add <plugin>@skillpack` |
+| Cursor / Grok Bot | `.cursor-plugin/marketplace.json` | `.cursor-plugin/plugin.json` | Import repo URL in the UI | Install at user or project scope |
+
+Default skill discovery on every host is `skills/<name>/SKILL.md`. None of these plugins set a skills override. Skill `name` in YAML frontmatter is lowercase kebab-case and matches the folder name.
 
 ## Plugins
 
-| Plugin | Description |
-|--------|-------------|
-| [writewell](plugins/writewell/) | Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice |
-| [keynote-writer](plugins/keynote-writer/) | Turn a braindump or transcript into a TED-quality keynote outline with flow, takeaway, and slide-by-slide speaker notes |
-| [deck-builder](plugins/deck-builder/) | Build single-file HTML slide decks and add a presenter-notes popup with timers and nav sync |
-| [session-manager](plugins/session-manager/) | Load project context at the start of a session and update the docs before ending it |
-| [wordpress-to-spacefast](plugins/wordpress-to-spacefast/) | Move a WordPress site from any host to Spacefast, with managed WordPress as a headless backend, a static Astro front end from GitHub, and a DNS cutover |
+| Plugin | Version | Description |
+|--------|---------|-------------|
+| [writewell](plugins/writewell/README.md) | 1.5.0 | Writing pipeline: strip AI patterns, language discipline, clutter removal, quality check, optional personal voice |
+| [keynote-writer](plugins/keynote-writer/README.md) | 1.0.0 | Braindump or transcript → TED-quality outline (flow, takeaway, slide text, image prompts, speaker notes) |
+| [deck-builder](plugins/deck-builder/README.md) | 1.0.1 | Single-file HTML decks (typography-first) and presenter-notes mode for existing HTML decks |
+| [session-manager](plugins/session-manager/README.md) | 1.0.0 | Load `CLAUDE.md` + `DOCUMENTATION.md` at session start; update them at wrap-up |
+| [wordpress-to-spacefast](plugins/wordpress-to-spacefast/README.md) | 1.0.0 | Move WordPress from any host to Spacefast (headless WP, Astro front end, DNS cutover) |
 
 ## Install
 
-Each plugin is one directory under `plugins/`. `skills/<skill>/SKILL.md` is the only copy of that skill. Host manifests point at those directories; they do not duplicate the instructions.
+Add the marketplace once, then install any plugin by name. Replace `<plugin>` with `writewell`, `keynote-writer`, `deck-builder`, `session-manager`, or `wordpress-to-spacefast`.
+
+Plugin-specific setup (for example writewell's voice profile) lives in that plugin's README. Shared host steps stay here.
 
 ### Claude Code
 
-The catalog is `.claude-plugin/marketplace.json`. In a Claude Code session:
-
 ```
 /plugin marketplace add p3ob7o/skillpack
-/plugin install writewell@skillpack
+/plugin install <plugin>@skillpack
 ```
 
-Replace `writewell` with `keynote-writer`, `deck-builder`, `session-manager`, or `wordpress-to-spacefast`.
-
-Plugin skills run as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell:onboard`, and `/deck-builder:slide-deck-creator`.
-
-Each host discovers `skills/<skill>/SKILL.md` one directory deep. writewell's onboard skill is `skills/onboard/SKILL.md`, so it loads next to `skills/writewell/SKILL.md` with no extra path in the plugin manifest. A generated voice profile is not a skill. It is written outside the plugin, at `WRITEWELL_VOICE_PATH` when that variable is set, otherwise `~/.config/writewell/voice.md`. See the [writewell README](plugins/writewell/README.md#personalize).
+Invoke skills as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell:onboard`, `/deck-builder:slide-deck-creator`.
 
 ### Codex
 
-Codex reads `.agents/plugins/marketplace.json` for the catalog and `.codex-plugin/plugin.json` inside each plugin. Every plugin also has a root `plugin.json` using the Agent Plugins schema. Skills sit one directory under `skills/`, and each Codex manifest points at `./skills/`.
-
-Add the GitHub repository. Do not sparse-checkout only `.agents/plugins`: the plugins themselves live under `plugins/`, and the catalog points at those local paths.
+Add the whole GitHub repository. Don't sparse-checkout only `.agents/plugins`: plugins live under `plugins/`, and the catalog points at those local paths. Skills sit under `skills/`; each Codex manifest points at `./skills/`.
 
 ```
 codex plugin marketplace add p3ob7o/skillpack
+codex plugin add <plugin>@skillpack
 ```
 
-Install one plugin from that marketplace:
-
-```
-codex plugin add writewell@skillpack
-```
-
-In an interactive Codex session, `/plugins` opens the same browser. Start a new session after installing so the bundled skills load.
-
-Codex discovers `skills/<skill>/SKILL.md` one directory deep, including `onboard` and `writewell`. The skill `name` matches its folder.
+In an interactive session, `/plugins` opens the same browser. Start a new session after install so the bundled skills load.
 
 ### Cursor and Grok Bot
 
-Cursor and Grok Bot load Cursor plugins. This repo's catalog is `.cursor-plugin/marketplace.json`. Each plugin has `.cursor-plugin/plugin.json` and the shared `skills/<skill>/SKILL.md` files. A skill folder's `SKILL.md` starts with YAML `name` and `description`. `name` is lowercase kebab-case and matches the folder name.
+Cursor and Grok Bot use the same Cursor plugin packages. Catalog entries are `name`, `source`, and `description` only.
 
-Import the GitHub repository. In Cursor that is Customize, or Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo:
+Import the repo URL:
 
 ```
 https://github.com/p3ob7o/skillpack
 ```
 
-Install a plugin at user or project scope. Invoke a skill by typing `/` and its name.
+In Cursor: Customize, or Dashboard → Plugins & MCPs → Add Marketplace → Import from Repo. Install a plugin at user or project scope. Invoke a skill with `/` plus its skill name.
 
-Grok Bot uses the same Cursor plugin packages. Import and install them the same way. A listing on the public Grok Bot marketplace is a separate review at <https://x.ai/bot/marketplace/submit-a-plugin>. Importing this repository does not require that submission.
-
-Cursor's default plugin discovery is `skills/<name>/SKILL.md`. None of these plugins set a `skills` override, so both `writewell` and `onboard` load from that scan.
+A listing on the public Grok Bot marketplace is a separate review at [https://x.ai/bot/marketplace/submit-a-plugin](https://x.ai/bot/marketplace/submit-a-plugin). Importing this repository doesn't require that submission.
 
 ## Check the manifests
 
-[`scripts/validate-manifests.py`](scripts/validate-manifests.py) fails when the Claude, Codex, and Cursor manifests disagree, or when a `SKILL.md` breaks the shared frontmatter rules. GitHub Actions runs it on push and pull request.
+[`scripts/validate-manifests.py`](scripts/validate-manifests.py) checks that Claude, Codex, and Cursor manifests agree and that each `SKILL.md` follows the shared frontmatter rules. It needs `jsonschema` and `pyyaml`. GitHub Actions runs job **Validate manifests** under the workflow name `validate` on push and pull request.
 
 ```
 pip install jsonschema pyyaml
