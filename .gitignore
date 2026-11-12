@@ -2,7 +2,7 @@
 
 # Legacy in-plugin voice profiles. New profiles live outside the plugin.
 # Keep ignoring this path so a leftover profile is never committed.
-plugins/writewell/skills/writewell/voice/SKILL.md
+plugins/writewell-with-voice/skills/writewell-with-voice/voice/SKILL.md
 
 # Project-level instructions (personal, not shared)
 CLAUDE.md

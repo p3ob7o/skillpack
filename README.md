@@ -20,17 +20,18 @@ Default skill discovery on every host is `skills/<name>/SKILL.md`. None of these
 
 | Plugin | Version | Description |
 |--------|---------|-------------|
-| [writewell](plugins/writewell/README.md) | 1.5.0 | Writing pipeline: strip AI patterns, language discipline, clutter removal, quality check, optional personal voice |
-| [keynote-writer](plugins/keynote-writer/README.md) | 1.0.0 | Braindump or transcript → TED-quality outline (flow, takeaway, slide text, image prompts, speaker notes) |
+| [writewell](plugins/writewell/README.md) | 2.0.0 | Generic writing pipeline: strip AI patterns, language discipline, clutter removal, quality check. No personal voice |
+| [writewell-with-voice](plugins/writewell-with-voice/README.md) | 1.5.0 | Same pipeline as writewell, and it applies your own voice profile |
+| [keynote-writer](plugins/keynote-writer/README.md) | 1.0.1 | Braindump or transcript → TED-quality outline (flow, takeaway, slide text, image prompts, speaker notes) |
 | [deck-builder](plugins/deck-builder/README.md) | 1.0.1 | Single-file HTML decks (typography-first) and presenter-notes mode for existing HTML decks |
 | [session-manager](plugins/session-manager/README.md) | 1.0.0 | Load `CLAUDE.md` + `DOCUMENTATION.md` at session start; update them at wrap-up |
 | [wordpress-to-spacefast](plugins/wordpress-to-spacefast/README.md) | 1.0.0 | Move WordPress from any host to Spacefast (headless WP, Astro front end, DNS cutover) |
 
 ## Install
 
-Add the marketplace once, then install any plugin by name. Replace `<plugin>` with `writewell`, `keynote-writer`, `deck-builder`, `session-manager`, or `wordpress-to-spacefast`.
+Add the marketplace once, then install any plugin by name. Replace `<plugin>` with `writewell`, `writewell-with-voice`, `keynote-writer`, `deck-builder`, `session-manager`, or `wordpress-to-spacefast`.
 
-Plugin-specific setup (for example writewell's voice profile) lives in that plugin's README. Shared host steps stay here.
+`writewell` is the generic pipeline. `writewell-with-voice` is the same pipeline plus your own voice profile. Plugin-specific setup (for example that voice profile) lives in the plugin's README. Shared host steps stay here.
 
 ### Claude Code
 
@@ -39,7 +40,7 @@ Plugin-specific setup (for example writewell's voice profile) lives in that plug
 /plugin install <plugin>@skillpack
 ```
 
-Invoke skills as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell:onboard`, `/deck-builder:slide-deck-creator`.
+Invoke skills as `/<plugin>:<skill>`, for example `/writewell:writewell`, `/writewell-with-voice:writewell-with-voice`, `/writewell-with-voice:writewell-voice-onboard`, `/deck-builder:slide-deck-creator`.
 
 ### Codex
 

@@ -1,6 +1,6 @@
 # keynote-writer
 
-Version **1.0.0**. Turn a braindump or transcript into a TED-quality keynote outline.
+Version **1.0.1**. Turn a braindump or transcript into a TED-quality keynote outline.
 
 ## What it does
 
@@ -10,7 +10,7 @@ Produces three sections:
 2. **DESIRED TAKEAWAY** — the one sentence you want the audience to leave with
 3. **PRESENTATION** — slide-by-slide: ultra-short on-screen text, an AI image prompt, and speaker notes
 
-Speaker notes go through [writewell](../writewell/README.md) when that plugin is installed, so they read like stage notes rather than machine prose. Writewell is recommended for the voice pass — not a hard install dependency.
+Speaker notes go through [writewell-with-voice](../writewell-with-voice/README.md) when that plugin is installed, so they read like stage notes rather than machine prose. writewell-with-voice is recommended for the voice pass — not a hard install dependency.
 
 ## Skills
 

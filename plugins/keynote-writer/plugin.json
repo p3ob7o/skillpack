@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "keynote-writer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
   "license": "GPL-2.0",
   "keywords": [
