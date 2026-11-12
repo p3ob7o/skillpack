@@ -1,6 +1,6 @@
 ---
 name: keynote-writer
-description: Transform a stream-of-consciousness braindump (often an audio transcript) into a TED-quality keynote outline. Produces three sections — FLOW (10-20 bullet narrative arc), DESIRED TAKEAWAY (one-sentence landing point), and PRESENTATION (slide-by-slide with ultra-short on-screen text, AI image prompt, and exact speaker notes). Use when the user wants to turn raw notes, a braindump, a transcript, or rambling ideas into a structured keynote — e.g. "turn this into a keynote", "outline a TED talk from these notes", "draft a keynote from this transcript", "build me a talk from this braindump". Designed for Paolo's external conference and internal all-hands talks; the final speaker notes are passed through the writewell skill so they sound like him on stage.
+description: Transform a stream-of-consciousness braindump (often an audio transcript) into a TED-quality keynote outline. Produces three sections — FLOW (10-20 bullet narrative arc), DESIRED TAKEAWAY (one-sentence landing point), and PRESENTATION (slide-by-slide with ultra-short on-screen text, AI image prompt, and exact speaker notes). Use when the user wants to turn raw notes, a braindump, a transcript, or rambling ideas into a structured keynote — e.g. "turn this into a keynote", "outline a TED talk from these notes", "draft a keynote from this transcript", "build me a talk from this braindump". Designed for Paolo's external conference and internal all-hands talks; the final speaker notes are passed through the writewell-with-voice skill so they sound like him on stage.
 license: GPL-2.0
 ---
 
@@ -56,7 +56,7 @@ Read the FLOW bullets back-to-back, then read the speaker notes back-to-back. As
 
 ### 6. Voice pass
 
-Apply the writewell skill to the final speaker notes so they match the speaker's voice (Paolo, in this setup). The skill file is `../../../writewell/skills/writewell/SKILL.md` when that plugin is installed. On-screen content and image descriptions don't need this — only the spoken lines.
+Apply the writewell-with-voice skill to the final speaker notes so they match the speaker's voice (Paolo, in this setup). The skill file is `../../../writewell-with-voice/skills/writewell-with-voice/SKILL.md` when that plugin is installed. On-screen content and image descriptions don't need this — only the spoken lines.
 
 ## Output format
 

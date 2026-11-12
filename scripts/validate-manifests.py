@@ -215,14 +215,14 @@ def check_voice_contract(skill_md: Path, text: str) -> None:
     """writewell-with-voice's profile must stay outside the plugin, with one lookup order."""
     rel = skill_md.relative_to(ROOT).as_posix()
     voiced = "plugins/writewell-with-voice/skills/writewell-with-voice/SKILL.md"
-    onboard = "plugins/writewell-with-voice/skills/onboard/SKILL.md"
+    onboard = "plugins/writewell-with-voice/skills/writewell-voice-onboard/SKILL.md"
     if rel == voiced:
         for needle in (
             "WRITEWELL_VOICE_PATH",
             "XDG_CONFIG_HOME",
             "~/.config/writewell/voice.md",
             "voice/SKILL.md",
-            "../onboard/SKILL.md",
+            "../writewell-voice-onboard/SKILL.md",
             "Offer to copy",
         ):
             if needle not in text:
@@ -245,29 +245,23 @@ def check_voice_contract(skill_md: Path, text: str) -> None:
             fail(f"{rel}: onboard must not write the profile inside the plugin")
 
 
-GENERIC_VOICE_LEFTOVER = "skills/writewell/voice/"
 GENERIC_VOICE_BANNED = (
     "WRITEWELL_VOICE_PATH",
     "XDG_CONFIG_HOME",
     "~/.config/writewell/voice.md",
     "voice/SKILL.md",
     "../onboard/SKILL.md",
+    "../writewell-voice-onboard/SKILL.md",
 )
 
 
 def check_generic_writewell() -> None:
-    """writewell 2.0.0 has no voice lookup.
-
-    plugins/writewell/skills/writewell/voice/ is an unused leftover from 1.5.0
-    and is not part of this check. Delete that folder before removing the exemption.
-    """
+    """writewell 2.0.0 has no voice lookup and no in-plugin voice folder."""
     root = ROOT / "plugins" / "writewell"
     for path in sorted(root.rglob("*")):
         if not path.is_file() or path.suffix not in {".md", ".json"}:
             continue
         rel = path.relative_to(root).as_posix()
-        if rel.startswith(GENERIC_VOICE_LEFTOVER):
-            continue
         text = path.read_text()
         for needle in GENERIC_VOICE_BANNED:
             if needle in text:
@@ -291,7 +285,7 @@ def check_relative_paths(skill_md: Path, body: str) -> None:
         path = token.split("#", 1)[0]
         if not path.endswith((".md", ".html")):
             continue
-        skill_ref = path.startswith(("references/", "assets/", "scripts/", "onboard/", "voice/", "../")) or path.endswith(
+        skill_ref = path.startswith(("references/", "assets/", "scripts/", "onboard/", "writewell-voice-onboard/", "voice/", "../")) or path.endswith(
             "SKILL.md"
         )
         if not skill_ref:

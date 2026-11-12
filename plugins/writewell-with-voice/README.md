@@ -12,18 +12,18 @@ It continues writewell 1.5.0: the same steps and the same voice lookup (`WRITEWE
 4. **Removes clutter** — filler cuts and readability across three revision passes
 5. **Checks quality** — natural voice, clear purpose, brevity
 
-Works without a profile using general principles. Onboard builds a personal voice profile from your posts.
+Works without a profile using general principles. writewell-voice-onboard builds a personal voice profile from your posts.
 
 ## Skills
 
 | Skill | Role | Claude Code | Codex / Cursor / Grok Bot |
 |-------|------|-------------|---------------------------|
 | `writewell-with-voice` | Main pipeline | `/writewell-with-voice:writewell-with-voice` | `/writewell-with-voice` (skill name) |
-| `onboard` | Build a personal voice profile | `/writewell-with-voice:onboard` | `/onboard` (skill name) |
+| `writewell-voice-onboard` | Build a personal voice profile | `/writewell-with-voice:writewell-voice-onboard` | `/writewell-voice-onboard` (skill name) |
 
-Onboard lives at `skills/onboard/SKILL.md` next to `skills/writewell-with-voice/SKILL.md`. No host needs an extra skills path.
+`writewell-voice-onboard` lives at `skills/writewell-voice-onboard/SKILL.md` next to `skills/writewell-with-voice/SKILL.md`. No host needs an extra skills path.
 
-The pipeline skill is not named `writewell`. Codex, Cursor, and Grok Bot invoke a skill by that name alone, so sharing the name with the generic plugin would collide. `onboard` exists only in this plugin.
+Codex, Cursor, and Grok Bot invoke a skill by its name alone, so both skill names are scoped to this plugin and can sit beside generic `writewell`.
 
 ## Install
 
@@ -52,7 +52,7 @@ Give it text to rewrite:
 
 ## Personalize
 
-Run onboard with either:
+Run writewell-voice-onboard with either:
 
 - **Individual post URLs** — links to specific articles or posts
 - **A blog homepage + count** — homepage URL and how many recent posts to analyze
@@ -104,7 +104,7 @@ launchctl setenv WRITEWELL_VOICE_PATH /Users/you/Sync/writewell/voice.md
 
 ```
 skills/
-  onboard/
+  writewell-voice-onboard/
     SKILL.md                     # Writes the profile outside the plugin
   writewell-with-voice/
     SKILL.md                     # Main writing pipeline

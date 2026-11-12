@@ -4,7 +4,7 @@ description: >-
   Full writing pipeline: strip AI patterns, enforce language discipline, remove
   clutter, verify quality, and optionally apply a personal voice. Use when editing
   or reviewing any prose that should read like a person wrote it. When no
-  voice profile is found, follow ../onboard/SKILL.md before rewriting.
+  voice profile is found, follow ../writewell-voice-onboard/SKILL.md before rewriting.
 license: GPL-2.0
 metadata:
   version: "1.5.0"
@@ -21,7 +21,7 @@ Resolve the profile, then read it. The same rules apply in Claude Code, Codex, a
    - If `WRITEWELL_VOICE_PATH` is set and that file exists, read it. Do not also read the default or the old plugin file.
    - If `WRITEWELL_VOICE_PATH` is unset and the per-user default exists, read it.
    - Otherwise look for the old file `voice/SKILL.md` in this skill's directory (the directory that contains this file). If it exists, tell the user a profile is still inside the installed plugin, where an update can replace it and a local-path install can copy it along. Offer to copy it to the destination: `WRITEWELL_VOICE_PATH` when that variable is set, otherwise the per-user default. Create the destination directory, copy the file, then read the destination. Do not delete the old file unless the user asks. If they decline the copy, read the old file for this run only and say it can disappear on the next plugin update.
-   - If none of those files exist, read `../onboard/SKILL.md` and follow it. Do not proceed with the pipeline.
+   - If none of those files exist, read `../writewell-voice-onboard/SKILL.md` and follow it. Do not proceed with the pipeline.
 
 A profile copied forward may still start with YAML frontmatter from when it was `SKILL.md`. Apply the prose rules. Ignore that frontmatter.
 
@@ -161,7 +161,7 @@ the writer's personal style: sentence structure, tone, vocabulary, openings,
 closings, formatting preferences, rhetorical devices, and distinctive touches.
 
 If no voice file exists, the check above will have already sent you to
-`../onboard/SKILL.md`. You should not reach this point without a voice file.
+`../writewell-voice-onboard/SKILL.md`. You should not reach this point without a voice file.
 
 ---
 

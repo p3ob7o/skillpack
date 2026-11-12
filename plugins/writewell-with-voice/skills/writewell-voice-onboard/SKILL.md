@@ -1,5 +1,5 @@
 ---
-name: onboard
+name: writewell-voice-onboard
 description: >-
   Create a personal voice profile for the writewell-with-voice skill by analyzing writing
   samples. Provide individual post URLs or a blog homepage URL with a post count.
@@ -13,7 +13,7 @@ metadata:
 allowed-tools: Read Write Edit WebFetch WebSearch AskUserQuestion Glob
 ---
 
-# Write Well: Onboard
+# writewell-voice-onboard
 
 Create a personal voice profile by analyzing writing samples from the web.
 
@@ -114,7 +114,7 @@ Then analyze across all posts for these dimensions:
 Write the profile outside this plugin. Resolve the destination the same way on every host:
 
 1. Read `WRITEWELL_VOICE_PATH` and `XDG_CONFIG_HOME`. If they are not already visible, run `printenv WRITEWELL_VOICE_PATH` and `printenv XDG_CONFIG_HOME`. Missing or empty means unset. Expand a leading `~` to the home directory.
-2. If `WRITEWELL_VOICE_PATH` is set, that path is the file to write. This is how one profile can live in a synced folder, or be copied onto each computer, instead of re-onboarding.
+2. If `WRITEWELL_VOICE_PATH` is set, that path is the file to write. This is how one profile can live in a synced folder, or be copied onto each computer, instead of creating the profile again.
 3. If it is unset, write `$XDG_CONFIG_HOME/writewell/voice.md` when `XDG_CONFIG_HOME` is set, otherwise `~/.config/writewell/voice.md`. Same path on macOS and Linux. Do not use `~/Library`.
 
 Create parent directories. The file must not be named `SKILL.md` and must not sit inside a skill directory. Do not write it into this plugin. An update can replace the plugin folder, and a local-path install can copy a profile that was left there.
@@ -173,11 +173,11 @@ Source material: [list the URLs analyzed]
      - "Post URLs — I'll paste links to individual posts"
      - "Blog homepage — analyze my N most recent posts"
      - "Skip — use writewell-with-voice without a personal voice"
-1a. If the user picks "Skip", write the destination file with the content below, then tell the user: "Got it — writewell-with-voice will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
+1a. If the user picks "Skip", write the destination file with the content below, then tell the user: "Got it — writewell-with-voice will use general writing principles only. Ask to run the writewell-voice-onboard skill any time to create a personal voice profile." Then stop.
     ```markdown
     # No Personal Voice
     No personal voice profile has been configured. Proceed without applying
-    any personal style rules. To create one later, run the onboard skill again.
+    any personal style rules. To create one later, run the writewell-voice-onboard skill again.
     ```
 2. Fetch the content using the appropriate mode.
 3. If any URL fails to fetch, report it and continue with the ones that worked. Need at least 2 posts to produce a useful profile.

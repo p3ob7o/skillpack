@@ -8,4 +8,4 @@ writewell-with-voice still checks this directory for an old `SKILL.md`. If it fi
 
 This folder, this README, and `.gitkeep` are no longer required for a new profile. They are still here so an existing checkout keeps the old path. They can be removed once that is approved.
 
-Generate a profile with the [onboard skill](../../onboard/SKILL.md).
+Generate a profile with the [writewell-voice-onboard skill](../../writewell-voice-onboard/SKILL.md).

@@ -32,7 +32,7 @@
       "name": "keynote-writer",
       "source": "./plugins/keynote-writer",
       "description": "Turn a braindump or transcript into a TED-quality keynote outline with narrative flow, a one-sentence takeaway, and slide-by-slide speaker notes",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "license": "GPL-2.0",
       "keywords": ["keynote", "presentation", "speaking", "talks", "writing"],
       "category": "writing"
