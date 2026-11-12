@@ -212,11 +212,11 @@ def check_skill(skill_md: Path) -> None:
 
 
 def check_voice_contract(skill_md: Path, text: str) -> None:
-    """writewell's profile must stay outside the plugin, with one lookup order."""
+    """writewell-with-voice's profile must stay outside the plugin, with one lookup order."""
     rel = skill_md.relative_to(ROOT).as_posix()
-    writewell = "plugins/writewell/skills/writewell/SKILL.md"
-    onboard = "plugins/writewell/skills/onboard/SKILL.md"
-    if rel == writewell:
+    voiced = "plugins/writewell-with-voice/skills/writewell-with-voice/SKILL.md"
+    onboard = "plugins/writewell-with-voice/skills/onboard/SKILL.md"
+    if rel == voiced:
         for needle in (
             "WRITEWELL_VOICE_PATH",
             "XDG_CONFIG_HOME",
@@ -241,8 +241,39 @@ def check_voice_contract(skill_md: Path, text: str) -> None:
         ):
             if needle not in text:
                 fail(f"{rel}: voice destination must mention {needle}")
-        if "voice/SKILL.md" in text or "../writewell/voice" in text:
+        if "voice/SKILL.md" in text or "../writewell/voice" in text or "../writewell-with-voice/voice" in text:
             fail(f"{rel}: onboard must not write the profile inside the plugin")
+
+
+GENERIC_VOICE_LEFTOVER = "skills/writewell/voice/"
+GENERIC_VOICE_BANNED = (
+    "WRITEWELL_VOICE_PATH",
+    "XDG_CONFIG_HOME",
+    "~/.config/writewell/voice.md",
+    "voice/SKILL.md",
+    "../onboard/SKILL.md",
+)
+
+
+def check_generic_writewell() -> None:
+    """writewell 2.0.0 has no voice lookup.
+
+    plugins/writewell/skills/writewell/voice/ is an unused leftover from 1.5.0
+    and is not part of this check. Delete that folder before removing the exemption.
+    """
+    root = ROOT / "plugins" / "writewell"
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.suffix not in {".md", ".json"}:
+            continue
+        rel = path.relative_to(root).as_posix()
+        if rel.startswith(GENERIC_VOICE_LEFTOVER):
+            continue
+        text = path.read_text()
+        for needle in GENERIC_VOICE_BANNED:
+            if needle in text:
+                fail(f"plugins/writewell/{rel}: generic writewell must not mention {needle}")
+        if path.name == "SKILL.md" and ("personal voice" in text or "voice profile" in text):
+            fail(f"plugins/writewell/{rel}: generic writewell skill must not mention a personal voice")
 
 
 def check_relative_paths(skill_md: Path, body: str) -> None:
@@ -472,6 +503,8 @@ def main() -> int:
 
     for skill_md in sorted((ROOT / "plugins").rglob("SKILL.md")):
         check_skill(skill_md)
+
+    check_generic_writewell()
 
     if errors:
         print(f"{len(errors)} manifest/skill error(s):", file=sys.stderr)

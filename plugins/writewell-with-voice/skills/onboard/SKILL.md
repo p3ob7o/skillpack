@@ -1,12 +1,12 @@
 ---
 name: onboard
 description: >-
-  Create a personal voice profile for the writewell skill by analyzing writing
+  Create a personal voice profile for the writewell-with-voice skill by analyzing writing
   samples. Provide individual post URLs or a blog homepage URL with a post count.
   Fetches the content, distills the writing style, and writes the profile
   outside the plugin: WRITEWELL_VOICE_PATH if set, otherwise
   ~/.config/writewell/voice.md. Use when setting up or refreshing a personal
-  voice, or when writewell finds no profile.
+  voice, or when writewell-with-voice finds no profile.
 license: GPL-2.0
 metadata:
   version: "1.0.0"
@@ -124,7 +124,7 @@ Use this template. It is ordinary markdown, not a skill.
 ```markdown
 # Personal Voice: [Name]
 
-This file defines the writer's personal style. The writewell skill reads it
+This file defines the writer's personal style. The writewell-with-voice skill reads it
 during Part 2 (Apply personal voice).
 
 Source material: [list the URLs analyzed]
@@ -172,8 +172,8 @@ Source material: [list the URLs analyzed]
    Options:
      - "Post URLs — I'll paste links to individual posts"
      - "Blog homepage — analyze my N most recent posts"
-     - "Skip — use writewell without a personal voice"
-1a. If the user picks "Skip", write the destination file with the content below, then tell the user: "Got it — writewell will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
+     - "Skip — use writewell-with-voice without a personal voice"
+1a. If the user picks "Skip", write the destination file with the content below, then tell the user: "Got it — writewell-with-voice will use general writing principles only. Ask to run the onboard skill any time to create a personal voice profile." Then stop.
     ```markdown
     # No Personal Voice
     No personal voice profile has been configured. Proceed without applying

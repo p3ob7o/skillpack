@@ -13,10 +13,19 @@
     {
       "name": "writewell",
       "source": "./plugins/writewell",
-      "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your personal voice",
+      "description": "Generic writing pipeline that strips AI patterns, enforces language discipline, and removes clutter, with no personal voice",
+      "version": "2.0.0",
+      "license": "GPL-2.0",
+      "keywords": ["writing", "editing", "ai-patterns", "prose"],
+      "category": "writing"
+    },
+    {
+      "name": "writewell-with-voice",
+      "source": "./plugins/writewell-with-voice",
+      "description": "Writing pipeline that strips AI patterns, enforces language discipline, and applies your own voice profile",
       "version": "1.5.0",
       "license": "GPL-2.0",
-      "keywords": ["writing", "editing", "voice", "ai-patterns"],
+      "keywords": ["writing", "editing", "voice", "personal-style", "ai-patterns"],
       "category": "writing"
     },
     {
